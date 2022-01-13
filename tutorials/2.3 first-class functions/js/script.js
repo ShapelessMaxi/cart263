@@ -1,33 +1,22 @@
-/**
-Title of Project
-Author Name
-
-This is a template. You must fill in the title,
-author, and this description to match your project!
-*/
-
 "use strict";
 
-
-/**
-Description of preload
-*/
-function preload() {
-
+// normal way of defining function
+function add(a, b) {
+  return a + b;
 }
 
+// assinging the function to a variable
+let addingFunction = add;
+let result = addingFunction(17, 5);
+// alert(`the result is ${result}!!!!!!!!!`);
 
-/**
-Description of setup
-*/
-function setup() {
-  background(255, 255, 55);
-}
+//'anonymous function'
+let bonjour = function () {
+  alert(`hola`);
+};
+// setTimeout(bonjour, 4000);
 
-
-/**
-Description of draw()
-*/
-function draw() {
-
-}
+// anonymous function inside called function
+setTimeout(function () {
+  alert(`bingboing`);
+}, 2000);
