@@ -1,33 +1,44 @@
-/**
-Title of Project
-Author Name
-
-This is a template. You must fill in the title,
-author, and this description to match your project!
-*/
-
 "use strict";
 
-
-/**
-Description of preload
-*/
-function preload() {
-
-}
-
-
-/**
-Description of setup
-*/
 function setup() {
-  background(255, 255, 55);
+  createCanvas(500, 500);
 }
 
-
-/**
-Description of draw()
-*/
 function draw() {
+  background(0);
 
+  let config = {
+    x: 250,
+    y: 250,
+    width: 200,
+    height: 200,
+    fillColor: {
+      r: 255,
+      g: 255,
+      b: 0,
+    },
+    mode: CENTER,
+  };
+  let anotherConfig = {
+    x: 250,
+    y: 250,
+    width: 100,
+    height: 100,
+    fillColor: {
+      r: 25,
+      g: 25,
+      b: 250,
+    },
+    mode: CORNER,
+  };
+  drawFancyRect(config);
+  drawFancyRect(anotherConfig);
+}
+
+function drawFancyRect({ x, y, width, height, fillColor, mode }) {
+  push();
+  fill(fillColor.r, fillColor.g, fillColor.b);
+  rectMode(mode);
+  rect(x, y, width, height);
+  pop();
 }
