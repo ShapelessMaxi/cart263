@@ -188,11 +188,15 @@ function end() {
 
 // register the mouse being pressed
 function mousePressed() {
-  // change the state when clicking menu buttons
-  easyButton.mousePressed();
-  mediumButton.mousePressed();
-  hardButton.mousePressed();
+  if (state === `menu`) {
+    // change the state when clicking menu buttons
+    easyButton.mousePressed();
+    mediumButton.mousePressed();
+    hardButton.mousePressed();
+  }
 
-  // apply rotation to the sausage dog when clicked
-  sausageDog.mousePressed();
+  if (state === `easyGame` || state === `mediumGame` || state === `hardGame`) {
+    // apply rotation to the sausage dog when clicked
+    sausageDog.mousePressed();
+  }
 }

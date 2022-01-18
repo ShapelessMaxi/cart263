@@ -31,7 +31,7 @@ class Animal {
   overlap(x, y) {
     if (
       x > this.x - this.img.width / 2 &&
-      x < this.y + this.img.width / 2 &&
+      x < this.x + this.img.width / 2 &&
       y > this.y - this.img.height / 2 &&
       y < this.y + this.img.height / 2
     ) {
