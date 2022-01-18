@@ -22,6 +22,11 @@ let animals = [];
 let sausageDogImg = undefined;
 let sausageDog = undefined;
 
+// define the button objects
+let easyButton = undefined;
+let mediumButton = undefined;
+let hardButton = undefined;
+
 // store the title font here
 let titleFont = undefined;
 
@@ -86,7 +91,7 @@ function menu() {
   // draw sausage dogs
   menuDogs();
 
-  // draw the buttons
+  // create and draw the buttons
   menuButtons();
 }
 
@@ -126,8 +131,33 @@ function menuDogs() {
   }
 }
 
-// draw difficulty buttons
-function menuButtons() {}
+// create and display difficulty buttons
+function menuButtons() {
+  // define the easy button position and color
+  let easyX = width / 2 - 300;
+  let y = height / 1.6;
+  let easyColor = color(0, 255, 149);
+  // create the easy button object
+  easyButton = new Button(easyX, y, `easy`, easyColor);
+  // display the easy button
+  easyButton.update();
+
+  // define the easy button position and color
+  let mediumX = width / 2;
+  let mediumColor = color(227, 201, 109);
+  // create the easy button object
+  mediumButton = new Button(mediumX, y, `medium`, mediumColor);
+  // display the medium button
+  mediumButton.update();
+
+  // define the easy button position and color
+  let hardX = width / 2 + 300;
+  let hardColor = color(171, 60, 80);
+  // create the easy button object
+  hardButton = new Button(hardX, y, `hard`, hardColor);
+  // display the hard button
+  hardButton.update();
+}
 
 // draw the game elements
 function game() {
