@@ -22,8 +22,14 @@ let animals = [];
 let sausageDogImg = undefined;
 let sausageDog = undefined;
 
-// preload the images of the animals
+// store the title font here
+let titleFont = undefined;
+
+// preload the images of the animals and fonts
 function preload() {
+  // load the title font
+  titleFont = loadFont(`assets/fonts/ChocoDonut.ttf`);
+
   // load every images of animal
   for (let i = 0; i < NUM_ANIMAL_IMAGES; i++) {
     let animalImage = loadImage(`assets/images/animal${i}.png`);
@@ -73,7 +79,55 @@ function draw() {
 function menu() {
   // draw the background
   background(186, 106, 167);
+
+  // draw the text in the menu
+  menuText();
+
+  // draw sausage dogs
+  menuDogs();
+
+  // draw the buttons
+  menuButtons();
 }
+
+// draw text in the menu
+function menuText() {
+  // draw the title/prompt of the game
+  push();
+  fill(255);
+  textAlign(CENTER);
+  textStyle(BOLD);
+  textSize(55);
+  textFont(titleFont);
+  text(`i've lost my sausage dog ... :-(`, width / 2, height / 6);
+  pop();
+
+  // draw difficulty prompt
+  push();
+  fill(255);
+  textAlign(CENTER);
+  textStyle(BOLD);
+  textSize(35);
+  textFont(titleFont);
+  text(`chooose a difficulty :`, width / 2, height / 1.8);
+  pop();
+}
+
+// draw dogs in the menu
+function menuDogs() {
+  for (let i = 0; i < 15; i++) {
+    // define the spacing between the dogs
+    let spacing = i * 150;
+    push();
+    imageMode(CENTER);
+    translate(0, height / 3);
+    image(sausageDogImg, 0 + spacing, 0);
+    pop();
+  }
+}
+
+// draw difficulty buttons
+function menuButtons() {}
 
 // draw the game elements
 function game() {
