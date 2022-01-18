@@ -63,10 +63,26 @@ class RestartButton {
     if (this.overlap(mouseX, mouseY)) {
       // change the state
       state = `menu`;
+
       // reset the sausage dog variables
       sausageDog.found = false;
       sausageDog.scaleNum = 1;
       sausageDog.angle = 0;
+
+      // reset the animals' positions
+      this.resetPositions();
     }
+  }
+
+  // reset the animals' positions
+  resetPositions() {
+    // reset the animals' positions
+    for (let i = 0; i < animals.length; i++) {
+      animals[i].x = random(0, width);
+      animals[i].y = random(0, height);
+    }
+    // reset the sausage dog's position
+    sausageDog.x = random(0, height);
+    sausageDog.y = random(0, height);
   }
 }
