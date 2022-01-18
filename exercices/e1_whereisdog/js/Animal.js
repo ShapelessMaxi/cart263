@@ -10,6 +10,10 @@ class Animal {
     // define an angle for the rotation of the animal
     // 0 because we dont want the animals to rotate, just the sausage dog
     this.angle = 0;
+
+    // define a scale number for making the animal bigger
+    // 1 because we dont want the animals to get bigger, just the sausage dog
+    this.scaleNum = 1;
   }
 
   // takes care of drawing the object and applying a rotation
@@ -23,6 +27,7 @@ class Animal {
     imageMode(CENTER);
     translate(this.x, this.y);
     rotate(this.angle);
+    scale(this.scaleNum);
     image(this.img, 0, 0);
     pop();
   }

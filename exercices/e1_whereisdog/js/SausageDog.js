@@ -15,9 +15,14 @@ class SausageDog extends Animal {
     // call the Animal class' update method to draw the animal
     super.update();
 
-    // applying a rotation when found
+    // applying a rotation and scale when found
     if (this.found) {
       this.angle += this.rotationSpeed;
+      this.scaleNum += 0.15;
+    }
+
+    if (this.scaleNum > 20) {
+      state = `end`;
     }
   }
 

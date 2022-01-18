@@ -190,6 +190,32 @@ function game() {
 function end() {
   // draw the background
   background(150, 150, 200);
+
+  // draw the text in the menu
+  endText();
+}
+
+// draw text in the end screen
+function endText() {
+  // draw the title/prompt of the game
+  push();
+  fill(255);
+  textAlign(CENTER);
+  textStyle(BOLD);
+  textSize(55);
+  textFont(titleFont);
+  text(`thx for finding my sausage dog :-)`, width / 2, height / 6);
+  pop();
+
+  // draw difficulty prompt
+  push();
+  fill(255);
+  textAlign(CENTER);
+  textStyle(BOLD);
+  textSize(35);
+  textFont(titleFont);
+  text(`:-)`, width / 2, height / 1.8);
+  pop();
 }
 
 // register the mouse being pressed
