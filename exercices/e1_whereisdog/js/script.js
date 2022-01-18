@@ -31,6 +31,7 @@ let sausageDog = undefined;
 let easyButton = undefined;
 let mediumButton = undefined;
 let hardButton = undefined;
+let restartButton = undefined;
 
 // store the title font here
 let titleFont = undefined;
@@ -170,7 +171,7 @@ function game() {
   background(240, 240, 90);
 
   // choose number of animals depending on difficulty
-  let currentAnimalNumber = undefined;
+  let currentAnimalNumber;
   if (gameDifficulty === `easy`) {
     currentAnimalNumber = numAnimals.easy;
   } else if (gameDifficulty === `medium`) {
@@ -184,6 +185,9 @@ function game() {
   }
   // draw the sausage dog
   sausageDog.update();
+
+  // draw the restart button
+  drawRestartButton(width / 1.1, height / 1.1);
 }
 
 // draw the end screen elements
@@ -193,6 +197,9 @@ function end() {
 
   // draw the text in the menu
   endText();
+
+  // draw the restart button
+  drawRestartButton(width / 2, height / 1.5);
 }
 
 // draw text in the end screen
@@ -218,17 +225,22 @@ function endText() {
   pop();
 }
 
+// draw the restart button
+function drawRestartButton(x, y) {
+  restartButton = new RestartButton(x, y);
+  restartButton.update();
+}
+
 // register the mouse being pressed
 function mousePressed() {
-  if (state === `menu`) {
-    // change the state when clicking menu buttons
-    easyButton.mousePressed();
-    mediumButton.mousePressed();
-    hardButton.mousePressed();
-  }
+  // change the state when clicking menu buttons
+  easyButton.mousePressed();
+  mediumButton.mousePressed();
+  hardButton.mousePressed();
 
-  if (state === `game`) {
-    // apply rotation to the sausage dog when clicked
-    sausageDog.mousePressed();
-  }
+  // apply rotation to the sausage dog when clicked
+  sausageDog.mousePressed();
+
+  // restart the game
+  restartButton.mousePressed();
 }
