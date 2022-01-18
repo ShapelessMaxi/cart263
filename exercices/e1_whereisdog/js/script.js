@@ -1,11 +1,17 @@
 /**
+Maxime Perreault
 
+This is the first exercise of the semester and I feel super out of touch with coding.
+
+In this game, the user has to find a sausage dog that is inside a groupe of other animals.
 **/
 
 "use strict";
 
 const NUM_ANIMAL_IMAGES = 10;
 const NUM_ANIMALS = 50;
+
+let state = `menu`; // possible states: menu, game, end
 
 // store the images for the animals here
 let animalImages = [];
@@ -52,17 +58,40 @@ function setup() {
   sausageDog = new SausageDog(x, y, sausageDogImg);
 }
 
-// draw the game elements
+// draw the correct elements depending on the current state
 function draw() {
+  if (state === `menu`) {
+    menu();
+  } else if (state === `game`) {
+    game();
+  } else if (state === `end`) {
+    end();
+  }
+}
+
+// draw the menu screen elements
+function menu() {
+  // draw the background
+  background(186, 106, 167);
+}
+
+// draw the game elements
+function game() {
+  // draw the background
   background(240, 240, 90);
 
   // draw the animals
   for (let i = 0; i < animals.length; i++) {
     animals[i].update();
   }
-
   // draw the sausage dog
   sausageDog.update();
+}
+
+// draw the end screen elements
+function end() {
+  // draw the background
+  background(150, 150, 200);
 }
 
 // register the mouse being pressed
