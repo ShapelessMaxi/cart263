@@ -64,7 +64,9 @@ class Button {
   mousePressed() {
     if (this.overlap(mouseX, mouseY)) {
       // change the state
-      state = this.difficulty + `Game`;
+      state = `game`;
+      // change the difficulty
+      gameDifficulty = this.difficulty;
     }
   }
 }
