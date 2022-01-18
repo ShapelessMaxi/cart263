@@ -8,6 +8,7 @@ class Button {
     this.difficulty = difficulty;
     // define the color
     this.color = color;
+    this.hoverColor = 100;
 
     // define the size
     this.w = 100;
@@ -26,7 +27,11 @@ class Button {
     stroke(255);
     strokeWeight(3);
     rectMode(CENTER);
-    fill(this.color);
+    if (this.overlap(mouseX, mouseY)) {
+      fill(this.hoverColor);
+    } else {
+      fill(this.color);
+    }
     rect(this.x, this.y, this.w, this.h);
     pop();
 
@@ -42,7 +47,18 @@ class Button {
   }
 
   // checks if a point (x,y) overlaps with the animal
-  overlap(x, y) {}
+  overlap(x, y) {
+    if (
+      x > this.x - this.w / 2 &&
+      x < this.y + this.w / 2 &&
+      y > this.y - this.h / 2 &&
+      y < this.y + this.h / 2
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   // if you click the button, change the state and set difficulty of the game
   mousePressed() {}
