@@ -7,6 +7,10 @@ class Animal {
     // define which image to use
     this.img = img;
 
+    // decide if the image is gonna be flipped
+    this.flip = false;
+    this.decideFlip();
+
     // define an angle for the rotation of the animal
     // 0 because we dont want the animals to rotate, just the sausage dog
     this.angle = 0;
@@ -21,11 +25,21 @@ class Animal {
     this.display();
   }
 
+  decideFlip() {
+    let chance = random(0, 1);
+    if (chance > 0.5) {
+      this.flip = true;
+    }
+  }
+
   // takes care of drawing the object and applying a rotation
   display() {
     push();
     imageMode(CENTER);
     translate(this.x, this.y);
+    if (this.flip) {
+      scale(-1, 1);
+    }
     rotate(this.angle);
     scale(this.scaleNum);
     image(this.img, 0, 0);
