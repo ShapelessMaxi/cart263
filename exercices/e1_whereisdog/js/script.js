@@ -9,7 +9,11 @@ In this game, the user has to find a sausage dog that is inside a groupe of othe
 "use strict";
 
 const NUM_ANIMAL_IMAGES = 10;
-const NUM_ANIMALS = 50;
+let numAnimals = {
+  easy: 50,
+  medium: 100,
+  hard: 150,
+};
 
 let state = `menu`; // possible states: menu, game, end
 
@@ -51,7 +55,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   // create the animal objects
-  for (let i = 0; i < NUM_ANIMALS; i++) {
+  for (let i = 0; i < numAnimals.hard; i++) {
     // choose a random location
     let x = random(0, width);
     let y = random(0, height);
@@ -73,8 +77,12 @@ function setup() {
 function draw() {
   if (state === `menu`) {
     menu();
-  } else if (state === `game`) {
-    game();
+  } else if (state === `easyGame`) {
+    easyGame();
+  } else if (state === `mediumGame`) {
+    easyGame();
+  } else if (state === `hardGame`) {
+    easyGame();
   } else if (state === `end`) {
     end();
   }
@@ -159,13 +167,13 @@ function menuButtons() {
   hardButton.update();
 }
 
-// draw the game elements
-function game() {
+// draw the game elements with easy difficulty
+function easyGame() {
   // draw the background
   background(240, 240, 90);
 
   // draw the animals
-  for (let i = 0; i < animals.length; i++) {
+  for (let i = 0; i < numAnimals.easy; i++) {
     animals[i].update();
   }
   // draw the sausage dog
@@ -180,6 +188,11 @@ function end() {
 
 // register the mouse being pressed
 function mousePressed() {
+  // change the state when clicking menu buttons
+  easyButton.mousePressed();
+  mediumButton.mousePressed();
+  hardButton.mousePressed();
+
   // apply rotation to the sausage dog when clicked
   sausageDog.mousePressed();
 }

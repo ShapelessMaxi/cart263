@@ -50,7 +50,7 @@ class Button {
   overlap(x, y) {
     if (
       x > this.x - this.w / 2 &&
-      x < this.y + this.w / 2 &&
+      x < this.x + this.w / 2 &&
       y > this.y - this.h / 2 &&
       y < this.y + this.h / 2
     ) {
@@ -61,5 +61,10 @@ class Button {
   }
 
   // if you click the button, change the state and set difficulty of the game
-  mousePressed() {}
+  mousePressed() {
+    if (this.overlap(mouseX, mouseY)) {
+      // change the state
+      state = this.difficulty + `Game`;
+    }
+  }
 }
