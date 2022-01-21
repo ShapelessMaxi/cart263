@@ -1,33 +1,18 @@
-/**
-Title of Project
-Author Name
-
-This is a template. You must fill in the title,
-author, and this description to match your project!
-*/
-
 "use strict";
 
-
-/**
-Description of preload
-*/
-function preload() {
-
-}
-
-
-/**
-Description of setup
-*/
 function setup() {
-  background(255, 255, 55);
+  createCanvas(500, 500);
 }
 
-
-/**
-Description of draw()
-*/
 function draw() {
-
+  background(40, 10, 10);
+  responsiveVoice.speak(
+    "comment va-tu bing bong je vais a la piscine",
+    "French Male",
+    {
+      pitch: 0.5,
+      rate: 0.5,
+      volume: 1,
+    }
+  );
 }
