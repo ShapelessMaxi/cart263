@@ -1,7 +1,19 @@
 "use strict";
 
 function setup() {
-  background(255, 255, 55);
+  createCanvas(500, 500);
+
+  if (annyang) {
+    let commands = {
+      'i hate u': function () {
+        alert(`blingblong`);
+      },
+    };
+    annyang.addCommands(commands);
+    annyang.start();
+  }
 }
 
-function draw() {}
+function draw() {
+  background(15, 15, 40);
+}
