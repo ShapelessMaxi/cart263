@@ -5,7 +5,7 @@ function setup() {
 
   if (annyang) {
     let commands = {
-      'i hate u': function () {
+      'hello': function () {
         alert(`blingblong`);
       },
     };
