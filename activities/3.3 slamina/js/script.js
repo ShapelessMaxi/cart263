@@ -166,13 +166,10 @@ function setup() {
   if (annyang) {
     // create a voice command
     let commands = {
-      'I think is is *animal': function(){
-        currentAnswer = animal.toLowerCase();
-        console.log(currentAnimal);
+      "I think it is *animal": guessAnimal,
+      hello: function () {
+        console.log(`ur dumb`);
       },
-      'hello': function (){
-        console.log(`ur dumb`)
-      }
     };
     annyang.addCommands(commands);
     annyang.start();
