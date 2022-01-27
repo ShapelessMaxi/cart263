@@ -1,158 +1,24 @@
 /*
 Maxime Perreault
-Slamina
+Slamina +
 
-How do you spell Animals backwards ?
-Slamina is a guessing game where the player has to guess which animal the computer
-is saying. The thing is the computer reverse the name of the animal before saying it!
+Do you think you've done bad things recently, or just in your life?
+surely you did.
+confess.
 
-Click the mouse to have the computer tell you a reversed animal name, and try to
-guess it by saying it the 'unreversed' way.
+the user is prompted to confess their sins to the computer. its a computer, what could happen?
+the computer listens... and react to different keywords.
+theres a counter of good, and another counter of bad...
+the screen gets darker as you say bad things, and lighter as you tell good things.
 */
 
 "use strict";
 
-// 'animal names' dataset
-// from -> https://github.com/dariusk/corpora/blob/master/data/animals/common.json
-const animals = [
-  "aardvark",
-  "alligator",
-  "alpaca",
-  "antelope",
-  "ape",
-  "armadillo",
-  "baboon",
-  "badger",
-  "bat",
-  "bear",
-  "beaver",
-  "bison",
-  "boar",
-  "buffalo",
-  "bull",
-  "camel",
-  "canary",
-  "capybara",
-  "cat",
-  "chameleon",
-  "cheetah",
-  "chimpanzee",
-  "chinchilla",
-  "chipmunk",
-  "cougar",
-  "cow",
-  "coyote",
-  "crocodile",
-  "crow",
-  "deer",
-  "dingo",
-  "dog",
-  "donkey",
-  "dromedary",
-  "elephant",
-  "elk",
-  "ewe",
-  "ferret",
-  "finch",
-  "fish",
-  "fox",
-  "frog",
-  "gazelle",
-  "gila monster",
-  "giraffe",
-  "gnu",
-  "goat",
-  "gopher",
-  "gorilla",
-  "grizzly bear",
-  "ground hog",
-  "guinea pig",
-  "hamster",
-  "hedgehog",
-  "hippopotamus",
-  "hog",
-  "horse",
-  "hyena",
-  "ibex",
-  "iguana",
-  "impala",
-  "jackal",
-  "jaguar",
-  "kangaroo",
-  "koala",
-  "lamb",
-  "lemur",
-  "leopard",
-  "lion",
-  "lizard",
-  "llama",
-  "lynx",
-  "mandrill",
-  "marmoset",
-  "mink",
-  "mole",
-  "mongoose",
-  "monkey",
-  "moose",
-  "mountain goat",
-  "mouse",
-  "mule",
-  "muskrat",
-  "mustang",
-  "mynah bird",
-  "newt",
-  "ocelot",
-  "opossum",
-  "orangutan",
-  "oryx",
-  "otter",
-  "ox",
-  "panda",
-  "panther",
-  "parakeet",
-  "parrot",
-  "pig",
-  "platypus",
-  "polar bear",
-  "porcupine",
-  "porpoise",
-  "prairie dog",
-  "puma",
-  "rabbit",
-  "raccoon",
-  "ram",
-  "rat",
-  "reindeer",
-  "reptile",
-  "rhinoceros",
-  "salamander",
-  "seal",
-  "sheep",
-  "shrew",
-  "silver fox",
-  "skunk",
-  "sloth",
-  "snake",
-  "squirrel",
-  "tapir",
-  "tiger",
-  "toad",
-  "turtle",
-  "walrus",
-  "warthog",
-  "weasel",
-  "whale",
-  "wildcat",
-  "wolf",
-  "wolverine",
-  "wombat",
-  "woodchuck",
-  "yak",
-  "zebra",
-];
+// list of possible bad words
+const badWords = /kill|killed|drink|drank|satan/;
 
-// store the current animal name to guess
-let currentAnimal = undefined;
+// list of possible good words
+const goodWords = /love|loved|give|gave|help|helped/;
 
 // store the current answer from the user
 let currentAnswer = undefined;
@@ -166,10 +32,7 @@ function setup() {
   if (annyang) {
     // create a voice command
     let commands = {
-      "I think it is *animal": guessAnimal,
-      hello: function () {
-        console.log(`ur dumb`);
-      },
+      "*everything": listening,
     };
     annyang.addCommands(commands);
     annyang.start();
@@ -178,6 +41,8 @@ function setup() {
     textSize(150);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
+  } else {
+    alert('load this "page" in Google Chrome plz!');
   }
 }
 
@@ -185,42 +50,23 @@ function setup() {
 function draw() {
   // draw the background
   background(150, 100, 100);
+}
 
-  //
-  if (currentAnswer === currentAnimal) {
-    fill(0, 255, 0);
+// listens to the user confessing their sins
+function listening(everything) {
+  // check if the user said 'bad' keywords
+  let saidBad = badWords.test(everything);
+  // check if the user said 'good' keywords
+  let saidGood = goodWords.test(everything);
+
+  // actions depending on what type of word the user said
+  if (saidBad && saidGood) {
+    // user said a good and a bad word
+  } else if (saidBad) {
+    // user said a bad word
+  } else if (saidGood) {
+    // user said a good word
   } else {
-    fill(255, 0, 0);
+    // user said neither a good or a bad word
   }
-  text(currentAnswer, width / 2, height / 2);
-}
-
-// start the guessing game when the user press the mouse
-function mousePressed() {
-  // choose a random animal to guess
-  currentAnimal = random(animals);
-  // reverse the current animal name
-  let reversedAnimal = reverseString(currentAnimal);
-  // say the reversed animal name out loud
-  responsiveVoice.speak(reversedAnimal);
-}
-
-// register the current guess as the current answer
-function guessAnimal(animal) {
-  // store the current answer (in lower case)
-  currentAnswer = animal.toLowerCase();
-  console.log(currentAnimal);
-}
-
-// reverse a string
-// code from -> https://pippinbarr.github.io/cart263/activities/slamina.html
-function reverseString(string) {
-  // Split the string into an array of characters
-  let characters = string.split("");
-  // Reverse the array of characters
-  let reverseCharacters = characters.reverse();
-  // Join the array of characters back into a string
-  let result = reverseCharacters.join("");
-  // Return the result
-  return result;
 }
