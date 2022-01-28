@@ -31,6 +31,16 @@ let filter = {
   animDriver: 0,
 };
 
+// store the good and bad side overlay here
+let goodSide = {
+  img: undefined,
+  translateAmount: -1200,
+};
+let badSide = {
+  img: undefined,
+  translateAmount: 1200,
+};
+
 // object properties for the first scrolling prompt
 let prompt1 = {
   x1: -100,
@@ -120,7 +130,7 @@ let currentGoodWord = {
     r: 0,
     g: 255,
     b: 0,
-    a: 180,
+    a: 150,
   },
 };
 let currentBadWord = {
@@ -129,14 +139,24 @@ let currentBadWord = {
     r: 255,
     g: 0,
     b: 0,
-    a: 180,
+    a: 150,
   },
 };
+
+// keep count of the good and bad words
+let badCounter = 5;
+let goodCounter = 5;
+
+// decide if user goes to hell or note
+let goingToHell = false;
+let goingToParadise = false;
 
 // load imgaes, create a canvas, set up the annyang commands
 function setup() {
   // load images
   bg = loadImage(`assets/images/starbg.png`);
+  goodSide.img = loadImage(`assets/images/goodSide.png`);
+  badSide.img = loadImage(`assets/images/badSide.png`);
 
   // create a canvas
   createCanvas(windowWidth, windowHeight);
@@ -172,6 +192,17 @@ function draw() {
   // display the last good and bad word said by the user
   displayBadWord();
   displayGoodWord();
+
+  // display the good side and the bad side
+  displayGoodSide();
+  displayBadSide();
+
+  // display the ending screens
+  if (goingToHell) {
+    displayHell();
+  } else if (goingToParadise) {
+    displayParadise();
+  }
 }
 
 // draw the background elements
@@ -249,7 +280,6 @@ function promptAnimation() {
 
 // listens to the user confessing their sins
 function listening(everything) {
-  console.log(everything);
   // check if the user said 'bad' keywords
   let saidBad = badWords.test(everything);
   // check if the user said 'good' keywords
@@ -260,16 +290,40 @@ function listening(everything) {
     // user said a good and a bad word
     checkWhichWord(badWordArray, everything);
     checkWhichWord(goodWordArray, everything);
+
+    // activate the good and bad counter
+    let voiceBypass = true;
+    badWordCounter(voiceBypass);
+    goodWordCounter(voiceBypass);
+
+    // computer says mmmmmm creepily
+    if (goodCounter > 2) {
+      responsiveVoice.speak(`mmmmm`, `UK English Male`, {
+        pitch: 0.5,
+        rate: 0.75,
+      });
+    }
   } else if (saidBad) {
     // user said a bad word
     // check which word they said
     checkWhichWord(badWordArray, everything);
+
+    // activate the bad counter
+    badWordCounter();
   } else if (saidGood) {
     // user said a good word
     // check which word they said
     checkWhichWord(goodWordArray, everything);
+
+    // activate the good counter
+    goodWordCounter();
   } else {
     // user said neither a good or a bad word
+    // computer says tell me more creepily
+    responsiveVoice.speak(`tell me more`, `UK English Male`, {
+      pitch: 0.5,
+      rate: 0.75,
+    });
   }
 }
 
@@ -319,5 +373,119 @@ function displayGoodWord() {
   textStyle(BOLD);
   textAlign(CENTER, CENTER);
   text(currentGoodWord.str, width / 4, height / 2);
+  pop();
+}
+
+// display the good side
+function displayGoodSide() {
+  push();
+  // translate to the right
+  translate(goodSide.translateAmount, 0);
+  imageMode(CORNERS);
+  image(goodSide.img, 0, 0, width, height);
+  pop();
+}
+
+// display the bad side
+function displayBadSide() {
+  push();
+  //translate to the left
+  translate(badSide.translateAmount, 0);
+  imageMode(CORNERS);
+  image(badSide.img, 0, 0, width, height);
+  pop();
+}
+
+// activate the bad word counter, then activate the hell screen
+function badWordCounter(voiceBypass) {
+  badCounter -= 1;
+  if (badCounter > 0) {
+    badSide.translateAmount -= 300;
+
+    // say something creepily
+    if (!voiceBypass) {
+      responsiveVoice.speak(`this is what I need to hear`, `UK English Male`, {
+        pitch: 0.5,
+        rate: 1,
+      });
+    }
+  } else {
+    // ur going to hell
+    goingToHell = true;
+    // say welcome to hell after 3 seconds
+    setTimeout(function () {
+      responsiveVoice.speak(`welcome to hell`, `UK English Male`, {
+        pitch: 0.5,
+        rate: 0.75,
+      });
+    }, 2000);
+
+    // stop listening
+    annyang.pause();
+  }
+}
+
+// activate the good word counter, then activate the paradise screen
+function goodWordCounter(voiceBypass) {
+  goodCounter -= 1;
+  if (goodCounter > 0) {
+    goodSide.translateAmount += 300;
+
+    // say something creepily
+    if (!voiceBypass) {
+      responsiveVoice.speak(
+        `find something more appropriate`,
+        `UK English Male`,
+        {
+          pitch: 0.5,
+          rate: 1,
+        }
+      );
+    }
+  } else {
+    // ur going to hell
+    goingToParadise = true;
+    // say welcome to hell after 3 seconds
+    setTimeout(function () {
+      responsiveVoice.speak(`you're still going to hell`, `UK English Male`, {
+        pitch: 0.5,
+        rate: 0.75,
+      });
+    }, 2000);
+
+    // stop listening
+    annyang.pause();
+  }
+}
+
+// display the hell end screen
+function displayHell() {
+  push();
+  fill(255, 30, 30);
+  rectMode(CORNERS);
+  rect(0, 0, width, height);
+  pop();
+
+  push();
+  fill(10, 10, 10);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text(`u belong in hell :-)`, width / 2, height / 2);
+  pop();
+}
+
+// display the paradise end screen
+function displayParadise() {
+  push();
+  fill(200, 200, 255);
+  rectMode(CORNERS);
+  rect(0, 0, width, height);
+  pop();
+
+  push();
+  fill(240, 240, 240);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text(`where did you think you were going ;u;`, width / 2, height / 2);
   pop();
 }
