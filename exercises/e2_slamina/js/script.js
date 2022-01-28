@@ -35,23 +35,103 @@ let filter = {
 let prompt1 = {
   x1: -100,
   x2: undefined,
-  speed: 2.2
-}
+  speed: 2.2,
+};
 // object properties for the second scrolling prompt
 let prompt2 = {
   x1: -100,
   x2: undefined,
-  speed: 1.8
-}
+  speed: 1.8,
+};
 
 // list of possible bad words
-const badWords = /kill|killed|drink|drank|satan|sex|cum|porn|rape|hide|hid|jealous|jealousy|lazy|hell|attacked|attack|envy|lust|pride|greed|fuck|damn|bitch|cunt|bastard|slut|profanities|whore|prostitution|prostitute/;
+const badWords = /kill|killed|satan|sex|cum|porn|rape|hide|hid|jealous|jealousy|lazy|hell|attacked|attack|envy|lust|pride|greed|fuck|damn|bitch|cunt|bastard|slut|profanities|whore|prostitution|prostitute|gay|drugs/;
+const badWordArray = [
+  `kill`,
+  `killed`,
+  `satan`,
+  `sex`,
+  `cum`,
+  `porn`,
+  `rape`,
+  `hide`,
+  `hid`,
+  `jealous`,
+  `jealousy`,
+  `lazy`,
+  `hell`,
+  `attacked`,
+  `attack`,
+  `envy`,
+  `lust`,
+  `pride`,
+  `greed`,
+  `fuck`,
+  `damn`,
+  `bitch`,
+  `cunt`,
+  `bastard`,
+  `slut`,
+  `profanities`,
+  `whore`,
+  `prostitution`,
+  `prostitute`,
+  `gay`,
+  `drugs`,
+];
 
 // list of possible good words
 const goodWords = /love|loved|give|gave|help|helped|innocent|favor|clear|straight|humility|patience|patient|diligent|diligence|abstinence|loyal|loyalty|chastity|heal|healed|served|service|right|harmless|proper|beauty|grace/;
+const goodWordArray = [
+  `love`,
+  `loved`,
+  `give`,
+  `gave`,
+  `help`,
+  `helped`,
+  `innocent`,
+  `favor`,
+  `clear`,
+  `straight`,
+  `humility`,
+  `patience`,
+  `patient`,
+  `diligent`,
+  `diligence`,
+  `abstinence`,
+  `loyal`,
+  `loyalty`,
+  `chastity`,
+  `heal`,
+  `healed`,
+  `served`,
+  `service`,
+  `right`,
+  `harmless`,
+  `proper`,
+  `beauty`,
+  `grace`,
+];
 
-// store the current answer from the user
-let currentAnswer = undefined;
+// store the last good and bad words the user said
+let currentGoodWord = {
+  str: undefined,
+  color: {
+    r: 0,
+    g: 255,
+    b: 0,
+    a: 180,
+  },
+};
+let currentBadWord = {
+  str: undefined,
+  color: {
+    r: 255,
+    g: 0,
+    b: 0,
+    a: 180,
+  },
+};
 
 // load imgaes, create a canvas, set up the annyang commands
 function setup() {
@@ -62,8 +142,8 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   // set the position of the scrolling prompts duplicates
-  prompt1.x2 = width;
-  prompt2.x2 = width + 300;
+  prompt1.x2 = width + 500;
+  prompt2.x2 = width + 800;
 
   // checks if annyang is installed correctly
   if (annyang) {
@@ -84,10 +164,14 @@ function draw() {
   backgroundElements();
 
   // draw the game prompt
-  promptElements()
+  promptElements();
 
   // prompt anmimation going right to left
   promptAnimation();
+
+  // display the last good and bad word said by the user
+  displayBadWord();
+  displayGoodWord();
 }
 
 // draw the background elements
@@ -111,20 +195,6 @@ function backgroundElements() {
   pop();
 }
 
-function promptElements() {
-  // set up the text format
-  push();
-  textSize(100);
-  textStyle(BOLD);
-  textAlign(LEFT, CENTER);
-  fill(filter.color.r, filter.color.g, filter.color.b, 80);
-  text(`confess your sins, out loud, pls.`, prompt1.x1, 200);
-  text(`confess your sins, out loud, pls.`, prompt1.x2, 200);
-  text(`am computer, nothing will happen :-)`, prompt2.x1, height - 200);
-  text(`am computer, nothing will happen :-)`, prompt2.x2, height - 200);
-  pop();
-}
-
 // animate the flickering background
 function backgroundAnimation() {
   filter.animDriver += 1;
@@ -138,32 +208,48 @@ function backgroundAnimation() {
   );
 }
 
+// draw the prompt text elements
+function promptElements() {
+  // set up the text format
+  push();
+  textSize(60);
+  textStyle(BOLD);
+  textAlign(LEFT, CENTER);
+  fill(filter.color.r, filter.color.g, filter.color.b, 80);
+  text(`confess your sins, out loud, pls.`, prompt1.x1, 200);
+  text(`confess your sins, out loud, pls.`, prompt1.x2, 200);
+  text(`am computer, nothing will happen :-)`, prompt2.x1, height - 200);
+  text(`am computer, nothing will happen :-)`, prompt2.x2, height - 200);
+  pop();
+}
+
 // animation of the text going left to right
 function promptAnimation() {
   // first prompt animation
   prompt1.x1 -= prompt1.speed;
-  if (prompt1.x1 < -2000) {
-    prompt1.x1 = width
-  };
+  if (prompt1.x1 < -2400) {
+    prompt1.x1 = width;
+  }
   // duplicate of the first prompt
   prompt1.x2 -= prompt1.speed;
-  if (prompt1.x2 < -2000) {
-    prompt1.x2 = width
-  };
+  if (prompt1.x2 < -2400) {
+    prompt1.x2 = width;
+  }
   // second prompt animation
   prompt2.x1 -= prompt2.speed;
-  if (prompt2.x1 < -2500) {
-    prompt2.x1 = width
-  };
+  if (prompt2.x1 < -2800) {
+    prompt2.x1 = width;
+  }
   // duplicate of the second prompt
   prompt2.x2 -= prompt2.speed;
-  if (prompt2.x2 < -2500) {
-    prompt2.x2 = width
-  };
+  if (prompt2.x2 < -2800) {
+    prompt2.x2 = width;
+  }
 }
 
 // listens to the user confessing their sins
 function listening(everything) {
+  console.log(everything);
   // check if the user said 'bad' keywords
   let saidBad = badWords.test(everything);
   // check if the user said 'good' keywords
@@ -172,11 +258,66 @@ function listening(everything) {
   // actions depending on what type of word the user said
   if (saidBad && saidGood) {
     // user said a good and a bad word
+    checkWhichWord(badWordArray, everything);
+    checkWhichWord(goodWordArray, everything);
   } else if (saidBad) {
     // user said a bad word
+    // check which word they said
+    checkWhichWord(badWordArray, everything);
   } else if (saidGood) {
     // user said a good word
+    // check which word they said
+    checkWhichWord(goodWordArray, everything);
   } else {
     // user said neither a good or a bad word
   }
+}
+
+// compares what the user said with a list of word
+// change the current word being displayed if it matches
+function checkWhichWord(array, whatTheySaid) {
+  for (let i = 0; i < array.length; i++) {
+    let currentKeyword = array[i];
+    if (whatTheySaid.includes(currentKeyword)) {
+      if (array === badWordArray) {
+        currentBadWord.str = currentKeyword;
+        currentBadWord.str = currentBadWord.str.toUpperCase();
+      } else {
+        currentGoodWord.str = currentKeyword;
+        currentGoodWord.str = currentGoodWord.str.toUpperCase();
+      }
+    }
+  }
+}
+
+// display the last bad word
+function displayBadWord() {
+  push();
+  fill(
+    currentBadWord.color.r,
+    currentBadWord.color.g,
+    currentBadWord.color.b,
+    currentBadWord.color.a
+  );
+  textStyle(BOLD);
+  textSize(90);
+  textAlign(CENTER, CENTER);
+  text(currentBadWord.str, width / 1.25, height / 2);
+  pop();
+}
+
+// display the last good word
+function displayGoodWord() {
+  push();
+  fill(
+    currentGoodWord.color.r,
+    currentGoodWord.color.g,
+    currentGoodWord.color.b,
+    currentGoodWord.color.a
+  );
+  textSize(90);
+  textStyle(BOLD);
+  textAlign(CENTER, CENTER);
+  text(currentGoodWord.str, width / 4, height / 2);
+  pop();
 }
