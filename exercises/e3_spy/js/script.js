@@ -59,7 +59,7 @@ initiate the alerts and prompt for the login process
 */
 function setup() {
   // create the canvas
-  createCanvas(windowWidth, 500);
+  createCanvas(windowWidth, 300);
 
   // initiate the local process
   loginProcess();
@@ -77,11 +77,11 @@ function createWords() {
 
 function chooseComplexity() {
   if (userInfo.complexity === `simple`) {
-    numWords = 100;
+    numWords = 400;
   } else if (userInfo.complexity === `medium`) {
-    numWords = 300;
+    numWords = 900;
   } else if (userInfo.complexity === `complex`) {
-    numWords = 800;
+    numWords = 1200;
   }
 }
 
@@ -207,7 +207,7 @@ function choseComplementary() {
     }
   } else if (userInfo.color === `red`) {
     if (userInfo.mode === `light`) {
-      complementaryColor = color(101, 171, 117); // light green
+      complementaryColor = color(168, 224, 168); // light green
     } else {
       complementaryColor = color(16, 33, 20); // dark green
     }

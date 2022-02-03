@@ -5,13 +5,14 @@ class Word {
   constructor(x, y, color, mode) {
     this.x = x;
     this.y = y;
-    this.size = 25;
+    this.size = random(11, 16);
     this.angle = radians(90);
 
     this.color = {
       r: 255,
       g: 255,
       b: 255,
+      a: 10,
     };
     this.chooseColor(color, mode);
 
@@ -23,23 +24,23 @@ class Word {
   chooseColor(color, mode) {
     if (color === `blue`) {
       if (mode === `light`) {
-        this.color.r = random(90, 100);
-        this.color.g = random(95, 160);
-        this.color.b = random(180, 190);
-      } else {
         this.color.r = random(45, 55);
         this.color.g = random(50, 94);
         this.color.b = random(95, 105);
+      } else {
+        this.color.r = random(90, 100);
+        this.color.g = random(95, 160);
+        this.color.b = random(180, 190);
       }
     } else if (color === `red`) {
       if (mode === `light`) {
+        this.color.r = random(70, 150);
+        this.color.g = random(15, 35);
+        this.color.b = random(15, 40);
+      } else {
         this.color.r = random(180, 190);
         this.color.g = random(50, 75);
-        this.color.b = random(70, 90);
-      } else {
-        this.color.r = random(30, 50);
-        this.color.g = random(0, 15);
-        this.color.b = random(0, 20);
+        this.color.b = random(50, 60);
       }
     } else if (color === `yellow`) {
       if (mode === `light`) {
