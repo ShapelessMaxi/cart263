@@ -18,10 +18,18 @@ let userInfo = {
   username: undefined,
   password: undefined,
   // visual parameters
-  colorScheme: undefined, // possible choices for color with (complementary in parenthesis) : blue(orange), red(green), yellow(purple)
+  color: undefined, // possible choices for color with (complementary in parenthesis) : blue(orange), red(green), yellow(purple)
   mode: undefined, // possible modes : dark mode (background is dark), light mode(background is light)
-  complexity: undefined, // possible choices : light, medium, heavy
+  complexity: undefined, // possible choices : simple, medium, complex
   // could add some more visual parameters here, like angle, font, size, etc...
+};
+
+// refer to the visual paramenter ui (only displayed if no data in local storage)
+let ui = {
+  mode: undefined,
+  color: undefined,
+  complexity: undefined,
+  submit: undefined,
 };
 
 // refer to the complementary color (linked to colorScheme chosen by user)
@@ -55,15 +63,20 @@ create the canvas
 */
 function setup() {
   // create the canvas
-  createCanvas(windowWidth, windowHeight);
-  // chose complementary color (background color)
-  choseComplementary();
+  createCanvas(windowWidth, 500);
+
+  // tell the user how to reset
+  alert(`u can reset ur login infos and preferences. just press 'c'`);
 
   // try to load the stored profile
   let data = JSON.parse(localStorage.getItem(`word-art-generator-data`));
   // check if there is data stored
   if (data !== null) {
     // there is data
+    // copy userInfo object into local storage
+    userInfo.username = data.username;
+    userInfo.password = data.password;
+
     // ask for user's username
     let username = prompt(`enter username`);
     if (username === userInfo.username) {
@@ -72,31 +85,61 @@ function setup() {
       while (password !== userInfo.password) {
         password = prompt(`enter ur password`);
       }
-      // copy userInfo object into local storage
-    }
+    } // do something is user not ok
   } else {
     // no data stored, generate a user profile
+    displayUi();
     generateUserProfile();
   }
 }
 
-//
+// display the ui to choose visual parameters
+// code mostly from Pippin
+function displayUi() {
+  // mode radio buttons
+  ui.mode = createRadio(`modeContainer`);
+  ui.mode.option(`light`);
+  ui.mode.option(`dark`);
+  // color scheme radio buttons
+  ui.color = createRadio(`colorContainer`);
+  ui.color.option(`blue`);
+  ui.color.option(`red`);
+  ui.color.option(`yellow`);
+  // complexity radio buttons
+  ui.complexity = createRadio(`complexityContainer`);
+  ui.complexity.option(`simple`);
+  ui.complexity.option(`medium`);
+  ui.complexity.option(`complex`);
+
+  // submit button to save into local storage
+  ui.submit = createButton(`submit`);
+  ui.submit.mousePressed(function () {
+    userInfo.mode = ui.mode.value();
+    userInfo.color = ui.color.value();
+    userInfo.complexity = ui.complexity.value();
+    localStorage.setItem(`word-art-generator-data`, JSON.stringify(userInfo));
+  });
+}
+
+// ask and save the username and password
 function generateUserProfile() {
   // ask for the user's username
-  userInfo.username = prompt(`enter username`);
+  userInfo.username = prompt(`enter new username`);
 
   // ask for a password
-  userInfo.password = prompt(`enter ur password`);
+  userInfo.password = prompt(`enter new password`);
 
   // save the  word art generator data in local web storage
   localStorage.setItem(`word-art-generator-data`, JSON.stringify(userInfo));
 }
 
-/**
+/*
 draw the background
 display the word objects
 */
 function draw() {
+  // chose complementary color (background color)
+  choseComplementary();
   // draw the background
   background(complementaryColor);
 }
@@ -105,23 +148,23 @@ function draw() {
 function choseComplementary() {
   // decide which color the background should be
   // depends on chosen color scheme and mode
-  if (userInfo.colorScheme === `blue`) {
+  if (userInfo.color === `blue`) {
     if (userInfo.mode === `light`) {
       complementaryColor = color(181, 131, 85); // light orange
     } else {
-      complementaryColor = color(54, 30, 4); // dark orange
+      complementaryColor = color(51, 36, 22); // dark orange
     }
-  } else if (userInfo.colorScheme === `red` && userInfo.mode === `light`) {
+  } else if (userInfo.color === `red`) {
     if (userInfo.mode === `light`) {
-      complementaryColor = color(85, 181, 99); // light green
+      complementaryColor = color(101, 171, 117); // light green
     } else {
-      complementaryColor = color(2, 38, 8); // dark green
+      complementaryColor = color(16, 33, 20); // dark green
     }
   } else {
     if (userInfo.mode === `light`) {
-      complementaryColor = color(138, 82, 196); // light purple
+      complementaryColor = color(167, 143, 191); // light purple
     } else {
-      complementaryColor = color(19, 2, 36); // dark purple
+      complementaryColor = color(36, 26, 46); // dark purple
     }
   }
 }
