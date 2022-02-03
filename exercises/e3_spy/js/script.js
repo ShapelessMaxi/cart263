@@ -33,7 +33,12 @@ let ui = {
 };
 
 // refer to the complementary color (linked to colorScheme chosen by user)
-let complementaryColor = 0;
+let complementaryColor = 0; // default value
+
+// refer to the number of word object generated
+let numWords = 50; // default value
+// store all the word objects here
+let words = [];
 
 //  refer to the JSON data files
 let instrumentData = undefined;
@@ -60,11 +65,38 @@ function preload() {
 
 /**
 create the canvas
+initiate the alerts and prompt for the login process
 */
 function setup() {
   // create the canvas
   createCanvas(windowWidth, 500);
 
+  // initiate the local process
+  loginProcess();
+
+  // define how much words to generate depending on the complexity chosen
+  if (userInfo.complexity === `simple`) {
+    numWords = 50;
+  } else if (userInfo.complexity === `medium`) {
+    numWords = 100;
+  } else if (userInfo.complexity === `complex`) {
+    numWords = 200;
+  }
+}
+
+// create a bunch of word objects
+function createWords() {
+  for (let i = 0; i < numWords; i++) {
+    let x = random(0, width);
+    let y = random(height, 0);
+    let currentWord = new Word(x, y, userInfo.color, userInfo.mode);
+    words.push(currentWord);
+  }
+}
+
+// takes care of asking for username and password
+// also save data into local storage
+function loginProcess() {
   // tell the user how to reset
   alert(`press 'c' to reset login info and parameters.`);
 
@@ -90,10 +122,9 @@ function setup() {
       }
       // chose complementary color (background color)
       choseComplementary();
-      console.log(complementaryColor);
     }
   } else {
-    // no data stored, generate a user profile
+    // no data stored, display the ui generate a user profile
     displayUi();
     generateUserProfile();
   }
@@ -133,6 +164,9 @@ function displayUi() {
 
     // chose complementary color (background color)
     choseComplementary();
+
+    // create a bunch of word objects
+    createWords();
   });
 }
 
@@ -157,6 +191,10 @@ function draw() {
   background(complementaryColor);
 
   // draw the words
+  for (let i = 0; i < words.length; i++) {
+    let currentWord = words[i];
+    currentWord.update();
+  }
 }
 
 // chooses the color of the background
