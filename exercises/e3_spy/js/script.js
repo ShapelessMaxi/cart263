@@ -41,25 +41,15 @@ let numWords = 50; // default value
 let words = [];
 
 //  refer to the JSON data files
-let instrumentData = undefined;
-let objectData = undefined;
-let tarotData = undefined;
+let plantData = undefined;
 
 /**
 load JSON data files
 */
 function preload() {
-  // load JSON instrument data
-  instrumentData = loadJSON(
-    `https://raw.githubusercontent.com/dariusk/corpora/master/data/music/instruments.json`
-  );
-  // load JSON instrument data
-  objectData = loadJSON(
-    `https://raw.githubusercontent.com/dariusk/corpora/master/data/objects/objects.json`
-  );
-  // load JSON tarot data
-  tarotData = loadJSON(
-    `https://raw.githubusercontent.com/dariusk/corpora/master/data/divination/tarot_interpretations.json`
+  // load JSON plant data
+  plantData = loadJSON(
+    `https://raw.githubusercontent.com/dariusk/corpora/master/data/plants/plants.json`
   );
 }
 
@@ -73,24 +63,25 @@ function setup() {
 
   // initiate the local process
   loginProcess();
-
-  // define how much words to generate depending on the complexity chosen
-  if (userInfo.complexity === `simple`) {
-    numWords = 50;
-  } else if (userInfo.complexity === `medium`) {
-    numWords = 100;
-  } else if (userInfo.complexity === `complex`) {
-    numWords = 200;
-  }
 }
 
 // create a bunch of word objects
 function createWords() {
   for (let i = 0; i < numWords; i++) {
     let x = random(0, width);
-    let y = random(height, 0);
+    let y = random(-10, 0);
     let currentWord = new Word(x, y, userInfo.color, userInfo.mode);
     words.push(currentWord);
+  }
+}
+
+function chooseComplexity() {
+  if (userInfo.complexity === `simple`) {
+    numWords = 100;
+  } else if (userInfo.complexity === `medium`) {
+    numWords = 300;
+  } else if (userInfo.complexity === `complex`) {
+    numWords = 800;
   }
 }
 
@@ -122,6 +113,10 @@ function loginProcess() {
       }
       // chose complementary color (background color)
       choseComplementary();
+      // define how much words to generate depending on the complexity chosen
+      chooseComplexity();
+      // create a bunch of word objects
+      createWords();
     }
   } else {
     // no data stored, display the ui generate a user profile
@@ -164,6 +159,9 @@ function displayUi() {
 
     // chose complementary color (background color)
     choseComplementary();
+
+    // define how much words to generate depending on the complexity chosen
+    chooseComplexity();
 
     // create a bunch of word objects
     createWords();

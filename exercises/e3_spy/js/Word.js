@@ -14,8 +14,12 @@ class Word {
       b: 255,
     };
     this.chooseColor(color, mode);
+
+    this.writtenWord = `word`;
+    this.chooseWord();
   }
 
+  // choose the color awith different tones
   chooseColor(color, mode) {
     if (color === `blue`) {
       if (mode === `light`) {
@@ -50,18 +54,27 @@ class Word {
     }
   }
 
+  // go fetch a word from a JSON file
+  chooseWord() {
+    // choose a random instrument for the alias
+    let plant = random(plantData.plants);
+    this.writtenWord = plant.species;
+  }
+
+  // update the object
   update() {
     this.display();
   }
 
+  // display the object
   display() {
     push();
     textAlign(LEFT, TOP);
     textSize(this.size);
     fill(this.color.r, this.color.g, this.color.b);
-    translate(200, 200);
+    translate(this.x, this.y);
     rotate(this.angle);
-    text(`word`, 0, 0);
+    text(this.writtenWord, 0, 0);
     pop();
   }
 }
