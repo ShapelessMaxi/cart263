@@ -13,21 +13,27 @@ generative word art from json files
 
 "use strict";
 
-// store user data here
-let spyProfile = {
-  name: `**REDACTED**`,
-  alias: `**REDACTED**`,
-  secretWeapon: `**REDACTED**`,
-  password: `**REDACTED**`,
+// refer to the users basic login info and visual parameters chosen by the users
+let userInfo = {
+  username: undefined,
+  password: undefined,
+  // visual parameters
+  colorScheme: { main: undefined, complementary: undefined },
+  /*
+  possible choices for main with (complementary in parenthesis) :
+  blue(orange), red(green), yellow(purple)
+  */
+  mode: undefined, // possible modes : dark mode (background is dark), light mode(background is light)
+  complexity: undefined, // possible choices : light, medium, heavy
+  // could add some more parameters here, like angle, secondary color, font, etc...
 };
 
-//  store the JSON data files here
+//  refer to the JSON data files
 let instrumentData = undefined;
 let objectData = undefined;
 let tarotData = undefined;
 
 /**
-load images
 load JSON data files
 */
 function preload() {
@@ -50,74 +56,51 @@ create the canvas
 */
 function setup() {
   // create the canvas
-  createCanvas(650, windowHeight);
+  createCanvas(windowWidth, windowHeight);
+
+  // choose the secondary color
 
   // try to load the stored profile
-  let data = JSON.parse(localStorage.getItem(`spy-profile-data`));
+  let data = JSON.parse(localStorage.getItem(`word-art-generator-data`));
   // check if there is data stored
   if (data !== null) {
     // there is data
     // ask for user password
-    let password = prompt(`enter your secret password`);
-    if (password === data.password) {
+    let password = prompt(`enter ur password`);
+    if (password === loginInfo.password) {
       // copy data into spyProfile object
-      spyProfile.name = data.name;
-      spyProfile.alias = data.alias;
-      spyProfile.secretWeapon = data.secretWeapon;
-      spyProfile.password = data.password;
     }
   } else {
-    // no data stored, generate a spy profile
-    generateSpyProfile();
+    // no data stored, generate a user profile
+    generateUserProfile();
   }
 }
 
-// takes care of all the spy profile generation steps
-function generateSpyProfile() {
-  // ask for the user's name
-  spyProfile.name = prompt(`tell me ur name...`);
-  // choose a random instrument for the alias
-  let instrument = random(instrumentData.instruments);
-  spyProfile.alias = `The ${instrument}`;
-  // choose a random object for the secret weapon
-  spyProfile.secretWeapon = random(objectData.objects);
-  // choose a random keywords linked to a random tarot card for the password
-  let card = random(tarotData.tarot_interpretations);
-  spyProfile.password = random(card.keywords);
+//
+function generateUserProfile() {
+  // ask for the user's username
+  userInfo.username = prompt(`enter username`);
 
-  // save the profile in local web storage
-  localStorage.setItem(`spy-profile-data`, JSON.stringify(spyProfile));
+  // ask for a password
+  userInfo.password = prompt(`enter ur password`);
+
+  // save the  word art generator data in local web storage
+  localStorage.setItem(`word-art-generator-data`, JSON.stringify(userInfo));
 }
 
 /**
 draw the background
-display the profile text
+display the word objects
 */
 function draw() {
   // draw the background
   background(90, 80, 80);
-
-  // create the template for the profile
-  let profile = `** SPY PROFILE **
-name: ${spyProfile.name}
-alias: ${spyProfile.alias}
-secret weapon: ${spyProfile.secretWeapon}
-password: ${spyProfile.password}`;
-
-  // display the profile
-  push();
-  textFont(`Courier, monospace`);
-  textSize(26);
-  textAlign(LEFT, TOP);
-  fill(255);
-  text(profile, 25, 155);
-  pop();
 }
 
 // delete local data when 'c' is pressed
 function keyPressed() {
   if (key === `c`) {
-    // delete local spy profile data
-    localStorage.removeItem(`spy-profile-data`);
+    // delete local word art generator data
+    localStorage.removeItem(`word-art-generator-data`);
   }
 }
