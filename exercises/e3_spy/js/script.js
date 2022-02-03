@@ -33,7 +33,7 @@ let ui = {
 };
 
 // refer to the complementary color (linked to colorScheme chosen by user)
-let complementaryColor = undefined;
+let complementaryColor = 0;
 
 //  refer to the JSON data files
 let instrumentData = undefined;
@@ -66,7 +66,7 @@ function setup() {
   createCanvas(windowWidth, 500);
 
   // tell the user how to reset
-  alert(`u can reset ur login infos and preferences. just press 'c'`);
+  alert(`press 'c' to reset login info and parameters.`);
 
   // try to load the stored profile
   let data = JSON.parse(localStorage.getItem(`word-art-generator-data`));
@@ -76,6 +76,9 @@ function setup() {
     // copy userInfo object into local storage
     userInfo.username = data.username;
     userInfo.password = data.password;
+    userInfo.color = data.color;
+    userInfo.mode = data.mode;
+    userInfo.complexity = data.complexity;
 
     // ask for user's username
     let username = prompt(`enter username`);
@@ -83,9 +86,12 @@ function setup() {
       // ask for user's password
       let password = prompt(`enter ur password`);
       while (password !== userInfo.password) {
-        password = prompt(`enter ur password`);
+        password = prompt(`wrong password, enter ur password`);
       }
-    } // do something is user not ok
+      // chose complementary color (background color)
+      choseComplementary();
+      console.log(complementaryColor);
+    }
   } else {
     // no data stored, generate a user profile
     displayUi();
@@ -118,6 +124,15 @@ function displayUi() {
     userInfo.color = ui.color.value();
     userInfo.complexity = ui.complexity.value();
     localStorage.setItem(`word-art-generator-data`, JSON.stringify(userInfo));
+
+    // disable the ui buttons
+    ui.mode.disable(true);
+    ui.color.disable(true);
+    ui.complexity.disable(true);
+    ui.submit.hide(true);
+
+    // chose complementary color (background color)
+    choseComplementary();
   });
 }
 
@@ -138,10 +153,10 @@ draw the background
 display the word objects
 */
 function draw() {
-  // chose complementary color (background color)
-  choseComplementary();
   // draw the background
   background(complementaryColor);
+
+  // draw the words
 }
 
 // chooses the color of the background
