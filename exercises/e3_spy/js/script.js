@@ -18,15 +18,14 @@ let userInfo = {
   username: undefined,
   password: undefined,
   // visual parameters
-  colorScheme: { main: undefined, complementary: undefined },
-  /*
-  possible choices for main with (complementary in parenthesis) :
-  blue(orange), red(green), yellow(purple)
-  */
+  colorScheme: undefined, // possible choices for color with (complementary in parenthesis) : blue(orange), red(green), yellow(purple)
   mode: undefined, // possible modes : dark mode (background is dark), light mode(background is light)
   complexity: undefined, // possible choices : light, medium, heavy
-  // could add some more parameters here, like angle, secondary color, font, etc...
+  // could add some more visual parameters here, like angle, font, size, etc...
 };
+
+// refer to the complementary color (linked to colorScheme chosen by user)
+let complementaryColor = undefined;
 
 //  refer to the JSON data files
 let instrumentData = undefined;
@@ -57,18 +56,23 @@ create the canvas
 function setup() {
   // create the canvas
   createCanvas(windowWidth, windowHeight);
-
-  // choose the secondary color
+  // chose complementary color (background color)
+  choseComplementary();
 
   // try to load the stored profile
   let data = JSON.parse(localStorage.getItem(`word-art-generator-data`));
   // check if there is data stored
   if (data !== null) {
     // there is data
-    // ask for user password
-    let password = prompt(`enter ur password`);
-    if (password === loginInfo.password) {
-      // copy data into spyProfile object
+    // ask for user's username
+    let username = prompt(`enter username`);
+    if (username === userInfo.username) {
+      // ask for user's password
+      let password = prompt(`enter ur password`);
+      while (password !== userInfo.password) {
+        password = prompt(`enter ur password`);
+      }
+      // copy userInfo object into local storage
     }
   } else {
     // no data stored, generate a user profile
@@ -94,7 +98,32 @@ display the word objects
 */
 function draw() {
   // draw the background
-  background(90, 80, 80);
+  background(complementaryColor);
+}
+
+// chooses the color of the background
+function choseComplementary() {
+  // decide which color the background should be
+  // depends on chosen color scheme and mode
+  if (userInfo.colorScheme === `blue`) {
+    if (userInfo.mode === `light`) {
+      complementaryColor = color(181, 131, 85); // light orange
+    } else {
+      complementaryColor = color(54, 30, 4); // dark orange
+    }
+  } else if (userInfo.colorScheme === `red` && userInfo.mode === `light`) {
+    if (userInfo.mode === `light`) {
+      complementaryColor = color(85, 181, 99); // light green
+    } else {
+      complementaryColor = color(2, 38, 8); // dark green
+    }
+  } else {
+    if (userInfo.mode === `light`) {
+      complementaryColor = color(138, 82, 196); // light purple
+    } else {
+      complementaryColor = color(19, 2, 36); // dark purple
+    }
+  }
 }
 
 // delete local data when 'c' is pressed
