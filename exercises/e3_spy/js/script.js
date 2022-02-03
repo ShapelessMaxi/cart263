@@ -1,8 +1,14 @@
 /**
-Spy Profile Generator
+Word Art Generator
 Maxime Perreault
 
-~description of the activity~
+generative word art from json files
+
+1- ask the user for a color scheme and a level of complexity
+2- generate : a) go fish out some words (quantity depends on level of complexity saved in web storage) from various JSON files
+              b) position it on the right and flip it
+              c) aply color scheme that user has chosen (the color scheme is saved in web storage)
+              d) reset $complexity and $colorscheme with pressing a key
 */
 
 "use strict";
