@@ -37,6 +37,7 @@ let complementaryColor = 0; // default value
 
 // refer to the number of word object generated
 let numWords = 50; // default value
+
 // store all the word objects here
 let words = [];
 
@@ -55,7 +56,7 @@ function preload() {
 
 /**
 create the canvas
-initiate the alerts and prompt for the login process
+initiate the alerts and prompts for the login process
 */
 function setup() {
   // create the canvas
@@ -65,31 +66,11 @@ function setup() {
   loginProcess();
 }
 
-// create a bunch of word objects
-function createWords() {
-  for (let i = 0; i < numWords; i++) {
-    let x = random(0, width);
-    let y = random(-10, 0);
-    let currentWord = new Word(x, y, userInfo.color, userInfo.mode);
-    words.push(currentWord);
-  }
-}
-
-function chooseComplexity() {
-  if (userInfo.complexity === `simple`) {
-    numWords = 400;
-  } else if (userInfo.complexity === `medium`) {
-    numWords = 900;
-  } else if (userInfo.complexity === `complex`) {
-    numWords = 1200;
-  }
-}
-
 // takes care of asking for username and password
 // also save data into local storage
 function loginProcess() {
   // tell the user how to reset
-  alert(`press 'c' to reset login info and parameters.`);
+  alert(`press 'c', then refresh (f5) to reset login info and parameters.`);
 
   // try to load the stored profile
   let data = JSON.parse(localStorage.getItem(`word-art-generator-data`));
@@ -180,18 +161,24 @@ function generateUserProfile() {
   localStorage.setItem(`word-art-generator-data`, JSON.stringify(userInfo));
 }
 
-/*
-draw the background
-display the word objects
-*/
-function draw() {
-  // draw the background
-  background(complementaryColor);
+// create a bunch of word objects
+function createWords() {
+  for (let i = 0; i < numWords; i++) {
+    let x = random(0, width);
+    let y = random(-10, 0);
+    let currentWord = new Word(x, y, userInfo.color, userInfo.mode);
+    words.push(currentWord);
+  }
+}
 
-  // draw the words
-  for (let i = 0; i < words.length; i++) {
-    let currentWord = words[i];
-    currentWord.update();
+// choose the number of words depending on the complexity chosen by user
+function chooseComplexity() {
+  if (userInfo.complexity === `simple`) {
+    numWords = 400;
+  } else if (userInfo.complexity === `medium`) {
+    numWords = 900;
+  } else if (userInfo.complexity === `complex`) {
+    numWords = 1200;
   }
 }
 
@@ -217,6 +204,21 @@ function choseComplementary() {
     } else {
       complementaryColor = color(36, 26, 46); // dark purple
     }
+  }
+}
+
+/*
+draw the background
+display the word objects
+*/
+function draw() {
+  // draw the background
+  background(complementaryColor);
+
+  // draw the words
+  for (let i = 0; i < words.length; i++) {
+    let currentWord = words[i];
+    currentWord.update();
   }
 }
 

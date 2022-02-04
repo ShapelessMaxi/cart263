@@ -3,24 +3,29 @@ create a word object
 */
 class Word {
   constructor(x, y, color, mode) {
+    // refer to the location, size and angle of the object
     this.x = x;
     this.y = y;
     this.size = random(11, 16);
     this.angle = radians(90);
 
+    // refer to the color of the object (default is white)
     this.color = {
       r: 255,
       g: 255,
       b: 255,
       a: 10,
     };
+    // choose the color according to the user's choice
     this.chooseColor(color, mode);
 
+    // refer to the string (default is `word`)
     this.writtenWord = `word`;
+    // choose a string in a JSON file
     this.chooseWord();
   }
 
-  // choose the color awith different tones
+  // choose the color according to the user's choice (with varying tones)
   chooseColor(color, mode) {
     if (color === `blue`) {
       if (mode === `light`) {
@@ -55,10 +60,11 @@ class Word {
     }
   }
 
-  // go fetch a word from a JSON file
+  // go fetch a string from a JSON file
   chooseWord() {
-    // choose a random instrument for the alias
+    // choose a random plant
     let plant = random(plantData.plants);
+    // get the string with the `species` tag
     this.writtenWord = plant.species;
   }
 
