@@ -131,6 +131,7 @@ function checkPopped(tipX, tipY) {
     bubble.x = random(0, width);
     bubble.y = height;
     // keep track of the amount of bubbles popped
+    bubble.popped++;
   }
 }
 
@@ -268,6 +269,19 @@ function game() {
   // draw the bubbles and assign it movement
   drawBubble();
   moveBubble();
+
+  // draw the popped counter
+  drawCounter();
+}
+
+// draw the popped counter
+function drawCounter() {
+  push();
+  fill(245, 245, 220);
+  textSize(16);
+  textStyle(BOLD);
+  text(`u popped ${bubble.popped} bubbles`, 20, 30);
+  pop();
 }
 
 // takes care of all the end state related interactions
