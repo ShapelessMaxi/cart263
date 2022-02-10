@@ -81,16 +81,57 @@ function setup() {
   });
 
   // create the bubble
+  createBubble();
+
+  // load the cursor image
+  cursor = loadImage(`assets/images/sword.png`);
+}
+
+// create the bubble
+function createBubble() {
   bubble = {
     x: random(0, width),
     y: height,
     size: 100,
     vx: 0,
-    vy: -1.8,
+    vy: -3,
+    color: { r: 15, g: 100, b: 120, a: 200 },
+    popped: 0,
   };
+}
 
-  // load the cursor image
-  cursor = loadImage(`assets/images/sword.png`);
+// takes care of the movement of the bubble
+function moveBubble() {
+  // assign basic movement to the bubble
+  bubble.x += bubble.vx;
+  bubble.y += bubble.vy;
+
+  // reassign position if the bubble gets out of the canvas
+  if (bubble.y < 0) {
+    bubble.x = random(0, width);
+    bubble.y = height;
+  }
+}
+
+// draw the bubble
+function drawBubble() {
+  push();
+  fill(bubble.color.r, bubble.color.g, bubble.color.b, bubble.color.a);
+  noStroke();
+  ellipse(bubble.x, bubble.y, bubble.size);
+  pop();
+}
+
+// manage the reaction when the bubble is touched
+function checkPopped(tipX, tipY) {
+  // check if the bubble should pop
+  let d = dist(tipX, tipY, bubble.x, bubble.y);
+  if (d < bubble.size / 2) {
+    // reassign position if the bubble is popped
+    bubble.x = random(0, width);
+    bubble.y = height;
+    // keep track of the amount of bubbles popped
+  }
 }
 
 /**
@@ -133,6 +174,9 @@ function handPosePredictions() {
 
     // store the tip of the finger here
     sliceButton(tipX, tipY);
+
+    // check if the bubble has been touched
+    checkPopped(tipX, tipY);
   }
 }
 
@@ -209,7 +253,7 @@ function sliceButton(tipX, tipY) {
     // change the state of the game after 1 second
     setTimeout(function () {
       state = `game`;
-    }, 3000);
+    }, 1500);
   }
 }
 
@@ -221,30 +265,9 @@ function game() {
   // takes care of recognizing the user's index
   handPosePredictions();
 
-  // draw the bubbles
-  push();
-  fill(0, 100, 200);
-  noStroke();
-  ellipse(bubble.x, bubble.y, bubble.size);
-  pop();
-
-  // // assign basic movement to the bubble
-  // bubble.x += bubble.vx;
-  // bubble.y += bubble.vy;
-  //
-  // // reassign position if the bubble gets out of the canvas
-  // if (bubble.y < 0) {
-  //   bubble.x = random(0, width);
-  //   bubble.y = height;
-  // }
-
-  // check if the bubble should pop
-  // let d = dist(tipX, tipY, bubble.x, bubble.y);
-  // if (d < bubble.size / 2) {
-  //   // reassign position if the bubble is popped
-  //   bubble.x = random(0, width);
-  //   bubble.y = height;
-  // }
+  // draw the bubbles and assign it movement
+  drawBubble();
+  moveBubble();
 }
 
 // takes care of all the end state related interactions
