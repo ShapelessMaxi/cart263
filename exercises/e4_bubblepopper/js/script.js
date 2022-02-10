@@ -3,7 +3,7 @@ Bubble Popper
 Maxime Perreault
 
 pop bubbles with finger :o
-(maybe not 'pop', but like pet ur forehead?)
+(maybe not 'pop', but like pet ur forehead?, difference between a slap and a soft touch?)
 - 1st state : setup/intro
 - ask the user to 'strike a pose' and to say 'aaaah'
     - save an img of the user
