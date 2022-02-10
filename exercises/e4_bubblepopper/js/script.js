@@ -123,6 +123,7 @@ function drawBubble() {
 }
 
 // manage the reaction when the bubble is touched
+// keep track of the number of bubbles popped
 function checkPopped(tipX, tipY) {
   // check if the bubble should pop
   let d = dist(tipX, tipY, bubble.x, bubble.y);
@@ -132,6 +133,9 @@ function checkPopped(tipX, tipY) {
     bubble.y = height;
     // keep track of the amount of bubbles popped
     bubble.popped++;
+    if (bubble.popped >= 7) {
+      state = `end`;
+    }
   }
 }
 
@@ -202,9 +206,6 @@ function intro() {
 
   // draw instructions
   drawIntructions();
-
-  // draw a sword
-  drawCursor();
 }
 
 // draw the start button
@@ -247,8 +248,8 @@ function drawStartButton() {
   }
 }
 
+// draw the text for the instructions
 function drawIntructions() {
-  // draw the text
   push();
   textAlign(CENTER, CENTER);
   fill(startButton.color2.r, startButton.color2.g, startButton.color2.b);
@@ -309,4 +310,18 @@ function drawCounter() {
 function end() {
   // draw the background
   background(24, 15, 36);
+
+  // draw end text
+  drawEndText();
+}
+
+// draw the text for the instructions
+function drawEndText() {
+  push();
+  textAlign(CENTER, CENTER);
+  fill(startButton.color2.r, startButton.color2.g, startButton.color2.b);
+  textSize(24);
+  textStyle(BOLD);
+  text(`gj u popped 7 bubbles`, width / 2, height / 2);
+  pop();
 }
