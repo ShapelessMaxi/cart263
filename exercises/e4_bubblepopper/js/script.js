@@ -200,6 +200,9 @@ function intro() {
   // draw a start button to slice
   drawStartButton();
 
+  // draw instructions
+  drawIntructions();
+
   // draw a sword
   drawCursor();
 }
@@ -244,6 +247,24 @@ function drawStartButton() {
   }
 }
 
+function drawIntructions() {
+  // draw the text
+  push();
+  textAlign(CENTER, CENTER);
+  fill(startButton.color2.r, startButton.color2.g, startButton.color2.b);
+  textSize(24);
+  textStyle(BOLD);
+  text(
+    `hey u have a sword
+and
+your goal is to pop 7 bubbles`,
+    width / 2,
+    height / 4
+  );
+  text(`slice the start button to start`, width / 2, height / 1.7);
+  pop();
+}
+
 // takes care of slicing the button
 function sliceButton(tipX, tipY) {
   // check if the distance of the tip is close enough too slice the button
@@ -254,7 +275,7 @@ function sliceButton(tipX, tipY) {
     // change the state of the game after 1 second
     setTimeout(function () {
       state = `game`;
-    }, 1500);
+    }, 1300);
   }
 }
 
