@@ -26,18 +26,37 @@ that were hidden inside of it. thx Ma.
 
 "use strict";
 
+// refer to the current state of the program
+let state; // possible states : `intro`, `cell`, `yard`, `visitRoom`, `tunnel`, `end`
+
 /**
  */
 function preload() {}
 
 /**
+create a canvas
+create the intro state as the starting point
  */
 function setup() {
-  createCanvas(750, 750);
+  // create the canvas
+  createCanvas(850, 750);
+
+  // create the intro state
+  state = new IntroState();
 }
 
 /**
- */
+update the program's current state
+*/
 function draw() {
-  background(255, 255, 55);
+  // update the program's current state
+  state.update();
+}
+
+/**
+call the current state's mousePressed method
+*/
+function mousePressed() {
+  // call the current state's mousePressed method
+  state.mousePressed();
 }
