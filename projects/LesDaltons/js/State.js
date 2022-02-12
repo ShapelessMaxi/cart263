@@ -15,19 +15,19 @@ class State {
     // refer to the stripes object
     this.stripes = {
       array: [], // store the stripes
-      number: 9,
-      w: 50,
+      number: 15,
+      w: 40,
       h: height,
     };
 
     // refer to the overlay object
     this.overlay = {
+      textSize: 24,
       w: width,
       h: height,
       alpha: 255,
-      fadeSpeed: 3.5,
+      fadeSpeed: 3,
       animationStarted: false,
-      instruction: `click to start`,
     };
   }
 
@@ -35,14 +35,14 @@ class State {
   draw the backgruond
   draw the overlay and make it fade
   */
-  update(color1, color2) {
+  update(color1, color2, skipClick, overlayText) {
     // draw the background
     this.drawBackground(color1, color2);
 
     // draw the overlay
-    this.drawOverlay(color1, color2);
+    this.drawOverlay(color1, color2, overlayText);
     // make the overlay fade
-    this.fadeOverlay();
+    this.startFadeOverlay(skipClick);
   }
 
   // draw the background
@@ -63,29 +63,40 @@ class State {
   }
 
   // draw the overlay
-  drawOverlay(color1, color2) {
+  drawOverlay(color1, color2, overlayText) {
     // draw the overlay rectangle
     push();
     rectMode(CENTER);
     noStroke();
-    fill(color2.r, color2.g, color2.b, this.overlay.alpha);
+    fill(color1.r, color1.g, color1.b, this.overlay.alpha);
     rect(width / 2, height / 2, this.overlay.w, this.overlay.h);
     pop();
     // draw the text instruction
     push();
-    fill(color1.r, color1.g, color1.b, this.overlay.alpha);
-    textSize(24);
+    fill(color2.r, color2.g, color2.b, this.overlay.alpha);
+    textSize(this.overlay.textSize);
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
-    text(this.overlay.instruction, width / 2, height / 2);
+    text(overlayText, width / 2, height / 2);
     pop();
   }
 
-  // fade out animation for the overlay
-  fadeOverlay() {
+  // start the fade out animation
+  startFadeOverlay(skipClick) {
+    // check if the animation started and if the alpha value is more than 0
     if (this.overlay.animationStarted && this.overlay.alpha >= 0) {
-      this.overlay.alpha -= this.overlay.fadeSpeed;
+      this.fadeOverlay();
     }
+    // OR check if we decided to skip clicking to start the animation (defined in subcalsses)
+    if (skipClick) {
+      // start the fade out animation 1 second later
+      setTimeout(this.fadeOverlay.bind(this), 800);
+    }
+  }
+
+  //fade out animation for the overlay
+  fadeOverlay() {
+    this.overlay.alpha -= this.overlay.fadeSpeed;
   }
 
   /*

@@ -39,7 +39,7 @@ create the intro state as the starting point
  */
 function setup() {
   // create the canvas
-  createCanvas(850, 750);
+  createCanvas(1000, 750);
 
   // create the intro state
   state = new IntroState();
