@@ -42,9 +42,7 @@ class State {
     // draw the overlay
     this.drawOverlay(color1, color2);
     // make the overlay fade
-    if (this.overlay.animationStarted && this.overlay.alpha >= 0) {
-      this.fadeOverlay();
-    }
+    this.fadeOverlay();
   }
 
   // draw the background
@@ -83,9 +81,11 @@ class State {
     pop();
   }
 
-  // fade in animation for the overlay
+  // fade out animation for the overlay
   fadeOverlay() {
-    this.overlay.alpha -= this.overlay.fadeSpeed;
+    if (this.overlay.animationStarted && this.overlay.alpha >= 0) {
+      this.overlay.alpha -= this.overlay.fadeSpeed;
+    }
   }
 
   /*
@@ -93,7 +93,7 @@ class State {
   */
   mousePressed() {
     // check if the overlay is visible
-    if (this.overlay.alpha === 255) {
+    if (!this.overlay.animationStarted) {
       // start the fade in animation of the overlay
       this.overlay.animationStarted = true;
     }
