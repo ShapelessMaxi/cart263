@@ -2,12 +2,11 @@
 Interactions linked to the intro state are handled here.
 Extension of the State class.
 
--
--
--
--
+> draw the game tittle and the game instructions (appears gradually when mouse is pressed)
+> change the state of the game to the 'cell' scene when mouse is pressed
+>
+>
 */
-
 class IntroState extends State {
   /*
   call the super class constructor
@@ -37,9 +36,9 @@ class IntroState extends State {
     };
     // refer to the instruction object
     this.instructions = {
-      str1: `-> you control Joe (the little one) <-`,
-      str2: `-> you move with 'wasd' <-`,
-      str3: `-> you interact with 'e' <-`,
+      str1: `-> tu controles Joe (le plus p'tit) <-`,
+      str2: `-> tu bouges avec 'wasd' <-`,
+      str3: `-> tu interagis avec 'e' <-`,
       textSpacing: 50,
       textSize: 18,
       w: 450,

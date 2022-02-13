@@ -1,12 +1,11 @@
 /*
-General behaviors of other State classes.
+General behaviors of other -State subclasses.
 
--
--
--
--
+> draw a striped background using color defined in the subclasses with the -State suffix
+> draw an overlay that fades out when the mouse is pressed (option to have it fade without the click defined in the subclasses)
+>
+>
 */
-
 class State {
   /*
   define variables and arrays

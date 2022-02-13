@@ -1,13 +1,12 @@
 /*
-Interactions linked to the cell state (game scene) are handled here.
+Interactions linked to the cell state (first game scene) are handled here.
 Extension of the State class.
 
--
--
--
--
+>
+>
+>
+>
 */
-
 class CellState extends State {
   /*
   call the super class constructor
@@ -43,6 +42,9 @@ class CellState extends State {
       delay: 2000,
     };
 
+    // create the characters
+    this.joe = new Dalton(`joe`);
+
     // start making the things appear
     this.startFadeIn();
   }
@@ -59,6 +61,8 @@ class CellState extends State {
 
     // make the things appear
     this.fadeIn();
+
+    this.joe.update(this.color2, this.color1, this.appear.generalAlpha);
   }
 
   // draw the floor
@@ -68,7 +72,6 @@ class CellState extends State {
     rectMode(CENTER);
     noStroke();
     fill(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
-    // fill(50, 50, 50, this.appear.generalAlpha);
     rect(this.floor.x, this.floor.y, this.floor.w, this.floor.h);
     pop();
   }
@@ -93,7 +96,7 @@ class CellState extends State {
 
   /*
   call the super class update mousePressed method
-    */
+  */
   mousePressed() {
     // call the super class update mousePressed method
     super.mousePressed();

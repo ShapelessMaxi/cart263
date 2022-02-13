@@ -29,9 +29,16 @@ that were hidden inside of it. thx Ma.
 // refer to the current state of the program
 let state; // possible states : `intro`, `cell`, `yard`, `visitRoom`, `tunnel`, `end`
 
+// store the images of the characters
+let joeImg = undefined;
+
 /**
- */
-function preload() {}
+load images of the characters
+*/
+function preload() {
+  // load the images of the characters
+  joeImg = loadImage(`assets/images/joe.png`);
+}
 
 /**
 create a canvas
@@ -42,7 +49,7 @@ function setup() {
   createCanvas(1000, 750);
 
   // create the intro state
-  state = new IntroState();
+  state = new CellState();
 }
 
 /**
