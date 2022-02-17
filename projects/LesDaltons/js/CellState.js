@@ -44,6 +44,9 @@ class CellState extends State {
 
     // create the characters
     this.joe = new Dalton(`joe`);
+    this.jack = new Dalton(`jack`);
+    this.william = new Dalton(`william`);
+    this.averell = new Dalton(`averell`);
 
     // start making the things appear
     this.startFadeIn();
@@ -62,7 +65,11 @@ class CellState extends State {
     // make the things appear
     this.fadeIn();
 
+    // update the character objects
     this.joe.update(this.color2, this.color1, this.appear.generalAlpha);
+    this.jack.update(this.color2, this.color1, this.appear.generalAlpha);
+    this.william.update(this.color2, this.color1, this.appear.generalAlpha);
+    this.averell.update(this.color2, this.color1, this.appear.generalAlpha);
   }
 
   // draw the floor

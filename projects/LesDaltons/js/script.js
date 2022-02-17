@@ -31,6 +31,9 @@ let state; // possible states : `intro`, `cell`, `yard`, `visitRoom`, `tunnel`, 
 
 // store the images of the characters
 let joeImg = undefined;
+let jackImg = undefined;
+let williamImg = undefined;
+let averellImg = undefined;
 
 /**
 load images of the characters
@@ -38,13 +41,19 @@ load images of the characters
 function preload() {
   // load the images of the characters
   joeImg = loadImage(`assets/images/joe.png`);
+  jackImg = loadImage(`assets/images/jack.png`);
+  williamImg = loadImage(`assets/images/william.png`);
+  averellImg = loadImage(`assets/images/averell.png`);
 }
 
 /**
+set the framerate to a stable number
 create a canvas
 create the intro state as the starting point
  */
 function setup() {
+  // set the framerate to a stable number
+  frameRate(30);
   // create the canvas
   createCanvas(1000, 750);
 
