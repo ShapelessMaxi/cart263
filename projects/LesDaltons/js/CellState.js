@@ -34,6 +34,9 @@ class CellState extends State {
       y: height - 100,
     };
 
+    // refer to the character spacing value
+    this.characterSpacing = 80;
+
     // refer to the object taking care of making the things appear
     this.appear = {
       generalAlpha: 0,
@@ -47,6 +50,8 @@ class CellState extends State {
     this.jack = new Dalton(`jack`);
     this.william = new Dalton(`william`);
     this.averell = new Dalton(`averell`);
+    // store the characters here
+    this.daltons = [this.joe, this.jack, this.william, this.averell];
 
     // start making the things appear
     this.startFadeIn();
@@ -70,6 +75,30 @@ class CellState extends State {
     this.jack.update(this.color2, this.color1, this.appear.generalAlpha);
     this.william.update(this.color2, this.color1, this.appear.generalAlpha);
     this.averell.update(this.color2, this.color1, this.appear.generalAlpha);
+
+    // movement for the non-leader characters
+    this.nonLeaderMovement();
+  }
+
+  // non-leader characters movement
+  nonLeaderMovement() {
+    this.jack.x = this.joe.x - this.characterSpacing;
+    this.jack.y = this.joe.y;
+    this.william.x = this.jack.x - this.characterSpacing;
+    this.william.y = this.joe.y;
+    this.averell.x = this.william.x - this.characterSpacing;
+    this.averell.y = this.joe.y;
+
+    // orientation of the characters
+    if (!this.joe.lookRight) {
+      this.jack.lookRight = false;
+      this.william.lookRight = false;
+      this.averell.lookRight = false;
+    } else if (this.joe.lookRight) {
+      this.jack.lookRight = true;
+      this.william.lookRight = true;
+      this.averell.lookRight = true;
+    }
   }
 
   // draw the floor

@@ -18,6 +18,14 @@ class Dalton {
     // width of the character
     this.w = 62;
 
+    // change image mode to corner... change movement also
+    // this.pos = {
+    //   x1: 80,
+    //   y1: height - 280,
+    //   x2: 80,
+    //   y2: 100,
+    // };
+
     // refer to the eyes object
     this.eyes = {
       size: 14,
@@ -65,7 +73,7 @@ class Dalton {
       this.leader = false;
     } else if (name === `averell`) {
       this.img = averellImg;
-      this.h = 180;
+      this.h = 190;
       this.eyeHeight = 52;
       this.leader = false;
     }
@@ -126,13 +134,9 @@ class Dalton {
 
   // takes care of the movement of the character
   moveCharacter() {
-    if (this.leader) {
-      // user controlled movement with wasd
-      this.userMovement();
-    } else {
-      // non-leader character movement
-      this.nonLeaderMovement();
-    }
+    // user controlled movement with wasd
+    this.userMovement();
+
     // constrain the character to an area of the screen
     this.screenConstrain();
     // idle animation applied to the character all the time
@@ -141,21 +145,23 @@ class Dalton {
 
   // user controlled movement with wasd
   userMovement() {
-    // movement for the leader only
-    if (keyIsDown(`68`)) {
-      // keycode 68 -> `d` key
-      this.x += this.moveSpeed;
-      this.lookRight = true;
-    } else if (keyIsDown(`65`)) {
-      // keycode 68 -> `a` key
-      this.x -= this.moveSpeed;
-      this.lookRight = false;
-    } else if (keyIsDown(`87`)) {
-      // keycode 87 -> `w` key
-      this.y -= this.moveSpeed;
-    } else if (keyIsDown(`83`)) {
-      // keycode 87 -> `s` key
-      this.y += this.moveSpeed;
+    if (this.leader) {
+      // movement for the leader only
+      if (keyIsDown(`68`)) {
+        // keycode 68 -> `d` key
+        this.x += this.moveSpeed;
+        this.lookRight = true;
+      } else if (keyIsDown(`65`)) {
+        // keycode 68 -> `a` key
+        this.x -= this.moveSpeed;
+        this.lookRight = false;
+      } else if (keyIsDown(`87`)) {
+        // keycode 87 -> `w` key
+        this.y -= this.moveSpeed;
+      } else if (keyIsDown(`83`)) {
+        // keycode 87 -> `s` key
+        this.y += this.moveSpeed;
+      }
     }
   }
 
