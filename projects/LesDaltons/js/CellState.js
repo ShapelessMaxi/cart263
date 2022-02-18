@@ -82,12 +82,20 @@ class CellState extends State {
 
   // non-leader characters movement
   nonLeaderMovement() {
-    this.jack.x = this.joe.x - this.characterSpacing;
-    this.jack.y = this.joe.y;
-    this.william.x = this.jack.x - this.characterSpacing;
-    this.william.y = this.joe.y;
-    this.averell.x = this.william.x - this.characterSpacing;
-    this.averell.y = this.joe.y;
+    this.jack.pos.x1 = this.joe.pos.x1 - this.characterSpacing;
+    this.jack.pos.x2 = this.joe.pos.x2 - this.characterSpacing;
+    this.jack.pos.y1 = this.joe.pos.y1 - 25;
+    this.jack.pos.y2 = this.joe.pos.y2;
+
+    this.william.pos.x1 = this.jack.pos.x1 - this.characterSpacing;
+    this.william.pos.x2 = this.jack.pos.x2 - this.characterSpacing;
+    this.william.pos.y1 = this.jack.pos.y1 - 15;
+    this.william.pos.y2 = this.jack.pos.y2;
+
+    this.averell.pos.x1 = this.william.pos.x1 - this.characterSpacing;
+    this.averell.pos.x2 = this.william.pos.x2 - this.characterSpacing;
+    this.averell.pos.y1 = this.william.pos.y1 - 20;
+    this.averell.pos.y2 = this.william.pos.y2;
 
     // orientation of the characters
     if (!this.joe.lookRight) {
