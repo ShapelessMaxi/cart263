@@ -50,6 +50,9 @@ class CellState extends State {
     // store the characters here
     this.daltons = [this.joe, this.jack, this.william, this.averell];
 
+    // create the ui
+    this.ui = new Ui();
+
     // start making the things appear
     this.startFadeIn();
   }
@@ -84,6 +87,9 @@ class CellState extends State {
     this.jack.screenConstrain(characterRange);
     this.william.screenConstrain(characterRange);
     this.averell.screenConstrain(characterRange);
+
+    // draw the ui
+    this.ui.update(this.color1, this.color2, this.appear.generalAlpha);
   }
 
   // draw the floor

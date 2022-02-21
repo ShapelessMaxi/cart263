@@ -10,7 +10,7 @@ class State {
   /*
   define variables and arrays
   */
-  constructor(color1, color2) {
+  constructor() {
     // refer to the stripes object
     this.stripes = {
       array: [], // store the stripes
