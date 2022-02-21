@@ -28,10 +28,10 @@ class CellState extends State {
 
     // refer to the floor
     this.floor = {
-      w: width,
-      h: 250,
-      x: width / 2,
-      y: height - 100,
+      x1: 0,
+      y1: 450,
+      x2: 1000,
+      y2: 750,
     };
 
     // refer to the character spacing value
@@ -76,18 +76,31 @@ class CellState extends State {
     this.william.update(this.color2, this.color1, this.appear.generalAlpha);
     this.averell.update(this.color2, this.color1, this.appear.generalAlpha);
 
+    // constrain the character to an area of the screen
+    let characterRange = {
+      x1: -50,
+      x2: width + 50,
+      y1: this.floor.y1,
+      y2: height - 100,
+    };
+    this.joe.screenConstrain(characterRange);
+    this.jack.screenConstrain(characterRange);
+    this.william.screenConstrain(characterRange);
+    this.averell.screenConstrain(characterRange);
+
     // movement for the non-leader characters
     this.nonLeaderMovement();
   }
 
   // non-leader characters movement
   nonLeaderMovement() {
-    this.jack.x = this.joe.x - this.characterSpacing;
-    this.jack.y = this.joe.y;
-    this.william.x = this.jack.x - this.characterSpacing;
-    this.william.y = this.joe.y;
-    this.averell.x = this.william.x - this.characterSpacing;
-    this.averell.y = this.joe.y;
+    this.jack.pos.center.x = this.joe.pos.center.x - this.characterSpacing;
+    this.jack.pos.center.y = this.joe.pos.center.y;
+    this.william.pos.center.x = this.jack.pos.center.x - this.characterSpacing;
+    this.william.pos.center.y = this.joe.pos.center.y;
+    this.averell.pos.center.x =
+      this.william.pos.center.x - this.characterSpacing;
+    this.averell.pos.center.y = this.joe.pos.center.y;
 
     // orientation of the characters
     if (!this.joe.lookRight) {
@@ -105,10 +118,10 @@ class CellState extends State {
   drawFloor() {
     // draw a rectangle for the floor
     push();
-    rectMode(CENTER);
+    rectMode(CORNERS);
     noStroke();
     fill(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
-    rect(this.floor.x, this.floor.y, this.floor.w, this.floor.h);
+    rect(this.floor.x1, this.floor.y1, this.floor.x2, this.floor.y2);
     pop();
   }
 
