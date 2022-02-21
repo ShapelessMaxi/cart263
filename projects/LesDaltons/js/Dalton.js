@@ -11,6 +11,13 @@ class Dalton {
   define variables and arrays
   */
   constructor(name) {
+    // x value (center) of the character
+    this.x = 80; // start on the left of the screen
+    // y value (center) of the character
+    this.y = height - 280;
+    // width of the character
+    this.w = 62;
+
     // refer to the eyes object
     this.eyes = {
       size: 14,
@@ -44,56 +51,24 @@ class Dalton {
     */
     if (name === `joe`) {
       this.img = joeImg;
+      this.h = 150;
+      this.eyeHeight = 45;
       this.leader = true;
-
-      // refer to the position of the character
-      this.pos = {
-        // position of upper left corner
-        x1: 100,
-        y1: 430,
-        // position of lower right corner
-        x2: 168,
-        y2: 550,
-      };
     } else if (name === `jack`) {
       this.img = jackImg;
+      this.h = 160;
+      this.eyeHeight = 52;
       this.leader = false;
-
-      // refer to the position of the character
-      this.pos = {
-        // position of upper left corner
-        x1: 100,
-        y1: 405,
-        // position of lower right corner
-        x2: 168,
-        y2: 550,
-      };
     } else if (name === `william`) {
       this.img = williamImg;
+      this.h = 170;
+      this.eyeHeight = 52;
       this.leader = false;
-
-      // refer to the position of the character
-      this.pos = {
-        // position of upper left corner
-        x1: 100,
-        y1: 390,
-        // position of lower right corner
-        x2: 168,
-        y2: 550,
-      };
     } else if (name === `averell`) {
       this.img = averellImg;
+      this.h = 190;
+      this.eyeHeight = 52;
       this.leader = false;
-
-      // refer to the position of the character
-      this.pos = {
-        // position of upper left corner
-        x1: 100,
-        y1: 370,
-        // position of lower right corner
-        x2: 168,
-        y2: 550,
-      };
     }
   }
 
@@ -119,13 +94,13 @@ class Dalton {
   // draw the image of the character
   drawBody(color1, generalAlpha) {
     push();
-    imageMode(CORNERS);
-    // tint(color1.r, color1.g, color1.b, generalAlpha);
+    imageMode(CENTER);
+    tint(color1.r, color1.g, color1.b, generalAlpha);
     if (this.lookRight) {
-      image(this.img, this.pos.x1, this.pos.y1, this.pos.x2, this.pos.y2);
+      image(this.img, this.x, this.y, this.w, this.h);
     } else if (!this.lookRight) {
       scale(-1, 1);
-      image(this.img, -this.pos.x1, this.pos.y1, -this.pos.x2, this.pos.y2);
+      image(this.img, -this.x, this.y, this.w, this.h);
     }
     pop();
   }
@@ -133,13 +108,12 @@ class Dalton {
   // draw the eyes of the character
   drawEyes(color2, generalAlpha) {
     // define the position of the eyes depending on the position of the body
-    this.eyes.y = this.pos.y1 + this.eyes.height;
-    this.eyes.x1 = this.pos.x2 - 2;
+    this.eyes.y = this.y - this.eyeHeight;
+    this.eyes.x1 = this.x;
     if (this.lookRight) {
-      this.eyes.x2 = this.pos.x2 - this.eyes.space;
+      this.eyes.x2 = this.x + this.eyes.space;
     } else if (!this.lookRight) {
-      this.eyes.x2 = this.pos.x1 + 2;
-      this.eyes.x1 = this.pos.x1 + this.eyes.space;
+      this.eyes.x2 = this.x - this.eyes.space;
     }
 
     // draw the eyes
@@ -168,22 +142,18 @@ class Dalton {
       // movement for the leader only
       if (keyIsDown(`68`)) {
         // keycode 68 -> `d` key
-        this.pos.x1 += this.moveSpeed;
-        this.pos.x2 += this.moveSpeed;
+        this.x += this.moveSpeed;
         this.lookRight = true;
       } else if (keyIsDown(`65`)) {
         // keycode 68 -> `a` key
-        this.pos.x1 -= this.moveSpeed;
-        this.pos.x2 -= this.moveSpeed;
+        this.x -= this.moveSpeed;
         this.lookRight = false;
       } else if (keyIsDown(`87`)) {
         // keycode 87 -> `w` key
-        this.pos.y1 -= this.moveSpeed;
-        this.pos.y2 -= this.moveSpeed;
+        this.y -= this.moveSpeed;
       } else if (keyIsDown(`83`)) {
         // keycode 87 -> `s` key
-        this.pos.y1 += this.moveSpeed;
-        this.pos.y2 += this.moveSpeed;
+        this.y += this.moveSpeed;
       }
     }
   }
@@ -206,10 +176,8 @@ class Dalton {
   // constrain the character to an area of the screen
   screenConstrain() {
     // constrain the character to the screen
-    this.pos.x1 = constrain(this.pos.x1, -50, 1050);
-    // this.pos.x2 = constrain(this.pos.x2, -50, 1050);
+    this.x = constrain(this.x, -50, width + 50);
     // constrain the character to the floor
-    this.pos.y2 = constrain(this.pos.y1, 550, 700);
-    // this.pos.y2 = constrain(this.pos.y2, 450, 650);
+    this.y = constrain(this.y, height - 300, height - 100);
   }
 }
