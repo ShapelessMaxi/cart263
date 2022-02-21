@@ -34,9 +34,6 @@ class CellState extends State {
       y2: 750,
     };
 
-    // refer to the character spacing value
-    this.characterSpacing = 80;
-
     // refer to the object taking care of making the things appear
     this.appear = {
       generalAlpha: 0,
@@ -87,31 +84,6 @@ class CellState extends State {
     this.jack.screenConstrain(characterRange);
     this.william.screenConstrain(characterRange);
     this.averell.screenConstrain(characterRange);
-
-    // movement for the non-leader characters
-    this.nonLeaderMovement();
-  }
-
-  // non-leader characters movement
-  nonLeaderMovement() {
-    this.jack.pos.center.x = this.joe.pos.center.x - this.characterSpacing;
-    this.jack.pos.center.y = this.joe.pos.center.y;
-    this.william.pos.center.x = this.jack.pos.center.x - this.characterSpacing;
-    this.william.pos.center.y = this.joe.pos.center.y;
-    this.averell.pos.center.x =
-      this.william.pos.center.x - this.characterSpacing;
-    this.averell.pos.center.y = this.joe.pos.center.y;
-
-    // orientation of the characters
-    if (!this.joe.lookRight) {
-      this.jack.lookRight = false;
-      this.william.lookRight = false;
-      this.averell.lookRight = false;
-    } else if (this.joe.lookRight) {
-      this.jack.lookRight = true;
-      this.william.lookRight = true;
-      this.averell.lookRight = true;
-    }
   }
 
   // draw the floor

@@ -35,11 +35,18 @@ class Dalton {
       height: undefined,
     };
 
+    // refer to the character spacing value
+    this.characterSpacing = 80;
+
     // refer to the character's move speed
     this.moveSpeed = 8;
 
     // takes care of flipping the image when moving
     this.lookRight = true;
+
+    this.nonLeaders = {
+      lookRight: true,
+    };
 
     // used to control the idle animation
     this.idleAnim = {
@@ -98,18 +105,24 @@ class Dalton {
     // set the actual position of the character
     this.pos.y = this.pos.center.y - this.pos.height / 2;
 
+    let lookingRight;
+    if (this.leader) {
+      lookingRight = this.lookRight;
+    } else {
+      lookingRight = this.nonLeaders.lookRight;
+    }
     // draw the main body
-    this.drawBody(color1, generalAlpha);
+    this.drawBody(color1, generalAlpha, lookingRight);
     // draw the head
-    this.drawEyes(color2, generalAlpha);
+    this.drawEyes(color2, generalAlpha, lookingRight);
   }
 
   // draw the image of the character
-  drawBody(color1, generalAlpha) {
+  drawBody(color1, generalAlpha, lookingRight) {
     push();
     imageMode(CENTER);
     tint(color1.r, color1.g, color1.b, generalAlpha);
-    if (this.lookRight) {
+    if (lookingRight) {
       image(
         this.img,
         this.pos.center.x,
@@ -117,7 +130,7 @@ class Dalton {
         this.pos.width,
         this.pos.height
       );
-    } else if (!this.lookRight) {
+    } else if (!lookingRight) {
       scale(-1, 1);
       image(
         this.img,
@@ -161,16 +174,23 @@ class Dalton {
 
   // user controlled movement with wasd
   userMovement() {
+    let delay = 500;
     if (this.leader) {
       // movement for the leader only
       if (keyIsDown(`68`)) {
         // keycode 68 -> `d` key
         this.pos.center.x += this.moveSpeed;
         this.lookRight = true;
+        setTimeout(() => {
+          this.nonLeaders.lookRight = true;
+        }, delay);
       } else if (keyIsDown(`65`)) {
         // keycode 68 -> `a` key
         this.pos.center.x -= this.moveSpeed;
         this.lookRight = false;
+        setTimeout(() => {
+          this.nonLeaders.lookRight = false;
+        }, delay);
       } else if (keyIsDown(`87`)) {
         // keycode 87 -> `w` key
         this.pos.center.y -= this.moveSpeed;
@@ -178,7 +198,24 @@ class Dalton {
         // keycode 87 -> `s` key
         this.pos.center.y += this.moveSpeed;
       }
+    } else {
+      // movement for the non-leader
     }
+  }
+
+  // non-leader characters movement
+  nonLeaderMovement(delay) {
+    // character position is dependant on the character in front of them
+    // // orientation of the characters
+    // if (!this.joe.lookRight) {
+    //   this.jack.lookRight = false;
+    //   this.william.lookRight = false;
+    //   this.averell.lookRight = false;
+    // } else if (this.joe.lookRight) {
+    //   this.jack.lookRight = true;
+    //   this.william.lookRight = true;
+    //   this.averell.lookRight = true;
+    // }
   }
 
   // idle animation
