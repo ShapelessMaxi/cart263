@@ -57,7 +57,7 @@ class CellState extends State {
       y: 670,
       size: 16,
       displayed: false,
-      delay: 4800,
+      delay: 4000,
     };
     // create the main prompt typewriter
     this.typeMainPrompt = new Typewriter(
@@ -73,6 +73,24 @@ class CellState extends State {
     setTimeout(() => {
       this.mainPrompt.displayed = true;
     }, this.mainPrompt.delay);
+
+    // refer to the navigation prompt
+    this.navigationPrompt = {
+      string: `tape sur X pour sortir dans la cour`,
+      x: 295,
+      y: 670,
+      size: 16,
+    };
+    // create the main prompt typewriter
+    this.typeNavigation = new Typewriter(
+      this.navigationPrompt.string,
+      this.navigationPrompt.x,
+      this.navigationPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.navigationPrompt.size
+    );
 
     // refer to the object taking care of making the things appear
     this.appear = {
@@ -122,8 +140,20 @@ class CellState extends State {
 
     // draw the ui
     this.ui.update(this.appear.generalAlpha);
+
+    // display the main prompt
     if (this.mainPrompt.displayed) {
       this.typeMainPrompt.update();
+    }
+
+    // display the navigation instruction
+    if (this.joe.pos.center.x > width) {
+      this.typeNavigation.update();
+      // reset the main prompt (erase it)
+      this.typeMainPrompt.currentCharacter = 0;
+    } else {
+      // reset the navigation instruction (erase it)
+      this.typeNavigation.currentCharacter = 0;
     }
   }
 
@@ -153,6 +183,26 @@ class CellState extends State {
   fadeIn() {
     if (this.appear.animationStarted && this.appear.generalAlpha <= 255) {
       this.appear.generalAlpha += this.appear.speed;
+    }
+  }
+
+  /*
+  - takes care of the navigation between states (scenes)
+    - save the time and date in local web storage when navigating between scenes
+  -takes care of the interaction with npc and other objects
+  */
+  keyPressed() {
+    if (this.joe.pos.center.x > width) {
+      if (key === `x`) {
+        // go to the cell scene
+        state = new YardState();
+
+        // save the time and date
+        localStorage.setItem(
+          `time-date-dalton-data`,
+          JSON.stringify(recordedTime)
+        );
+      }
     }
   }
 

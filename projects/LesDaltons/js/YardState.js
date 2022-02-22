@@ -52,12 +52,12 @@ class YardState extends State {
     };
     // refer to the main prompt object
     this.mainPrompt = {
-      string: `vous êtes dans la cours de la prison`,
+      string: `vous êtes dans la cour de la prison`,
       x: 295,
       y: 670,
       size: 16,
       displayed: false,
-      delay: 4800,
+      delay: 4000,
     };
     // create the main prompt typewriter
     this.typeMainPrompt = new Typewriter(
@@ -78,10 +78,8 @@ class YardState extends State {
     this.navigationPrompt = {
       string: `tape sur X pour retourner à la cellule`,
       x: 295,
-      y: 700,
+      y: 670,
       size: 16,
-      displayed: false,
-      delay: 4800,
     };
     // create the main prompt typewriter
     this.typeNavigation = new Typewriter(
@@ -142,19 +140,19 @@ class YardState extends State {
 
     // draw the ui
     this.ui.update(this.appear.generalAlpha);
+
+    // display the main prompt
     if (this.mainPrompt.displayed) {
       this.typeMainPrompt.update();
     }
 
     // display the navigation instruction
     if (this.joe.pos.center.x < 0) {
-      this.typeMainPrompt.currentCharacter = 0;
-      this.mainPrompt.displayed = false;
-
       this.typeNavigation.update();
-      this.navigationPrompt.displayed = true;
+      // reset the main prompt (erase it)
+      this.typeMainPrompt.currentCharacter = 0;
     } else {
-      this.navigationPrompt.displayed = false;
+      // reset the navigation instruction (erase it)
       this.typeNavigation.currentCharacter = 0;
     }
   }
@@ -191,14 +189,21 @@ class YardState extends State {
   }
 
   /*
-  -takes care of the navigation between states (scenes)
-  -tkaes care of the interaction with npc and other objects
+  - takes care of the navigation between states (scenes)
+    - save the time and date in local web storage when navigating between scenes
+  -takes care of the interaction with npc and other objects
   */
   keyPressed() {
     if (this.joe.pos.center.x < 0) {
       if (key === `x`) {
         // go to the cell scene
         state = new CellState();
+
+        // save the time and date
+        localStorage.setItem(
+          `time-date-dalton-data`,
+          JSON.stringify(recordedTime)
+        );
       }
     }
   }

@@ -98,7 +98,7 @@ function setup() {
   }
 
   // create the intro state
-  state = new YardState();
+  state = new CellState();
 }
 
 /**
@@ -119,6 +119,9 @@ function mousePressed() {
 
 // delete local data when 'c' is pressed
 function keyPressed() {
+  // call the current state keyPressed() method
+  state.keyPressed();
+
   if (key === `c`) {
     // delete local spy profile data
     localStorage.removeItem(`time-date-dalton-data`);
