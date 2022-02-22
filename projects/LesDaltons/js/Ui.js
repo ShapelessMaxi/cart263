@@ -27,6 +27,29 @@ class Ui {
       bevel: 5,
     };
 
+    // refer to the tools object
+    this.toolShape = {
+      bevel: 5,
+      pickaxe: {
+        img: undefined,
+        displayed: false,
+        x1: 790,
+        y1: 685,
+        x2: 885,
+        y2: 735,
+        bevel: 5,
+      },
+      spoons: {
+        img: undefined,
+        displayed: false,
+        x1: 890,
+        y1: 685,
+        x2: 985,
+        y2: 735,
+        bevel: 5,
+      },
+    };
+
     // refer to the profile picture object
     this.timeShape = {
       x1: 790,
@@ -86,9 +109,12 @@ class Ui {
   */
   update(generalAlpha) {
     // draw the main ui shape
-    this.drawMainShape(generalAlpha);
-    // draw the profile picture
-    this.drawProfile(generalAlpha);
+    this.drawShape(this.mainShape, this.color1, generalAlpha);
+    // draw the profile shape
+    this.drawShape(this.profileShape, this.color2, generalAlpha);
+    // draw the tool shapes picture
+    this.drawShape(this.toolShape.pickaxe, this.color2, generalAlpha);
+    this.drawShape(this.toolShape.spoons, this.color2, generalAlpha);
     // draw the time and date
     this.drawTimer(generalAlpha);
 
@@ -99,33 +125,17 @@ class Ui {
   }
 
   // draw the main ui shape
-  drawMainShape(generalAlpha) {
+  drawShape(shapeType, color, generalAlpha) {
     push();
     rectMode(CORNERS);
-    fill(this.color1.r, this.color1.g, this.color1.b, generalAlpha);
+    fill(color.r, color.g, color.b, generalAlpha);
     noStroke();
     rect(
-      this.mainShape.x1,
-      this.mainShape.y1,
-      this.mainShape.x2,
-      this.mainShape.y2,
-      this.mainShape.bevel
-    );
-    pop();
-  }
-
-  // draw the profile frame and picture
-  drawProfile(generalAlpha) {
-    push();
-    rectMode(CORNERS);
-    fill(this.color2.r, this.color2.g, this.color2.b, generalAlpha);
-    noStroke();
-    rect(
-      this.profileShape.x1,
-      this.profileShape.y1,
-      this.profileShape.x2,
-      this.profileShape.y2,
-      this.profileShape.bevel
+      shapeType.x1,
+      shapeType.y1,
+      shapeType.x2,
+      shapeType.y2,
+      shapeType.bevel
     );
     pop();
   }
@@ -133,18 +143,7 @@ class Ui {
   // draw the profile frame and picture
   drawTimer(generalAlpha) {
     // draw the shape of the timer
-    push();
-    rectMode(CORNERS);
-    fill(this.color2.r, this.color2.g, this.color2.b, generalAlpha);
-    noStroke();
-    rect(
-      this.timeShape.x1,
-      this.timeShape.y1,
-      this.timeShape.x2,
-      this.timeShape.y2,
-      this.timeShape.bevel
-    );
-    pop();
+    this.drawShape(this.timeShape, this.color2, generalAlpha);
 
     // activate the timer
     this.countTime();
