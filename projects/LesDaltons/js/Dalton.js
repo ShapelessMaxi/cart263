@@ -73,6 +73,10 @@ class Dalton {
       characterRange.x2
     );
     // constrain the character to the floor
-    this.pos.y = constrain(this.pos.y, characterRange.y1, characterRange.y2);
+    this.pos.center.y = constrain(
+      this.pos.center.y,
+      characterRange.y1,
+      characterRange.y2
+    );
   }
 }

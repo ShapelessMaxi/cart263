@@ -78,15 +78,15 @@ class CellState extends State {
 
     // constrain the character to an area of the screen
     let characterRange = {
-      x1: -50,
-      x2: width + 50,
-      y1: this.floor.y1,
-      y2: height - 100,
+      x1: -200,
+      x2: width + 200,
+      y1: this.floor.y1 + 10,
+      y2: height - 45,
     };
     this.joe.screenConstrain(characterRange);
-    // this.jack.screenConstrain(characterRange);
-    // this.william.screenConstrain(characterRange);
-    // this.averell.screenConstrain(characterRange);
+    this.jack.screenConstrain(characterRange);
+    this.william.screenConstrain(characterRange);
+    this.averell.screenConstrain(characterRange);
 
     // draw the ui
     this.ui.update(this.appear.generalAlpha);

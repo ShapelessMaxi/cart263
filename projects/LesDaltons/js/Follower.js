@@ -155,9 +155,18 @@ class Follower extends Dalton {
   // following movement
   followingMovement(leader) {
     if (leader.moving) {
+      // keep track of the character moving
       this.moving = true;
       setTimeout(() => {
-        this.pos.center.x = leader.pos.center.x - this.pos.spacing;
+        // move up and down
+        this.pos.center.y = leader.pos.center.y;
+        // move right and left
+        if (this.lookRight) {
+          this.pos.center.x = leader.pos.center.x - this.pos.spacing;
+        } else if (!this.lookRight) {
+          this.pos.center.x = leader.pos.center.x + this.pos.spacing;
+        }
+        // keep track of the character not moving anymore
         this.moving = false;
       }, this.movementDelay);
     }
