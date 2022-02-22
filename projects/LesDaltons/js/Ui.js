@@ -19,10 +19,10 @@ class Ui {
 
     // refer to the profile picture object
     this.profileShape = {
-      img: 1,
+      img: daltonsPortrait,
       x1: 15,
       y1: 645,
-      x2: 210,
+      x2: 280,
       y2: 735,
       bevel: 5,
     };
@@ -31,7 +31,7 @@ class Ui {
     this.toolShape = {
       bevel: 5,
       pickaxe: {
-        img: undefined,
+        img: pickaxIcon,
         displayed: false,
         x1: 790,
         y1: 685,
@@ -39,8 +39,8 @@ class Ui {
         y2: 735,
         bevel: 5,
       },
-      spoons: {
-        img: undefined,
+      spoon: {
+        img: spoonIcon,
         displayed: false,
         x1: 890,
         y1: 685,
@@ -69,7 +69,7 @@ class Ui {
     // refer to the main prompt object
     this.mainPrompt = {
       string: `vous êtes maintenant dans votre cellule`,
-      x: 230,
+      x: 295,
       y: 670,
       size: 16,
       displayed: false,
@@ -110,11 +110,14 @@ class Ui {
   update(generalAlpha) {
     // draw the main ui shape
     this.drawShape(this.mainShape, this.color1, generalAlpha);
-    // draw the profile shape
+    // draw the portrits and the portrait box
     this.drawShape(this.profileShape, this.color2, generalAlpha);
-    // draw the tool shapes picture
+    this.drawImage(this.profileShape, generalAlpha);
+    // draw the tools and ui tool boxes
     this.drawShape(this.toolShape.pickaxe, this.color2, generalAlpha);
-    this.drawShape(this.toolShape.spoons, this.color2, generalAlpha);
+    this.drawShape(this.toolShape.spoon, this.color2, generalAlpha);
+    this.drawImage(this.toolShape.pickaxe, generalAlpha);
+    this.drawImage(this.toolShape.spoon, generalAlpha);
     // draw the time and date
     this.drawTimer(generalAlpha);
 
@@ -124,7 +127,7 @@ class Ui {
     }
   }
 
-  // draw the main ui shape
+  // draw a rectangle shape
   drawShape(shapeType, color, generalAlpha) {
     push();
     rectMode(CORNERS);
@@ -137,6 +140,15 @@ class Ui {
       shapeType.y2,
       shapeType.bevel
     );
+    pop();
+  }
+
+  // draw the portrait image
+  drawImage(icon, generalAlpha) {
+    push();
+    imageMode(CORNERS);
+    tint(this.color1.r, this.color1.g, this.color1.b, generalAlpha);
+    image(icon.img, icon.x1, icon.y1, icon.x2, icon.y2);
     pop();
   }
 

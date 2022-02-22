@@ -35,6 +35,13 @@ let jackImg = undefined;
 let williamImg = undefined;
 let averellImg = undefined;
 
+// store the images of the portraits (ui)
+let daltonsPortrait = undefined;
+
+// store the images of the tools icons (ui)
+let pickaxIcon = undefined;
+let spoonIcon = undefined;
+
 // store the time and date here
 let recordedTime = {
   day: 1,
@@ -43,7 +50,11 @@ let recordedTime = {
 };
 
 /**
-load images of the characters
+load images :
+- characters
+- portraits
+- tools
+- tool icons
 */
 function preload() {
   // load the images of the characters
@@ -51,6 +62,11 @@ function preload() {
   jackImg = loadImage(`assets/images/jack.png`);
   williamImg = loadImage(`assets/images/william.png`);
   averellImg = loadImage(`assets/images/averell.png`);
+  // load the image of the portraits
+  daltonsPortrait = loadImage(`assets/images/profilesdalton.png`);
+  // load the images of the icons
+  pickaxIcon = loadImage(`assets/images/pickicon.png`);
+  spoonIcon = loadImage(`assets/images/spoonicon.png`);
 }
 
 /**
