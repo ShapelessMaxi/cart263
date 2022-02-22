@@ -75,21 +75,40 @@ class CellState extends State {
     }, this.mainPrompt.delay);
 
     // refer to the navigation prompt
-    this.navigationPrompt = {
+    this.yardNavigationPrompt = {
       string: `tape sur X pour sortir dans la cour`,
       x: 295,
       y: 670,
       size: 16,
     };
     // create the main prompt typewriter
-    this.typeNavigation = new Typewriter(
-      this.navigationPrompt.string,
-      this.navigationPrompt.x,
-      this.navigationPrompt.y,
+    this.typeYardNavigation = new Typewriter(
+      this.yardNavigationPrompt.string,
+      this.yardNavigationPrompt.x,
+      this.yardNavigationPrompt.y,
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.navigationPrompt.size
+      this.yardNavigationPrompt.size
+    );
+
+    // refer to the navigation prompt for going to the visit room
+    this.visitNavigationPrompt = {
+      string1: `vous n'avez pas l'accès à la salle de visite`,
+      string2: `tape sur X pour sortir dans la cour`,
+      x: 295,
+      y: 670,
+      size: 16,
+    };
+    // create the main prompt typewriter
+    this.typeVisitNavigation = new Typewriter(
+      this.visitNavigationPrompt.string1,
+      this.visitNavigationPrompt.x,
+      this.visitNavigationPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.visitNavigationPrompt.size
     );
 
     // refer to the object taking care of making the things appear
@@ -146,14 +165,24 @@ class CellState extends State {
       this.typeMainPrompt.update();
     }
 
-    // display the navigation instruction
+    // display the yard navigation instruction
     if (this.joe.pos.center.x > width) {
-      this.typeNavigation.update();
+      this.typeYardNavigation.update();
       // reset the main prompt (erase it)
       this.typeMainPrompt.currentCharacter = 0;
     } else {
       // reset the navigation instruction (erase it)
-      this.typeNavigation.currentCharacter = 0;
+      this.typeYardNavigation.currentCharacter = 0;
+    }
+
+    // display the visit room navigation instruction
+    if (this.joe.pos.center.x < 0) {
+      this.typeVisitNavigation.update();
+      // reset the main prompt (erase it)
+      this.typeMainPrompt.currentCharacter = 0;
+    } else {
+      // reset the navigation instruction (erase it)
+      this.typeVisitNavigation.currentCharacter = 0;
     }
   }
 
