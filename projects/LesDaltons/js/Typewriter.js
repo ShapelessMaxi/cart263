@@ -14,12 +14,13 @@ class Typewriter {
   Takes a string, position, dimensions, and rate and
   creates the required properties to drive a typewriter.
   */
-  constructor(string, x, y, w, h, rate) {
+  constructor(string, x, y, w, h, rate, size) {
     this.x = x;
     this.y = y;
     this.string = string;
     this.currentCharacter = 0;
     this.rate = rate;
+    this.size = size;
   }
 
   /**
@@ -33,7 +34,7 @@ class Typewriter {
     // Display it
     push();
     textFont(`Courier`);
-    textSize(20);
+    textSize(this.size);
     text(currentString, this.x, this.y, this.w, this.h);
     pop();
 

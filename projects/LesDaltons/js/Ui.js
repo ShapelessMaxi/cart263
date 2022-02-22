@@ -7,7 +7,7 @@ General behaviors of ui objects
 > speaking character profile picture
 */
 class Ui {
-  constructor() {
+  constructor(color1, color2) {
     // refer to the main frame object
     this.mainShape = {
       x1: 10,
@@ -22,14 +22,23 @@ class Ui {
       img: 1,
       x1: 15,
       y1: 645,
-      x2: 110,
+      x2: 210,
       y2: 735,
+      bevel: 5,
+    };
+
+    // refer to the profile picture object
+    this.timeShape = {
+      x1: 790,
+      y1: 645,
+      x2: 985,
+      y2: 680,
       bevel: 5,
     };
 
     // refer to the typewriter animation object
     this.typewriter = {
-      speed: 0.2,
+      speed: 0.8,
       width: 800,
       height: 100,
     };
@@ -37,8 +46,9 @@ class Ui {
     // refer to the main prompt object
     this.mainPrompt = {
       string: `vous êtes maintenant dans votre cellule`,
-      x: 130,
-      y: 680,
+      x: 230,
+      y: 670,
+      size: 16,
       displayed: false,
       delay: 4800,
     };
@@ -56,8 +66,13 @@ class Ui {
       this.mainPrompt.y,
       this.typewriter.width,
       this.typewriter.height,
-      this.typewriter.speed
+      this.typewriter.speed,
+      this.mainPrompt.size
     );
+
+    // refer to the colors of the ui
+    this.color1 = color1;
+    this.color2 = color2;
 
     // start writting the main prompt after a short delay
     setTimeout(() => {
@@ -69,11 +84,13 @@ class Ui {
   - draw the shapes, the images and the text
   - text writting animation
   */
-  update(color1, color2, generalAlpha) {
+  update(generalAlpha) {
     // draw the main ui shape
-    this.drawMainShape(color1, generalAlpha);
+    this.drawMainShape(generalAlpha);
     // draw the profile picture
-    this.drawProfile(color2, generalAlpha);
+    this.drawProfile(generalAlpha);
+    // draw the time and date
+    this.drawTimer(generalAlpha);
 
     // draw the main prompt (with typewriter effect)
     if (this.mainPrompt.displayed) {
@@ -82,10 +99,10 @@ class Ui {
   }
 
   // draw the main ui shape
-  drawMainShape(color1, generalAlpha) {
+  drawMainShape(generalAlpha) {
     push();
     rectMode(CORNERS);
-    fill(color1.r, color1.g, color1.b, generalAlpha);
+    fill(this.color1.r, this.color1.g, this.color1.b, generalAlpha);
     noStroke();
     rect(
       this.mainShape.x1,
@@ -98,10 +115,10 @@ class Ui {
   }
 
   // draw the profile frame and picture
-  drawProfile(color2, generalAlpha) {
+  drawProfile(generalAlpha) {
     push();
     rectMode(CORNERS);
-    fill(color2.r, color2.g, color2.b, generalAlpha);
+    fill(this.color2.r, this.color2.g, this.color2.b, generalAlpha);
     noStroke();
     rect(
       this.profileShape.x1,
@@ -113,5 +130,79 @@ class Ui {
     pop();
   }
 
-  drawText() {}
+  // draw the profile frame and picture
+  drawTimer(generalAlpha) {
+    // draw the shape of the timer
+    push();
+    rectMode(CORNERS);
+    fill(this.color2.r, this.color2.g, this.color2.b, generalAlpha);
+    noStroke();
+    rect(
+      this.timeShape.x1,
+      this.timeShape.y1,
+      this.timeShape.x2,
+      this.timeShape.y2,
+      this.timeShape.bevel
+    );
+    pop();
+
+    // draw the text for the timer
+    this.drawTimerText(generalAlpha);
+  }
+
+  // draw the text for the timer
+  drawTimerText(generalAlpha) {
+    // check if it is am or pm
+    let suffix;
+    if (recordedTime.hours > 11) {
+      suffix = `pm`;
+    } else {
+      suffix = `am`;
+    }
+    // activate the timer
+    this.countTime();
+
+    // draw the text of the timer
+    push();
+    fill(this.color1.r, this.color1.g, this.color1.b, generalAlpha);
+    textAlign(CENTER, CENTER);
+    textSize(16);
+    let date = `${this.displayTimer(
+      recordedTime.day
+    )}/08/2001 - ${this.displayTimer(recordedTime.hours)}:${this.displayTimer(
+      recordedTime.minutes
+    )} ${suffix}`;
+    text(date, 888, 665);
+    pop();
+  }
+
+  // display the days, hours and minutes (add '0' when needed)
+  displayTimer(time) {
+    if (time >= 10) {
+      let num = `${int(time)}`;
+      return num;
+    } else if (time < 10) {
+      let num = `0${int(time)}`;
+      return num;
+    }
+  }
+
+  // counting time,day, hours and minutes
+  countTime() {
+    if (frameCount % 3 === 0) {
+      // minutes going up
+      recordedTime.minutes += 0.1;
+      if (recordedTime.minutes > 60) {
+        recordedTime.minutes = 0;
+        // hours going up
+        recordedTime.hours += 1;
+      }
+      // day reset
+      if (recordedTime.hours > 12) {
+        // days going up
+        recordedTime.day += 1;
+        recordedTime.hours = 1;
+      }
+    }
+  }
 }

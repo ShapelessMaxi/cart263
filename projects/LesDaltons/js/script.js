@@ -35,6 +35,13 @@ let jackImg = undefined;
 let williamImg = undefined;
 let averellImg = undefined;
 
+// store the time and date here
+let recordedTime = {
+  day: 1,
+  hours: 9,
+  minutes: 15,
+};
+
 /**
 load images of the characters
 */
@@ -57,6 +64,22 @@ function setup() {
   // create the canvas
   createCanvas(1000, 750);
 
+  // try to load the stored date data
+  let data = JSON.parse(localStorage.getItem(`time-date-dalton-data`));
+  // check if there is data stored
+  if (data !== null) {
+    // copy data into recorded time object
+    recordedTime.day = data.day;
+    recordedTime.hours = data.hours;
+    recordedTime.minutes = data.minutes;
+  } else {
+    // no data yet, start at day 1, 09:05 am
+    recordedTime.day = 1;
+    recordedTime.hours = 9;
+    recordedTime.minutes = 15;
+    localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedTime));
+  }
+
   // create the intro state
   state = new CellState();
 }
@@ -75,4 +98,15 @@ call the current state's mousePressed method
 function mousePressed() {
   // call the current state's mousePressed method
   state.mousePressed();
+}
+
+// delete local data when 'c' is pressed
+function keyPressed() {
+  if (key === `c`) {
+    // delete local spy profile data
+    localStorage.removeItem(`time-date-dalton-data`);
+  } else if (key === `v`) {
+    // save time and date with 'z'
+    localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedTime));
+  }
 }

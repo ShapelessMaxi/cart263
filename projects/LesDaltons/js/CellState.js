@@ -51,7 +51,7 @@ class CellState extends State {
     // this.daltons = [this.joe, this.jack, this.william, this.averell];
 
     // create the ui
-    this.ui = new Ui();
+    this.ui = new Ui(this.color1, this.color2);
 
     // start making the things appear
     this.startFadeIn();
@@ -90,7 +90,7 @@ class CellState extends State {
     // this.averell.screenConstrain(characterRange);
 
     // draw the ui
-    this.ui.update(this.color1, this.color2, this.appear.generalAlpha);
+    this.ui.update(this.appear.generalAlpha);
   }
 
   // draw the floor
