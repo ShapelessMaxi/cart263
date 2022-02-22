@@ -54,19 +54,19 @@ class Follower extends Dalton {
       this.pos.height = 145;
       this.eyes.height = 35;
       this.pos.y = this.pos.center.y - this.pos.height / 2;
-      this.movementDelay = random(300, 500);
+      this.movementDelay = random(200, 300);
     } else if (name === `william`) {
       this.img = williamImg;
       this.pos.height = 170;
       this.eyes.height = 45;
       this.pos.y = this.pos.center.y - this.pos.height / 2;
-      this.movementDelay = random(1, 2);
+      this.movementDelay = random(300, 400);
     } else if (name === `averell`) {
       this.img = averellImg;
       this.pos.height = 195;
       this.eyes.height = 55;
       this.pos.y = this.pos.center.y - this.pos.height / 2;
-      this.movementDelay = random(2, 3);
+      this.movementDelay = random(400, 500);
     }
 
     // refer to the colors of the character
@@ -155,8 +155,10 @@ class Follower extends Dalton {
   // following movement
   followingMovement(leader) {
     if (leader.moving) {
+      this.moving = true;
       setTimeout(() => {
         this.pos.center.x = leader.pos.center.x - this.pos.spacing;
+        this.moving = false;
       }, this.movementDelay);
     }
   }

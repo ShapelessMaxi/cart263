@@ -56,6 +56,7 @@ function preload() {
 /**
 set the framerate to a stable number
 create a canvas
+load (or create) the locally stored time and date data
 create the intro state as the starting point
  */
 function setup() {

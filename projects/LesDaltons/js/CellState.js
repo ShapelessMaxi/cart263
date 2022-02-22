@@ -45,8 +45,8 @@ class CellState extends State {
     // create the characters
     this.joe = new Leader(this.color1, this.color2);
     this.jack = new Follower(`jack`, this.color1, this.color2);
-    // this.william = new Dalton(`william`);
-    // this.averell = new Dalton(`averell`);
+    this.william = new Follower(`william`, this.color1, this.color2);
+    this.averell = new Follower(`averell`, this.color1, this.color2);
     // store the characters here
     // this.daltons = [this.joe, this.jack, this.william, this.averell];
 
@@ -73,9 +73,8 @@ class CellState extends State {
     // update the character objects
     this.joe.update(this.appear.generalAlpha);
     this.jack.update(this.appear.generalAlpha, this.joe);
-
-    // this.william.update(this.color2, this.color1, this.appear.generalAlpha);
-    // this.averell.update(this.color2, this.color1, this.appear.generalAlpha);
+    this.william.update(this.appear.generalAlpha, this.jack);
+    this.averell.update(this.appear.generalAlpha, this.william);
 
     // constrain the character to an area of the screen
     let characterRange = {

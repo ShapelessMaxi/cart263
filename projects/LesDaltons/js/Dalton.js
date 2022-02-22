@@ -24,80 +24,23 @@ class Dalton {
       change1: 1,
       change2: 7,
     };
+
+    // refer to the position and size parameters (defined in Leader and Follower subclasses)
+    this.pos = {
+      center: {
+        x: undefined,
+        y: undefined,
+      },
+      height: undefined,
+    };
   }
 
   /*
   draw the character
   */
   update(color1, color2, generalAlpha) {
-    // draw the character
-    this.drawCharacter(color1, color2, generalAlpha);
-
     // takes care of the character movement
     this.moveCharacter();
-  }
-
-  // draw the character
-  drawCharacter(color1, color2, generalAlpha) {
-    // set the actual position of the character
-    this.pos.y = this.pos.center.y - this.pos.height / 2;
-
-    let lookingRight;
-    if (this.leader) {
-      lookingRight = this.lookRight;
-    } else {
-      lookingRight = this.nonLeaders.lookRight;
-    }
-    // draw the main body
-    this.drawBody(color1, generalAlpha, lookingRight);
-    // draw the head
-    this.drawEyes(color2, generalAlpha, lookingRight);
-  }
-
-  // draw the image of the character
-  drawBody(color1, generalAlpha, lookingRight) {
-    push();
-    imageMode(CENTER);
-    tint(color1.r, color1.g, color1.b, generalAlpha);
-    if (lookingRight) {
-      image(
-        this.img,
-        this.pos.center.x,
-        this.pos.y,
-        this.pos.width,
-        this.pos.height
-      );
-    } else if (!lookingRight) {
-      scale(-1, 1);
-      image(
-        this.img,
-        -this.pos.center.x,
-        this.pos.y,
-        this.pos.width,
-        this.pos.height
-      );
-    }
-    pop();
-  }
-
-  // draw the eyes of the character
-  drawEyes(color2, generalAlpha) {
-    // define the position of the eyes depending on the position of the body
-    this.eyes.y = this.pos.y - this.eyes.height;
-    this.eyes.x1 = this.pos.center.x;
-    if (this.lookRight) {
-      this.eyes.x2 = this.pos.center.x + this.eyes.space;
-    } else if (!this.lookRight) {
-      this.eyes.x2 = this.pos.center.x - this.eyes.space;
-    }
-
-    // draw the eyes
-    push();
-    noStroke();
-    fill(color2.r, color2.g, color2.b, generalAlpha);
-    ellipse(this.eyes.x1, this.eyes.y, this.eyes.size);
-    ellipse(this.eyes.x2, this.eyes.y, this.eyes.size);
-    pop();
   }
 
   // takes care of the movement of the character

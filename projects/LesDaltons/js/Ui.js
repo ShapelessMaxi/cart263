@@ -146,6 +146,9 @@ class Ui {
     );
     pop();
 
+    // activate the timer
+    this.countTime();
+
     // draw the text for the timer
     this.drawTimerText(generalAlpha);
   }
@@ -159,8 +162,6 @@ class Ui {
     } else {
       suffix = `am`;
     }
-    // activate the timer
-    this.countTime();
 
     // draw the text of the timer
     push();
