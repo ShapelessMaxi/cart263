@@ -98,7 +98,7 @@ function setup() {
   }
 
   // create the intro state
-  state = new CellState();
+  state = new YardState();
 }
 
 /**

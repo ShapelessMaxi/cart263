@@ -2,15 +2,18 @@
 Interactions linked to the cell state (first game scene) are handled here.
 Extension of the State class.
 
->
->
->
->
+> create the main characters
+> display and move the characters
+> create and display the ui
+> bed object gives you the possibility of skipping a day
+> left of screen to navigate to yard scene/state
+> if spoon is found, dig hole in the ground to navigate to tunnel state
 */
 class CellState extends State {
   /*
   call the super class constructor
   define variables and arrays
+  create the characters
   */
   constructor() {
     // call the super class constructor
@@ -18,9 +21,8 @@ class CellState extends State {
 
     // decide if we should skip having to click to fade out the overlay
     this.skipClick = true;
-
     // refer to the text on the overlay
-    this.overlayText = `the dalton's cell`;
+    this.overlayText = `la cellule des Daltons`;
 
     // refer to the colors used
     this.color1 = { r: 210, g: 200, b: 0, a: 255 }; // bright yellow
@@ -33,6 +35,44 @@ class CellState extends State {
       x2: 1000,
       y2: 750,
     };
+    // create the ui
+    this.ui = new Ui(this.color1, this.color2);
+
+    // create the characters
+    this.joe = new Leader(this.color1, this.color2);
+    this.jack = new Follower(`jack`, this.color1, this.color2);
+    this.william = new Follower(`william`, this.color1, this.color2);
+    this.averell = new Follower(`averell`, this.color1, this.color2);
+
+    // refer to the typewriter animation object
+    this.typewriter = {
+      speed: 0.8,
+      width: 800,
+      height: 100,
+    };
+    // refer to the main prompt object
+    this.mainPrompt = {
+      string: `vous êtes dans votre cellule`,
+      x: 295,
+      y: 670,
+      size: 16,
+      displayed: false,
+      delay: 4800,
+    };
+    // create the main prompt typewriter
+    this.typeMainPrompt = new Typewriter(
+      this.mainPrompt.string,
+      this.mainPrompt.x,
+      this.mainPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.mainPrompt.size
+    );
+    // start writting the main prompt after a short delay
+    setTimeout(() => {
+      this.mainPrompt.displayed = true;
+    }, this.mainPrompt.delay);
 
     // refer to the object taking care of making the things appear
     this.appear = {
@@ -41,24 +81,16 @@ class CellState extends State {
       animationStarted: false,
       delay: 2000,
     };
-
-    // create the characters
-    this.joe = new Leader(this.color1, this.color2);
-    this.jack = new Follower(`jack`, this.color1, this.color2);
-    this.william = new Follower(`william`, this.color1, this.color2);
-    this.averell = new Follower(`averell`, this.color1, this.color2);
-    // store the characters here
-    // this.daltons = [this.joe, this.jack, this.william, this.averell];
-
-    // create the ui
-    this.ui = new Ui(this.color1, this.color2);
-
     // start making the things appear
     this.startFadeIn();
   }
 
   /*
   call the super class update method
+  draw the floor
+  update and constrain the characters
+  update the ui
+  fade in the elements when arriving
   */
   update() {
     // call the super class update method
@@ -90,6 +122,9 @@ class CellState extends State {
 
     // draw the ui
     this.ui.update(this.appear.generalAlpha);
+    if (this.mainPrompt.displayed) {
+      this.typeMainPrompt.update();
+    }
   }
 
   // draw the floor

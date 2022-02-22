@@ -59,48 +59,9 @@ class Ui {
       bevel: 5,
     };
 
-    // refer to the typewriter animation object
-    this.typewriter = {
-      speed: 0.8,
-      width: 800,
-      height: 100,
-    };
-
-    // refer to the main prompt object
-    this.mainPrompt = {
-      string: `vous êtes maintenant dans votre cellule`,
-      x: 295,
-      y: 670,
-      size: 16,
-      displayed: false,
-      delay: 4800,
-    };
-
-    // refer to the secondary prompt object
-    this.SecondaryPrompt = {
-      string: `vous êtes maintenant dans votre cellule`,
-      displayed: false,
-    };
-
-    // create the main prompt typewriter
-    this.typeMainPrompt = new Typewriter(
-      this.mainPrompt.string,
-      this.mainPrompt.x,
-      this.mainPrompt.y,
-      this.typewriter.width,
-      this.typewriter.height,
-      this.typewriter.speed,
-      this.mainPrompt.size
-    );
-
     // refer to the colors of the ui
     this.color1 = color1;
     this.color2 = color2;
-
-    // start writting the main prompt after a short delay
-    setTimeout(() => {
-      this.mainPrompt.displayed = true;
-    }, this.mainPrompt.delay);
   }
 
   /*
@@ -120,11 +81,6 @@ class Ui {
     this.drawImage(this.toolShape.spoon, generalAlpha);
     // draw the time and date
     this.drawTimer(generalAlpha);
-
-    // draw the main prompt (with typewriter effect)
-    if (this.mainPrompt.displayed) {
-      this.typeMainPrompt.update();
-    }
   }
 
   // draw a rectangle shape
