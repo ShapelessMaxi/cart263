@@ -10,83 +10,20 @@ class Dalton {
   /*
   define variables and arrays
   */
-  constructor(name) {
-    // refer to the position and size parameters
-    this.pos = {
-      // center of the character (draw image with CENTER mode)
-      center: {
-        x: 80,
-        y: 475,
-      },
-      // bottom of the character
-      y: undefined,
-      // height and width
-      width: 65,
-      height: undefined,
-    };
-
-    // refer to the eyes object
-    this.eyes = {
-      size: 14,
-      x1: undefined,
-      x2: undefined,
-      space: 18,
-      y: undefined,
-      height: undefined,
-    };
-
-    // refer to the character spacing value
-    this.characterSpacing = 80;
-
-    // refer to the character's move speed
-    this.moveSpeed = 8;
-
-    // takes care of flipping the image when moving
+  constructor() {
+    // keeps track of the orientation of the character
     this.lookRight = true;
 
-    this.nonLeaders = {
-      lookRight: true,
-    };
+    // keeps track of the character moving
+    this.moving = false;
 
-    // used to control the idle animation
+    // refer to the object used to control the idle animation
     this.idleAnim = {
       tall: true,
       speed: 4, // the higher this value is, the lower the speed of the animation
       change1: 1,
-      change2: 10,
+      change2: 7,
     };
-
-    /*
-    choose depending on the name of the character:
-    - the image
-    - the image height
-    - the height of the eyes
-    - if the character is the leader or not
-    */
-    if (name === `joe`) {
-      this.img = joeImg;
-      this.pos.height = 125;
-      this.eyes.height = 25;
-      this.leader = true;
-    } else if (name === `jack`) {
-      this.img = jackImg;
-      this.pos.height = 145;
-      this.eyes.height = 35;
-      this.pos.y = this.pos.center.y - this.pos.height / 2;
-      this.leader = false;
-    } else if (name === `william`) {
-      this.img = williamImg;
-      this.pos.height = 170;
-      this.eyes.height = 45;
-      this.pos.y = this.pos.center.y - this.pos.height / 2;
-      this.leader = false;
-    } else if (name === `averell`) {
-      this.img = averellImg;
-      this.pos.height = 195;
-      this.eyes.height = 55;
-      this.pos.y = this.pos.center.y - this.pos.height / 2;
-      this.leader = false;
-    }
   }
 
   /*
@@ -165,57 +102,8 @@ class Dalton {
 
   // takes care of the movement of the character
   moveCharacter() {
-    // user controlled movement with wasd
-    this.userMovement();
-
     // idle animation applied to the character all the time
     this.idleAnimation();
-  }
-
-  // user controlled movement with wasd
-  userMovement() {
-    let delay = 500;
-    if (this.leader) {
-      // movement for the leader only
-      if (keyIsDown(`68`)) {
-        // keycode 68 -> `d` key
-        this.pos.center.x += this.moveSpeed;
-        this.lookRight = true;
-        setTimeout(() => {
-          this.nonLeaders.lookRight = true;
-        }, delay);
-      } else if (keyIsDown(`65`)) {
-        // keycode 68 -> `a` key
-        this.pos.center.x -= this.moveSpeed;
-        this.lookRight = false;
-        setTimeout(() => {
-          this.nonLeaders.lookRight = false;
-        }, delay);
-      } else if (keyIsDown(`87`)) {
-        // keycode 87 -> `w` key
-        this.pos.center.y -= this.moveSpeed;
-      } else if (keyIsDown(`83`)) {
-        // keycode 87 -> `s` key
-        this.pos.center.y += this.moveSpeed;
-      }
-    } else {
-      // movement for the non-leader
-    }
-  }
-
-  // non-leader characters movement
-  nonLeaderMovement(delay) {
-    // character position is dependant on the character in front of them
-    // // orientation of the characters
-    // if (!this.joe.lookRight) {
-    //   this.jack.lookRight = false;
-    //   this.william.lookRight = false;
-    //   this.averell.lookRight = false;
-    // } else if (this.joe.lookRight) {
-    //   this.jack.lookRight = true;
-    //   this.william.lookRight = true;
-    //   this.averell.lookRight = true;
-    // }
   }
 
   // idle animation

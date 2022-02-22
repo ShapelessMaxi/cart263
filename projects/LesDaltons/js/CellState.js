@@ -43,12 +43,12 @@ class CellState extends State {
     };
 
     // create the characters
-    this.joe = new Dalton(`joe`);
-    this.jack = new Dalton(`jack`);
-    this.william = new Dalton(`william`);
-    this.averell = new Dalton(`averell`);
+    this.joe = new Leader(this.color1, this.color2);
+    this.jack = new Follower(`jack`, this.color1, this.color2);
+    // this.william = new Dalton(`william`);
+    // this.averell = new Dalton(`averell`);
     // store the characters here
-    this.daltons = [this.joe, this.jack, this.william, this.averell];
+    // this.daltons = [this.joe, this.jack, this.william, this.averell];
 
     // create the ui
     this.ui = new Ui();
@@ -71,10 +71,11 @@ class CellState extends State {
     this.fadeIn();
 
     // update the character objects
-    this.joe.update(this.color2, this.color1, this.appear.generalAlpha);
-    this.jack.update(this.color2, this.color1, this.appear.generalAlpha);
-    this.william.update(this.color2, this.color1, this.appear.generalAlpha);
-    this.averell.update(this.color2, this.color1, this.appear.generalAlpha);
+    this.joe.update(this.appear.generalAlpha);
+    this.jack.update(this.appear.generalAlpha, this.joe);
+
+    // this.william.update(this.color2, this.color1, this.appear.generalAlpha);
+    // this.averell.update(this.color2, this.color1, this.appear.generalAlpha);
 
     // constrain the character to an area of the screen
     let characterRange = {
@@ -84,9 +85,9 @@ class CellState extends State {
       y2: height - 100,
     };
     this.joe.screenConstrain(characterRange);
-    this.jack.screenConstrain(characterRange);
-    this.william.screenConstrain(characterRange);
-    this.averell.screenConstrain(characterRange);
+    // this.jack.screenConstrain(characterRange);
+    // this.william.screenConstrain(characterRange);
+    // this.averell.screenConstrain(characterRange);
 
     // draw the ui
     this.ui.update(this.color1, this.color2, this.appear.generalAlpha);
