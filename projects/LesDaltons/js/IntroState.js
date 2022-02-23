@@ -38,7 +38,7 @@ class IntroState extends State {
     this.instructions = {
       str1: `-> tu controles Joe (le plus p'tit) <-`,
       str2: `-> tu bouges avec 'wasd' <-`,
-      str3: `-> tu interagis avec 'e' <-`,
+      str3: `-> tu interagis avec 'e' et 'x' <-`,
       textSpacing: 50,
       textSize: 18,
       w: 450,

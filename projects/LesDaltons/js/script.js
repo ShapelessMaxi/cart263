@@ -47,6 +47,7 @@ let recordedTime = {
   day: 1,
   hours: 9,
   minutes: 15,
+  boulderBroken: false,
 };
 
 /**
@@ -54,7 +55,6 @@ load images :
 - characters
 - portraits
 - tools
-- tool icons
 */
 function preload() {
   // load the images of the characters
@@ -94,11 +94,12 @@ function setup() {
     recordedTime.day = 1;
     recordedTime.hours = 9;
     recordedTime.minutes = 15;
+    recordedTime.boulderBroken = false;
     localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedTime));
   }
 
   // create the intro state
-  state = new CellState();
+  state = new IntroState();
 }
 
 /**

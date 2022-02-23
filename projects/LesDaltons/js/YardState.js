@@ -21,12 +21,15 @@ class YardState extends State {
 
     // decide if we should skip having to click to fade out the overlay
     this.skipClick = true;
-    // refer to the text on the overlay
-    this.overlayText = `la cour de la prison`;
 
     // refer to the colors used
-    this.color1 = { r: 82, g: 145, b: 252, a: 255 }; // bright yellow
+    this.color1 = { r: 50, g: 150, b: 255, a: 255 }; // bright blue
     this.color2 = { r: 15, g: 15, b: 15, a: 255 }; // almost black
+
+    // refer to the text on the overlay
+    this.overlayText = `la cour de la prison`;
+    // create the ui
+    this.ui = new Ui(this.color1, this.color2);
 
     // refer to the floor
     this.floor = {
@@ -35,8 +38,16 @@ class YardState extends State {
       x2: 1000,
       y2: 750,
     };
-    // create the ui
-    this.ui = new Ui(this.color1, this.color2);
+    // refer to the boulder
+    this.boulder = {
+      p1: { x: 450, y: 270 },
+      p2: { x: 540, y: 240 },
+      p3: { x: 690, y: 340 },
+      p4: { x: 710, y: 470 },
+      p5: { x: 380, y: 470 },
+      broken: false,
+      displayed: true,
+    };
 
     // create the characters
     this.joe = new Leader(this.color1, this.color2);
@@ -92,6 +103,27 @@ class YardState extends State {
       this.navigationPrompt.size
     );
 
+    // if the boulder hasn't been broken yet
+    if (!recordedTime.boulderBroken) {
+      // refer to the boulder interaction prompt
+      this.boulderInteractionPrompt = {
+        string: `tape sur E pour briser le caillou`,
+        x: 295,
+        y: 715,
+        size: 16,
+      };
+      // create the main prompt typewriter
+      this.typeBoulderInteraction = new Typewriter(
+        this.boulderInteractionPrompt.string,
+        this.boulderInteractionPrompt.x,
+        this.boulderInteractionPrompt.y,
+        this.typewriter.width,
+        this.typewriter.height,
+        this.typewriter.speed,
+        this.boulderInteractionPrompt.size
+      );
+    }
+
     // refer to the object taking care of making the things appear
     this.appear = {
       generalAlpha: 0,
@@ -108,6 +140,7 @@ class YardState extends State {
   draw the floor
   update and constrain the characters
   update the ui
+  draw the text prompts in the ui
   fade in the elements when arriving
   */
   update() {
@@ -116,11 +149,24 @@ class YardState extends State {
 
     // draw the floor
     this.drawFloor();
+    // draw the boulder
+    this.drawBoulder();
+
+    // update the character objects
+    this.charactersUpdate();
+
+    // draw the ui
+    this.ui.update(this.appear.generalAlpha);
+
+    // draw the text prompts in the ui
+    this.drawPrompts();
 
     // make the things appear
     this.fadeIn();
+  }
 
-    // update the character objects
+  // update the character objects
+  charactersUpdate() {
     this.joe.update(this.appear.generalAlpha);
     this.jack.update(this.appear.generalAlpha, this.joe);
     this.william.update(this.appear.generalAlpha, this.jack);
@@ -137,27 +183,17 @@ class YardState extends State {
     this.jack.screenConstrain(characterRange);
     this.william.screenConstrain(characterRange);
     this.averell.screenConstrain(characterRange);
-
-    // draw the ui
-    this.ui.update(this.appear.generalAlpha);
-
-    // display the main prompt
-    if (this.mainPrompt.displayed) {
-      this.typeMainPrompt.update();
-    }
-
-    // display the navigation instruction
-    if (this.joe.pos.center.x < 0) {
-      this.typeNavigation.update();
-      // reset the main prompt (erase it)
-      this.typeMainPrompt.currentCharacter = 0;
-    } else {
-      // reset the navigation instruction (erase it)
-      this.typeNavigation.currentCharacter = 0;
+  }
+  // checks if the leader character is at the boulder
+  characterAtBoulder() {
+    if (
+      this.joe.pos.center.x > this.boulder.p5.x &&
+      this.joe.pos.center.x < this.boulder.p4.x &&
+      this.boulder.displayed
+    ) {
+      return true;
     }
   }
-
-  displayNavigInstruction() {}
 
   // draw the floor
   drawFloor() {
@@ -168,6 +204,70 @@ class YardState extends State {
     fill(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
     rect(this.floor.x1, this.floor.y1, this.floor.x2, this.floor.y2);
     pop();
+  }
+  // draw the boulder
+  drawBoulder() {
+    if (!recordedTime.boulderBroken && this.boulder.displayed) {
+      push();
+      noStroke();
+      fill(
+        this.color2.r,
+        this.color2.g,
+        this.color2.b,
+        this.appear.generalAlpha
+      );
+      beginShape();
+      vertex(this.boulder.p1.x, this.boulder.p1.y);
+      vertex(this.boulder.p2.x, this.boulder.p2.y);
+      vertex(this.boulder.p3.x, this.boulder.p3.y);
+      vertex(this.boulder.p4.x, this.boulder.p4.y);
+      vertex(this.boulder.p5.x, this.boulder.p5.y);
+      endShape(CLOSE);
+      pop();
+    }
+  }
+
+  // draw the text prompts in the ui
+  drawPrompts() {
+    // draw the main location prompt
+    this.drawMainPrompt();
+    // draw the navigation prompt
+    this.drawNavigationPrompt();
+    // draw the boulder interaction prompt
+    this.drawBoulderPrompt();
+  }
+
+  // draw the main location prompt
+  drawMainPrompt() {
+    // display the main prompt
+    if (this.mainPrompt.displayed) {
+      this.typeMainPrompt.update();
+    }
+  }
+  // draw the navigation prompt
+  drawNavigationPrompt() {
+    // display the navigation instruction
+    if (this.joe.pos.center.x < 0) {
+      this.typeNavigation.update();
+      // reset the main prompt (erase it)
+      this.typeMainPrompt.currentCharacter = 0;
+    } else {
+      // reset the navigation instruction (erase it)
+      this.typeNavigation.currentCharacter = 0;
+    }
+  }
+  // draw the boulder interaction prompt
+  drawBoulderPrompt() {
+    // if the boulder hasn't been broken yet
+    if (!recordedTime.boulderBroken) {
+      if (this.characterAtBoulder()) {
+        // display the boulder interaction instruction
+        this.typeBoulderInteraction.update();
+      } else {
+        // reset the boulder interaction instruction (erase it)
+        this.typeBoulderInteraction.currentCharacter = 0;
+      }
+    }
   }
 
   // start to make things appear
@@ -180,7 +280,6 @@ class YardState extends State {
       }, this.appear.delay);
     }
   }
-
   // fade in animation for various elements
   fadeIn() {
     if (this.appear.animationStarted && this.appear.generalAlpha <= 255) {
@@ -194,6 +293,7 @@ class YardState extends State {
   -takes care of the interaction with npc and other objects
   */
   keyPressed() {
+    // state navigation
     if (this.joe.pos.center.x < 0) {
       if (key === `x`) {
         // go to the cell scene
@@ -204,6 +304,17 @@ class YardState extends State {
           `time-date-dalton-data`,
           JSON.stringify(recordedTime)
         );
+      }
+    }
+
+    // if the boulder hasn't been broken yet
+    if (!recordedTime.boulderBroken) {
+      // boulder interaction
+      if (this.characterAtBoulder()) {
+        if (key === `e`) {
+          recordedTime.boulderBroken = true;
+          this.boulder.displayed = false;
+        }
       }
     }
   }

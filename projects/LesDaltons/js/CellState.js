@@ -136,10 +136,21 @@ class CellState extends State {
     // draw the floor
     this.drawFloor();
 
+    // update the character objects
+    this.charactersUpdate();
+
+    // draw the ui
+    this.ui.update(this.appear.generalAlpha);
+
+    // draw the text prompts in the ui
+    this.drawPrompts();
+
     // make the things appear
     this.fadeIn();
+  }
 
-    // update the character objects
+  // update the characters
+  charactersUpdate() {
     this.joe.update(this.appear.generalAlpha);
     this.jack.update(this.appear.generalAlpha, this.joe);
     this.william.update(this.appear.generalAlpha, this.jack);
@@ -156,34 +167,6 @@ class CellState extends State {
     this.jack.screenConstrain(characterRange);
     this.william.screenConstrain(characterRange);
     this.averell.screenConstrain(characterRange);
-
-    // draw the ui
-    this.ui.update(this.appear.generalAlpha);
-
-    // display the main prompt
-    if (this.mainPrompt.displayed) {
-      this.typeMainPrompt.update();
-    }
-
-    // display the yard navigation instruction
-    if (this.joe.pos.center.x > width) {
-      this.typeYardNavigation.update();
-      // reset the main prompt (erase it)
-      this.typeMainPrompt.currentCharacter = 0;
-    } else {
-      // reset the navigation instruction (erase it)
-      this.typeYardNavigation.currentCharacter = 0;
-    }
-
-    // display the visit room navigation instruction
-    if (this.joe.pos.center.x < 0) {
-      this.typeVisitNavigation.update();
-      // reset the main prompt (erase it)
-      this.typeMainPrompt.currentCharacter = 0;
-    } else {
-      // reset the navigation instruction (erase it)
-      this.typeVisitNavigation.currentCharacter = 0;
-    }
   }
 
   // draw the floor
@@ -195,6 +178,47 @@ class CellState extends State {
     fill(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
     rect(this.floor.x1, this.floor.y1, this.floor.x2, this.floor.y2);
     pop();
+  }
+
+  // draw the text prompts in the ui
+  drawPrompts() {
+    // display the main location prompt
+    this.drawMainPrompt();
+
+    // display the yard navigation instruction
+    this.drawYardNavigationPrompt();
+
+    // display the visit room navigation instruction
+    this.drawVisitNavigationPrompt();
+  }
+
+  // draw the main location prompt
+  drawMainPrompt() {
+    if (this.mainPrompt.displayed) {
+      this.typeMainPrompt.update();
+    }
+  }
+  // draw the yard navigation instruction
+  drawYardNavigationPrompt() {
+    if (this.joe.pos.center.x > width) {
+      this.typeYardNavigation.update();
+      // reset the main prompt (erase it)
+      this.typeMainPrompt.currentCharacter = 0;
+    } else {
+      // reset the navigation instruction (erase it)
+      this.typeYardNavigation.currentCharacter = 0;
+    }
+  }
+  // draw the visit room navigation instruction
+  drawVisitNavigationPrompt() {
+    if (this.joe.pos.center.x < 0) {
+      this.typeVisitNavigation.update();
+      // reset the main prompt (erase it)
+      this.typeMainPrompt.currentCharacter = 0;
+    } else {
+      // reset the navigation instruction (erase it)
+      this.typeVisitNavigation.currentCharacter = 0;
+    }
   }
 
   // start to make things appear
