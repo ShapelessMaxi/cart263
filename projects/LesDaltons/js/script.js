@@ -51,10 +51,12 @@ let letterImg = undefined;
 
 // store the time and date here
 let recordedData = {
-  day: 1,
+  day: 2,
+  month: `mai`,
   hours: 9,
   minutes: 15,
   pickaxeObtained: false,
+  spoonObtained: false,
   boulderBroken: false,
   letterPicked: false,
 };
@@ -105,17 +107,19 @@ function setup() {
     recordedData.minutes = data.minutes;
   } else {
     // no data yet, start at day 1, 09:05 am
-    recordedData.day = 1;
+    recordedData.day = 2;
+    recordedData.month = `mai`;
     recordedData.hours = 9;
     recordedData.minutes = 15;
     recordedData.pickaxeObtained = false;
+    recordedData.spoonObtained = false;
     recordedData.boulderBroken = false;
     recordedData.letterPicked = false;
     localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedData));
   }
 
   // create the intro state
-  state = new YardState();
+  state = new IntroState();
 }
 
 /**

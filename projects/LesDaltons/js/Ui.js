@@ -32,7 +32,6 @@ class Ui {
       bevel: 5,
       pickaxe: {
         img: pickaxIcon,
-        displayed: false,
         x1: 790,
         y1: 685,
         x2: 885,
@@ -41,7 +40,6 @@ class Ui {
       },
       spoon: {
         img: spoonIcon,
-        displayed: false,
         x1: 890,
         y1: 685,
         x2: 985,
@@ -77,10 +75,10 @@ class Ui {
     // draw the tools and ui tool boxes
     this.drawShape(this.tools.pickaxe, this.color2, generalAlpha);
     this.drawShape(this.tools.spoon, this.color2, generalAlpha);
-    if (this.tools.pickaxe.displayed) {
+    if (recordedData.pickaxeObtained) {
       this.drawImage(this.tools.pickaxe, generalAlpha);
     }
-    if (this.tools.spoon.displayed) {
+    if (recordedData.spoonObtained) {
       this.drawImage(this.tools.spoon, generalAlpha);
     }
     // draw the time and date
@@ -139,11 +137,9 @@ class Ui {
     fill(this.color1.r, this.color1.g, this.color1.b, generalAlpha);
     textAlign(CENTER, CENTER);
     textSize(16);
-    let date = `${this.displayTimer(
-      recordedData.day
-    )}/08/2001 - ${this.displayTimer(recordedData.hours)}:${this.displayTimer(
-      recordedData.minutes
-    )} ${suffix}`;
+    let date = `${recordedData.day} ${recordedData.month} - ${this.displayTimer(
+      recordedData.hours
+    )}:${this.displayTimer(recordedData.minutes)} ${suffix}`;
     text(date, 888, 665);
     pop();
   }
@@ -174,6 +170,11 @@ class Ui {
         // days going up
         recordedData.day += 1;
         recordedData.hours = 1;
+      }
+      // month reset
+      if (recordedData.day > 31) {
+        recordedData.day = 1;
+        recordedData.month = `avril`;
       }
     }
   }

@@ -111,26 +111,23 @@ class YardState extends State {
       this.navigationPrompt.size
     );
 
-    // if the boulder hasn't been broken yet
-    if (!recordedData.boulderBroken) {
-      // refer to the boulder interaction prompt
-      this.boulderInteractionPrompt = {
-        string: `tape sur E pour briser le caillou`,
-        x: 295,
-        y: 715,
-        size: 16,
-      };
-      // create the main prompt typewriter
-      this.boulderInteraction = new Typewriter(
-        this.boulderInteractionPrompt.string,
-        this.boulderInteractionPrompt.x,
-        this.boulderInteractionPrompt.y,
-        this.typewriter.width,
-        this.typewriter.height,
-        this.typewriter.speed,
-        this.boulderInteractionPrompt.size
-      );
-    }
+    // refer to the boulder interaction prompt
+    this.boulderInteractionPrompt = {
+      string: `tape sur E pour briser le caillou`,
+      x: 295,
+      y: 715,
+      size: 16,
+    };
+    // create the main prompt typewriter
+    this.boulderInteraction = new Typewriter(
+      this.boulderInteractionPrompt.string,
+      this.boulderInteractionPrompt.x,
+      this.boulderInteractionPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.boulderInteractionPrompt.size
+    );
 
     // refer to the boulder interaction prompt
     this.guardianInteractionPrompt = {
@@ -153,7 +150,7 @@ tape sur 'E' pour accepter`,
 
     // refer to the boulder interaction prompt
     this.letterInteractionPrompt = {
-      string: `hey, y'avait une letter en dessous du caillou.
+      string: `hey, y'avait une lettre en dessous du caillou.
 tape sur 'E' pour la lire`,
       x: 295,
       y: 700,
@@ -349,11 +346,28 @@ tape sur 'E' pour la lire`,
     // display the boulder interaction instruction
     let x1 = this.guardian.pos.center.x - this.guardian.pos.width / 2;
     let x2 = this.guardian.pos.center.x + this.guardian.pos.width / 2;
-    let condition = !recordedData.pickaxeObtained;
-    if (this.characterAt(x1, x2, condition)) {
+    if (this.characterAt(x1, x2, !recordedData.pickaxeObtained)) {
+      // if the player doesnt have the pickaxe
       this.guardianInteraction.update();
-    } else if (this.characterAt(x1, x2, condition)) {
+    } else if (
+      this.characterAt(
+        x1,
+        x2,
+        recordedData.pickaxeObtained && !recordedData.boulderBroken
+      )
+    ) {
+      // if the player has the pickaxe and the boulder is not broken
       this.guardianInteraction.string = `c'est bon, allez travaillez`;
+      this.guardianInteraction.update();
+    } else if (
+      this.characterAt(
+        x1,
+        x2,
+        recordedData.pickaxeObtained && recordedData.boulderBroken
+      )
+    ) {
+      // if the player has the pickaxe and the boulder is broken
+      this.guardianInteraction.string = `vous avez fait du bon travail les gars`;
       this.guardianInteraction.update();
     } else {
       // reset the boulder interaction instruction (erase it)
@@ -365,8 +379,16 @@ tape sur 'E' pour la lire`,
     // display the letter interaction instruction
     let x1 = this.letter.x1;
     let x2 = this.letter.x2;
-    let condition = !recordedData.letterPicked && recordedData.boulderBroken;
-    if (this.characterAt(x1, x2, condition)) {
+    let x3 = this.letter.x1 - 100;
+    let x4 = this.letter.x2 + 100;
+    if (
+      this.characterAt(
+        x3,
+        x4,
+        !recordedData.letterPicked && recordedData.boulderBroken
+      )
+    ) {
+      // if the boulder is broken and the letter is still on the grond
       this.letterInteraction.update();
     } else {
       // reset the letter interaction instruction (erase it)
@@ -391,6 +413,32 @@ tape sur 'E' pour la lire`,
     }
   }
 
+  // choose the day of Ma's visit
+  visitDate() {
+    let inTwoDays;
+    if (recordedData.day === 30) {
+      inTwoDays = 1;
+    } else if (recordedData.day === 31) {
+      inTwoDays = 2;
+    } else {
+      inTwoDays = recordedData.day + 2;
+    }
+    return inTwoDays;
+  }
+
+  // choose the month of Ma's visit
+  visitMonth() {
+    let inTwoDays;
+    if (recordedData.day === 30) {
+      inTwoDays = `avril`;
+    } else if (recordedData.day === 31) {
+      inTwoDays = `avril`;
+    } else {
+      inTwoDays = `mai`;
+    }
+    return inTwoDays;
+  }
+
   /*
   - takes care of the navigation between states (scenes)
     - save the time and date in local web storage when navigating between scenes
@@ -400,6 +448,19 @@ tape sur 'E' pour la lire`,
     // call the super class method
     super.keyPressed();
 
+    //  takes care of the navigation between states
+    this.stateNavigation();
+
+    // interactions linked to the guardian
+    this.guardianInteractions();
+    // interactions linked to the boulder
+    this.boulderInteactions();
+    // interactions linked to the letter
+    this.letterInteractions();
+  }
+
+  //  takes care of the navigation between states
+  stateNavigation() {
     // state navigation
     if (this.joe.pos.center.x < 0) {
       if (key === `x`) {
@@ -413,7 +474,10 @@ tape sur 'E' pour la lire`,
         );
       }
     }
+  }
 
+  // interactions linked to the guardian
+  guardianInteractions() {
     // guardian interaction
     let x1 = this.guardian.pos.center.x - this.guardian.pos.width / 2;
     let x2 = this.guardian.pos.center.x + this.guardian.pos.width / 2;
@@ -422,10 +486,11 @@ tape sur 'E' pour la lire`,
     if (this.characterAt(x1, x2, condition)) {
       if (key === `e`) {
         recordedData.pickaxeObtained = true;
-        this.ui.tools.pickaxe.displayed = true;
       }
     }
-
+  }
+  // interactions linked to the boulder
+  boulderInteactions() {
     // boulder interaction
     let x3 = this.boulder.p5.x;
     let x4 = this.boulder.p4.x;
@@ -437,15 +502,22 @@ tape sur 'E' pour la lire`,
         recordedData.boulderBroken = true;
       }
     }
-
+  }
+  // interactions linked to the letter
+  letterInteractions() {
     // letter interaction
-    let x5 = this.letter.x1;
-    let x6 = this.letter.x2;
-    let condition2 = recordedData.boulderBroken && !recordedData.letterPicked;
+    let x1 = this.letter.x1;
+    let x2 = this.letter.x2;
+    let condition = recordedData.boulderBroken && !recordedData.letterPicked;
     // if the letter hasn't been broken yet and ou have a pickaxe
-    if (this.characterAt(x5, x6, condition2)) {
+    if (this.characterAt(x1, x2, condition)) {
       if (key === `e`) {
         recordedData.letterPicked = true;
+        // display the letter message
+        this.letterInteraction.string = `"c'est un message de Ma!
+  elle va venir nous visiter le ${this.visitDate()} ${this.visitMonth()}"`;
+        this.letterInteraction.update();
+        console.log(`ding`);
       }
     }
   }
