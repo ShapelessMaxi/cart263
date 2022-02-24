@@ -37,9 +37,12 @@ let averellImg = undefined;
 
 // store the images of the npcs
 let guardianImg = undefined;
+let maImg = undefined;
 
 // store the images of the portraits (ui)
 let daltonsPortrait = undefined;
+let maPortrait = undefined;
+let guardianPortrait = undefined;
 
 // store the images of the tools icons (ui)
 let pickaxIcon = undefined;
@@ -77,6 +80,8 @@ function preload() {
   guardianImg = loadImage(`assets/images/guard.png`);
   // load the image of the portraits
   daltonsPortrait = loadImage(`assets/images/profilesdalton.png`);
+  maPortrait = loadImage(`assets/images/maportrait.png`);
+  guardianPortrait = loadImage(`assets/images/guradianportrait.png`);
   // load the images of the tools
   pickaxIcon = loadImage(`assets/images/pickicon.png`);
   spoonIcon = loadImage(`assets/images/spoonicon.png`);
