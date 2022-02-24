@@ -329,6 +329,8 @@ class CellState extends State {
         state = new CellState();
         // skip a day
         recordedTime.day++;
+        recordedTime.hours = 7;
+        recordedTime.minutes = 0;
         // save the time and date
         this.saveTime();
       }
