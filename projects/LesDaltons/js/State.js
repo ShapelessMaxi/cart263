@@ -38,17 +38,17 @@ class State {
     // draw the background
     this.drawBackground(color1, color2);
 
+    // if it is visit day, change the overlay text
+    if (
+      recordedData.day === recordedData.visit.day &&
+      recordedData.month === recordedData.visit.month
+    ) {
+      overlayText = `ma est dans la salle de visite!`;
+    }
     // draw the overlay
     this.drawOverlay(color1, color2, overlayText);
     // make the overlay fade
     this.startFadeOverlay(skipClick);
-
-    if (
-      recordedData.day === recordedData.visit.day &&
-      recordedData.month === recordedData.month
-    ) {
-      this.drawVisitAlert();
-    }
   }
 
   // draw the background
@@ -100,18 +100,9 @@ class State {
     }
   }
 
-  //fade out animation for the overlay
+  // fade out animation for the overlay
   fadeOverlay() {
     this.overlay.alpha -= this.overlay.fadeSpeed;
-  }
-
-  drawVisitAlert() {
-    push();
-    fill(200, 100, 100);
-    noStroke();
-    rectMode(CORNERS);
-    rect(0, 0, width, height);
-    pop();
   }
 
   /*

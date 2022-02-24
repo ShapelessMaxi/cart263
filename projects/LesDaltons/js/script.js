@@ -63,6 +63,7 @@ let recordedData = {
   spoonObtained: false,
   boulderBroken: false,
   letterPicked: false,
+  letterRead: false,
 };
 
 /**
@@ -123,6 +124,7 @@ function setup() {
     recordedData.spoonObtained = false;
     recordedData.boulderBroken = false;
     recordedData.letterPicked = false;
+    recordedData.letterRead = false;
     localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedData));
   }
 

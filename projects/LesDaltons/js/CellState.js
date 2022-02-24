@@ -261,7 +261,17 @@ class CellState extends State {
   }
   // draw the visit room navigation instruction
   drawVisitNavigationPrompt() {
-    if (this.joe.pos.center.x < 0) {
+    if (
+      this.joe.pos.center.x < 0 &&
+      recordedData.day === recordedData.visit.day &&
+      recordedData.month === recordedData.visit.month
+    ) {
+      this.typeVisitNavigation.string = `tape sur 'X' pour aller dans la salle de visite`;
+      this.typeVisitNavigation.update();
+      // reset the main prompt (erase it)
+      this.typeMainPrompt.currentCharacter = 0;
+    } else if (this.joe.pos.center.x < 0) {
+      console.log(`basic day`);
       this.typeVisitNavigation.update();
       // reset the main prompt (erase it)
       this.typeMainPrompt.currentCharacter = 0;
@@ -311,6 +321,7 @@ class CellState extends State {
   saveTime() {
     localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedData));
   }
+
   /*
   - takes care of the navigation between states (scenes)
     - save the time and date in local web storage when navigating between scenes
@@ -320,21 +331,14 @@ class CellState extends State {
     // call the super class method
     super.keyPressed();
 
-    // navigation
-    if (this.joe.pos.center.x > width) {
-      if (key === `x`) {
-        // go to the cell scene
-        state = new YardState();
-        // save the time and date
-        this.saveTime();
-      }
-    }
+    // navigation between states
+    this.navigation();
 
     // bed interaction
     if (
       this.characterAtBed() &&
       recordedData.day === recordedData.visit.day &&
-      recordedData.month === recordedData.month
+      recordedData.month === recordedData.visit.month
     ) {
       // do nothing
     } else if (this.characterAtBed()) {
@@ -345,6 +349,31 @@ class CellState extends State {
         recordedData.day++;
         recordedData.hours = 7;
         recordedData.minutes = 0;
+        // save the time and date
+        this.saveTime();
+      }
+    }
+  }
+
+  // navigation between states
+  navigation() {
+    // navigation to the yard
+    if (this.joe.pos.center.x > width) {
+      if (key === `x`) {
+        // go to the cell scene
+        state = new YardState();
+        // save the time and date
+        this.saveTime();
+      }
+    }
+    // navigation to the visit room
+    if (
+      recordedData.day === recordedData.visit.day &&
+      recordedData.month === recordedData.month
+    ) {
+      if (key === `x`) {
+        // go to the cell scene
+        state = new VisitState();
         // save the time and date
         this.saveTime();
       }

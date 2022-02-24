@@ -308,7 +308,9 @@ tape sur 'E' pour la lire`,
     // draw the guardian interaction prompt
     this.drawGuardianPrompt();
     // draw the letter interaction prompt
-    this.drawLetterPrompt();
+    if (!recordedData.letterRead) {
+      this.drawLetterPrompt();
+    }
   }
   // draw the main location prompt
   drawMainPrompt() {
@@ -391,6 +393,8 @@ tape sur 'E' pour la lire`,
     ) {
       // if the boulder is broken and the letter is still on the grond
       this.letterInteraction.update();
+    } else if (recordedData.letterPicked) {
+      this.letterInteraction.update();
     } else {
       // reset the letter interaction instruction (erase it)
       this.letterInteraction.currentCharacter = 0;
@@ -455,10 +459,10 @@ tape sur 'E' pour la lire`,
 
     // interactions linked to the guardian
     this.guardianInteractions();
-    // interactions linked to the boulder
-    this.boulderInteractions();
     // interactions linked to the letter
     this.letterInteractions();
+    // interactions linked to the boulder
+    this.boulderInteractions();
   }
 
   // takes care of the navigation between states
@@ -469,6 +473,8 @@ tape sur 'E' pour la lire`,
         // go to the cell scene
         state = new CellState();
 
+        // save he fact that the letter ahs been read
+        recordedData.letterRead = true;
         // save the time and date
         localStorage.setItem(
           `time-date-dalton-data`,
@@ -518,8 +524,6 @@ tape sur 'E' pour la lire`,
         // display the letter message
         this.letterInteraction.string = `"c'est un message de Ma!
   elle va venir nous visiter le ${this.visitDate()} ${this.visitMonth()}"`;
-        this.letterInteraction.update();
-        console.log(`letter picked`);
       }
     }
   }
