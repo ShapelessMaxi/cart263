@@ -58,6 +58,7 @@ let recordedData = {
   month: `mai`,
   hours: 9,
   minutes: 15,
+  visit: { day: undefined, month: undefined },
   pickaxeObtained: false,
   spoonObtained: false,
   boulderBroken: false,
@@ -81,7 +82,7 @@ function preload() {
   // load the image of the portraits
   daltonsPortrait = loadImage(`assets/images/profilesdalton.png`);
   maPortrait = loadImage(`assets/images/maportrait.png`);
-  guardianPortrait = loadImage(`assets/images/guradianportrait.png`);
+  guardianPortrait = loadImage(`assets/images/guardianportrait.png`);
   // load the images of the tools
   pickaxIcon = loadImage(`assets/images/pickicon.png`);
   spoonIcon = loadImage(`assets/images/spoonicon.png`);
@@ -116,6 +117,8 @@ function setup() {
     recordedData.month = `mai`;
     recordedData.hours = 9;
     recordedData.minutes = 15;
+    recordedData.visit.day = `undefined`;
+    recordedData.visit.month = `undefined`;
     recordedData.pickaxeObtained = false;
     recordedData.spoonObtained = false;
     recordedData.boulderBroken = false;

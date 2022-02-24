@@ -238,6 +238,7 @@ tape sur 'E' pour la lire`,
     }
   }
 
+  // update the npcs
   npcUpdate() {
     this.guardian.update(this.appear.generalAlpha);
   }
@@ -423,9 +424,9 @@ tape sur 'E' pour la lire`,
     } else {
       inTwoDays = recordedData.day + 2;
     }
+    recordedData.visit.day = inTwoDays;
     return inTwoDays;
   }
-
   // choose the month of Ma's visit
   visitMonth() {
     let inTwoDays;
@@ -436,6 +437,7 @@ tape sur 'E' pour la lire`,
     } else {
       inTwoDays = `mai`;
     }
+    recordedData.visit.month = inTwoDays;
     return inTwoDays;
   }
 
@@ -454,12 +456,12 @@ tape sur 'E' pour la lire`,
     // interactions linked to the guardian
     this.guardianInteractions();
     // interactions linked to the boulder
-    this.boulderInteactions();
+    this.boulderInteractions();
     // interactions linked to the letter
     this.letterInteractions();
   }
 
-  //  takes care of the navigation between states
+  // takes care of the navigation between states
   stateNavigation() {
     // state navigation
     if (this.joe.pos.center.x < 0) {
@@ -490,7 +492,7 @@ tape sur 'E' pour la lire`,
     }
   }
   // interactions linked to the boulder
-  boulderInteactions() {
+  boulderInteractions() {
     // boulder interaction
     let x3 = this.boulder.p5.x;
     let x4 = this.boulder.p4.x;
@@ -517,7 +519,7 @@ tape sur 'E' pour la lire`,
         this.letterInteraction.string = `"c'est un message de Ma!
   elle va venir nous visiter le ${this.visitDate()} ${this.visitMonth()}"`;
         this.letterInteraction.update();
-        console.log(`ding`);
+        console.log(`letter picked`);
       }
     }
   }

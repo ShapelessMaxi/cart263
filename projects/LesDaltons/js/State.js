@@ -42,6 +42,13 @@ class State {
     this.drawOverlay(color1, color2, overlayText);
     // make the overlay fade
     this.startFadeOverlay(skipClick);
+
+    if (
+      recordedData.day === recordedData.visit.day &&
+      recordedData.month === recordedData.month
+    ) {
+      this.drawVisitAlert();
+    }
   }
 
   // draw the background
@@ -96,6 +103,15 @@ class State {
   //fade out animation for the overlay
   fadeOverlay() {
     this.overlay.alpha -= this.overlay.fadeSpeed;
+  }
+
+  drawVisitAlert() {
+    push();
+    fill(200, 100, 100);
+    noStroke();
+    rectMode(CORNERS);
+    rect(0, 0, width, height);
+    pop();
   }
 
   /*

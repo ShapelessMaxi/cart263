@@ -272,8 +272,16 @@ class CellState extends State {
   }
   // draw the boulder interaction prompt
   drawBedPrompt() {
-    if (this.characterAtBed()) {
-      // display the boulder interaction instruction
+    if (
+      this.characterAtBed() &&
+      recordedData.day === recordedData.visit.day &&
+      recordedData.month === recordedData.month
+    ) {
+      // display alternative text
+      this.bedInteraction.string = `vous allez manquer Ma si vous allez dormir`;
+      this.bedInteraction.update();
+    } else if (this.characterAtBed()) {
+      // display the bed interaction instruction
       this.bedInteraction.update();
     } else {
       // reset the boulder interaction instruction (erase it)
@@ -323,7 +331,13 @@ class CellState extends State {
     }
 
     // bed interaction
-    if (this.characterAtBed()) {
+    if (
+      this.characterAtBed() &&
+      recordedData.day === recordedData.visit.day &&
+      recordedData.month === recordedData.month
+    ) {
+      // do nothing
+    } else if (this.characterAtBed()) {
       if (key === `e`) {
         // reset the cell state
         state = new CellState();
