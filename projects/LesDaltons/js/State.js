@@ -99,6 +99,11 @@ class State {
   }
 
   /*
+  takes care of recordeding the user's keyboard input
+  */
+  keyPressed() {}
+
+  /*
   start the fade animation of the overlay
   */
   mousePressed() {

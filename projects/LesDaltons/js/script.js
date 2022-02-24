@@ -42,6 +42,9 @@ let daltonsPortrait = undefined;
 let pickaxIcon = undefined;
 let spoonIcon = undefined;
 
+// store the images of the objects to be interacted with
+let bedImg = undefined;
+
 // store the time and date here
 let recordedTime = {
   day: 1,
@@ -67,6 +70,8 @@ function preload() {
   // load the images of the icons
   pickaxIcon = loadImage(`assets/images/pickicon.png`);
   spoonIcon = loadImage(`assets/images/spoonicon.png`);
+  // load the images of the objects to be interacted with
+  bedImg = loadImage(`assets/images/bed.png`);
 }
 
 /**
@@ -99,7 +104,7 @@ function setup() {
   }
 
   // create the intro state
-  state = new IntroState();
+  state = new CellState();
 }
 
 /**

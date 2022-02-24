@@ -16,4 +16,12 @@ class TunnelState extends State {
   update() {
     super.update();
   }
+
+  /*
+  takes care of recordeding the user's keyboard input
+  */
+  keyPressed() {
+    // call the super class method
+    super.keyPressed();
+  }
 }

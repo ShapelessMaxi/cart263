@@ -293,6 +293,9 @@ class YardState extends State {
   -takes care of the interaction with npc and other objects
   */
   keyPressed() {
+    // call the super class method
+    super.keyPressed();
+
     // state navigation
     if (this.joe.pos.center.x < 0) {
       if (key === `x`) {

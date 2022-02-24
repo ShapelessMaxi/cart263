@@ -130,6 +130,14 @@ class IntroState extends State {
   }
 
   /*
+  takes care of recordeding the user's keyboard input
+  */
+  keyPressed() {
+    // call the super class method
+    super.keyPressed();
+  }
+
+  /*
   call the super class update mousePressed method
   start the appear animation
   change to the cell state

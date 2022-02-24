@@ -35,6 +35,14 @@ class CellState extends State {
       x2: 1000,
       y2: 750,
     };
+    // refer to the bed
+    this.bed = {
+      img: bedImg,
+      x1: 450,
+      y1: 380,
+      x2: 710,
+      y2: 470,
+    };
     // create the ui
     this.ui = new Ui(this.color1, this.color2);
 
@@ -111,6 +119,24 @@ class CellState extends State {
       this.visitNavigationPrompt.size
     );
 
+    // refer to the boulder interaction prompt
+    this.bedPrompt = {
+      string: `tape sur E pour aller dormir`,
+      x: 295,
+      y: 715,
+      size: 16,
+    };
+    // create the main prompt typewriter
+    this.bedInteraction = new Typewriter(
+      this.bedPrompt.string,
+      this.bedPrompt.x,
+      this.bedPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.bedPrompt.size
+    );
+
     // refer to the object taking care of making the things appear
     this.appear = {
       generalAlpha: 0,
@@ -135,6 +161,8 @@ class CellState extends State {
 
     // draw the floor
     this.drawFloor();
+    // draw the bed
+    this.drawBed();
 
     // update the character objects
     this.charactersUpdate();
@@ -168,6 +196,15 @@ class CellState extends State {
     this.william.screenConstrain(characterRange);
     this.averell.screenConstrain(characterRange);
   }
+  // checks if the leader character is at the boulder
+  characterAtBed() {
+    if (
+      this.joe.pos.center.x > this.bed.x1 &&
+      this.joe.pos.center.x < this.bed.x2
+    ) {
+      return true;
+    }
+  }
 
   // draw the floor
   drawFloor() {
@@ -177,6 +214,16 @@ class CellState extends State {
     noStroke();
     fill(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
     rect(this.floor.x1, this.floor.y1, this.floor.x2, this.floor.y2);
+    pop();
+  }
+  // draw the bed
+  drawBed() {
+    // draw a rectangle for the floor
+    push();
+    imageMode(CORNERS);
+    noStroke();
+    tint(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
+    image(this.bed.img, this.bed.x1, this.bed.y1, this.bed.x2, this.bed.y2);
     pop();
   }
 
@@ -190,6 +237,9 @@ class CellState extends State {
 
     // display the visit room navigation instruction
     this.drawVisitNavigationPrompt();
+
+    // display the bed interaction prompt
+    this.drawBedPrompt();
   }
 
   // draw the main location prompt
@@ -220,6 +270,16 @@ class CellState extends State {
       this.typeVisitNavigation.currentCharacter = 0;
     }
   }
+  // draw the boulder interaction prompt
+  drawBedPrompt() {
+    if (this.characterAtBed()) {
+      // display the boulder interaction instruction
+      this.bedInteraction.update();
+    } else {
+      // reset the boulder interaction instruction (erase it)
+      this.bedInteraction.currentCharacter = 0;
+    }
+  }
 
   // start to make things appear
   startFadeIn() {
@@ -239,22 +299,38 @@ class CellState extends State {
     }
   }
 
+  // save date and time into local web storage
+  saveTime() {
+    localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedTime));
+  }
   /*
   - takes care of the navigation between states (scenes)
     - save the time and date in local web storage when navigating between scenes
-  -takes care of the interaction with npc and other objects
+  -takes care of the interaction with the bed
   */
   keyPressed() {
+    // call the super class method
+    super.keyPressed();
+
+    // navigation
     if (this.joe.pos.center.x > width) {
       if (key === `x`) {
         // go to the cell scene
         state = new YardState();
-
         // save the time and date
-        localStorage.setItem(
-          `time-date-dalton-data`,
-          JSON.stringify(recordedTime)
-        );
+        this.saveTime();
+      }
+    }
+
+    // bed interaction
+    if (this.characterAtBed()) {
+      if (key === `e`) {
+        // reset the cell state
+        state = new CellState();
+        // skip a day
+        recordedTime.day++;
+        // save the time and date
+        this.saveTime();
       }
     }
   }
