@@ -54,6 +54,8 @@ class YardState extends State {
     this.jack = new Follower(`jack`, this.color1, this.color2);
     this.william = new Follower(`william`, this.color1, this.color2);
     this.averell = new Follower(`averell`, this.color1, this.color2);
+    // create the npc guardian
+    this.guardian = new Npc(guardianImg, this.color1, this.color2);
 
     // refer to the typewriter animation object
     this.typewriter = {
@@ -154,6 +156,8 @@ class YardState extends State {
 
     // update the character objects
     this.charactersUpdate();
+    // update the npc objects
+    this.npcUpdate();
 
     // draw the ui
     this.ui.update(this.appear.generalAlpha);
@@ -193,6 +197,10 @@ class YardState extends State {
     ) {
       return true;
     }
+  }
+
+  npcUpdate() {
+    this.guardian.update(this.appear.generalAlpha);
   }
 
   // draw the floor

@@ -39,9 +39,9 @@ class CellState extends State {
     this.bed = {
       img: bedImg,
       x1: 450,
-      y1: 380,
+      y1: 390,
       x2: 710,
-      y2: 470,
+      y2: 480,
     };
     // create the ui
     this.ui = new Ui(this.color1, this.color2);

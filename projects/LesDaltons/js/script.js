@@ -35,6 +35,9 @@ let jackImg = undefined;
 let williamImg = undefined;
 let averellImg = undefined;
 
+// store the images of the npcs
+let guardianImg = undefined;
+
 // store the images of the portraits (ui)
 let daltonsPortrait = undefined;
 
@@ -65,6 +68,8 @@ function preload() {
   jackImg = loadImage(`assets/images/jack.png`);
   williamImg = loadImage(`assets/images/william.png`);
   averellImg = loadImage(`assets/images/averell.png`);
+  // load the images of the npcs
+  guardianImg = loadImage(`assets/images/guard.png`);
   // load the image of the portraits
   daltonsPortrait = loadImage(`assets/images/profilesdalton.png`);
   // load the images of the icons
@@ -104,7 +109,7 @@ function setup() {
   }
 
   // create the intro state
-  state = new CellState();
+  state = new YardState();
 }
 
 /**

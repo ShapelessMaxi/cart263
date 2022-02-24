@@ -1,12 +1,12 @@
 /*
-General behaviors of other -Dalton subclasses.
+General behaviors of other -Character subclasses.
 
 > draw the character
 > move the character using 'wasd'
 >
 >
 */
-class Dalton {
+class Character {
   /*
   define variables and arrays
   */

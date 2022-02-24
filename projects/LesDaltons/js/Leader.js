@@ -7,7 +7,7 @@ Extension of the Dalton class.
 >
 >
 */
-class Leader extends Dalton {
+class Leader extends Character {
   /*
   define variables and arrays
   */

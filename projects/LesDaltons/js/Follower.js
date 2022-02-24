@@ -7,7 +7,7 @@ Extension of the Dalton class.
 >
 >
 */
-class Follower extends Dalton {
+class Follower extends Character {
   /*
   define variables and arrays
   */
