@@ -128,7 +128,7 @@ class Ui {
   drawTimerText(generalAlpha) {
     // check if it is am or pm
     let suffix;
-    if (recordedTime.hours > 11) {
+    if (recordedData.hours > 11) {
       suffix = `pm`;
     } else {
       suffix = `am`;
@@ -140,9 +140,9 @@ class Ui {
     textAlign(CENTER, CENTER);
     textSize(16);
     let date = `${this.displayTimer(
-      recordedTime.day
-    )}/08/2001 - ${this.displayTimer(recordedTime.hours)}:${this.displayTimer(
-      recordedTime.minutes
+      recordedData.day
+    )}/08/2001 - ${this.displayTimer(recordedData.hours)}:${this.displayTimer(
+      recordedData.minutes
     )} ${suffix}`;
     text(date, 888, 665);
     pop();
@@ -163,17 +163,17 @@ class Ui {
   countTime() {
     if (frameCount % 3 === 0) {
       // minutes going up
-      recordedTime.minutes += 0.1;
-      if (recordedTime.minutes > 60) {
-        recordedTime.minutes = 0;
+      recordedData.minutes += 0.1;
+      if (recordedData.minutes > 60) {
+        recordedData.minutes = 0;
         // hours going up
-        recordedTime.hours += 1;
+        recordedData.hours += 1;
       }
       // day reset
-      if (recordedTime.hours > 12) {
+      if (recordedData.hours > 12) {
         // days going up
-        recordedTime.day += 1;
-        recordedTime.hours = 1;
+        recordedData.day += 1;
+        recordedData.hours = 1;
       }
     }
   }

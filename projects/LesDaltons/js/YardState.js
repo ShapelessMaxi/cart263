@@ -45,7 +45,14 @@ class YardState extends State {
       p3: { x: 690, y: 340 },
       p4: { x: 710, y: 470 },
       p5: { x: 380, y: 470 },
-      displayed: true,
+    };
+    // refer to the letter
+    this.letter = {
+      img: letterImg,
+      x1: 515,
+      y1: 490,
+      x2: 560,
+      y2: 520,
     };
 
     // create the characters
@@ -105,7 +112,7 @@ class YardState extends State {
     );
 
     // if the boulder hasn't been broken yet
-    if (!recordedTime.boulderBroken) {
+    if (!recordedData.boulderBroken) {
       // refer to the boulder interaction prompt
       this.boulderInteractionPrompt = {
         string: `tape sur E pour briser le caillou`,
@@ -127,7 +134,7 @@ class YardState extends State {
 
     // refer to the boulder interaction prompt
     this.guardianInteractionPrompt = {
-      string: `prenez donc une pioche, ça va vous occuper
+      string: `prenez donc une pioche, ça va vous occuper.
 tape sur 'E' pour accepter`,
       x: 295,
       y: 700,
@@ -142,6 +149,25 @@ tape sur 'E' pour accepter`,
       this.typewriter.height,
       this.typewriter.speed,
       this.guardianInteractionPrompt.size
+    );
+
+    // refer to the boulder interaction prompt
+    this.letterInteractionPrompt = {
+      string: `hey, y'avait une letter en dessous du caillou.
+tape sur 'E' pour la lire`,
+      x: 295,
+      y: 700,
+      size: 16,
+    };
+    // create the main prompt typewriter
+    this.letterInteraction = new Typewriter(
+      this.letterInteractionPrompt.string,
+      this.letterInteractionPrompt.x,
+      this.letterInteractionPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.letterInteractionPrompt.size
     );
 
     // refer to the object taking care of making the things appear
@@ -171,6 +197,8 @@ tape sur 'E' pour accepter`,
     this.drawFloor();
     // draw the boulder
     this.drawBoulder();
+    // draw the letter
+    this.drawLetter();
 
     // update the character objects
     this.charactersUpdate();
@@ -227,9 +255,31 @@ tape sur 'E' pour accepter`,
     rect(this.floor.x1, this.floor.y1, this.floor.x2, this.floor.y2);
     pop();
   }
+  // draw the letter
+  drawLetter() {
+    if (!recordedData.letterPicked && recordedData.boulderBroken) {
+      push();
+      noStroke();
+      imageMode(CORNERS);
+      tint(
+        this.color1.r,
+        this.color1.g,
+        this.color1.b,
+        this.appear.generalAlpha
+      );
+      image(
+        this.letter.img,
+        this.letter.x1,
+        this.letter.y1,
+        this.letter.x2,
+        this.letter.y2
+      );
+      pop();
+    }
+  }
   // draw the boulder
   drawBoulder() {
-    if (!recordedTime.boulderBroken && this.boulder.displayed) {
+    if (!recordedData.boulderBroken) {
       push();
       noStroke();
       fill(
@@ -257,10 +307,11 @@ tape sur 'E' pour accepter`,
     this.drawNavigationPrompt();
     // draw the boulder interaction prompt
     this.drawBoulderPrompt();
-    // draw the boulder interaction prompt
+    // draw the guardian interaction prompt
     this.drawGuardianPrompt();
+    // draw the letter interaction prompt
+    this.drawLetterPrompt();
   }
-
   // draw the main location prompt
   drawMainPrompt() {
     // display the main prompt
@@ -284,7 +335,7 @@ tape sur 'E' pour accepter`,
   drawBoulderPrompt() {
     let x1 = this.boulder.p5.x;
     let x2 = this.boulder.p4.x;
-    let condition = !recordedTime.boulderBroken && recordedTime.pickaxeObtained;
+    let condition = !recordedData.boulderBroken && recordedData.pickaxeObtained;
     if (this.characterAt(x1, x2, condition)) {
       // display the boulder interaction instruction
       this.boulderInteraction.update();
@@ -293,20 +344,33 @@ tape sur 'E' pour accepter`,
       this.boulderInteraction.currentCharacter = 0;
     }
   }
-  // draw the boulder interaction prompt
+  // draw the guradian interaction prompt
   drawGuardianPrompt() {
     // display the boulder interaction instruction
     let x1 = this.guardian.pos.center.x - this.guardian.pos.width / 2;
     let x2 = this.guardian.pos.center.x + this.guardian.pos.width / 2;
-    let condition = !recordedTime.pickaxeObtained;
+    let condition = !recordedData.pickaxeObtained;
     if (this.characterAt(x1, x2, condition)) {
       this.guardianInteraction.update();
-    } else if (this.characterAt(x1, x2, !condition)) {
+    } else if (this.characterAt(x1, x2, condition)) {
       this.guardianInteraction.string = `c'est bon, allez travaillez`;
       this.guardianInteraction.update();
     } else {
       // reset the boulder interaction instruction (erase it)
       this.guardianInteraction.currentCharacter = 0;
+    }
+  }
+  // draw the letter interaction prompt
+  drawLetterPrompt() {
+    // display the letter interaction instruction
+    let x1 = this.letter.x1;
+    let x2 = this.letter.x2;
+    let condition = !recordedData.letterPicked && recordedData.boulderBroken;
+    if (this.characterAt(x1, x2, condition)) {
+      this.letterInteraction.update();
+    } else {
+      // reset the letter interaction instruction (erase it)
+      this.letterInteraction.currentCharacter = 0;
     }
   }
 
@@ -345,33 +409,43 @@ tape sur 'E' pour accepter`,
         // save the time and date
         localStorage.setItem(
           `time-date-dalton-data`,
-          JSON.stringify(recordedTime)
+          JSON.stringify(recordedData)
         );
       }
     }
 
-    // if you dont have a pickaxe
     // guardian interaction
     let x1 = this.guardian.pos.center.x - this.guardian.pos.width / 2;
     let x2 = this.guardian.pos.center.x + this.guardian.pos.width / 2;
-    let condition = !recordedTime.pickaxeObtained;
+    let condition = !recordedData.pickaxeObtained;
+    // if you dont have a pickaxe
     if (this.characterAt(x1, x2, condition)) {
       if (key === `e`) {
-        recordedTime.pickaxeObtained = true;
+        recordedData.pickaxeObtained = true;
         this.ui.tools.pickaxe.displayed = true;
       }
     }
 
-    // if the boulder hasn't been broken yet and ou have a pickaxe
     // boulder interaction
     let x3 = this.boulder.p5.x;
     let x4 = this.boulder.p4.x;
     let condition1 =
-      !recordedTime.boulderBroken && recordedTime.pickaxeObtained;
+      !recordedData.boulderBroken && recordedData.pickaxeObtained;
+    // if the boulder hasn't been broken yet and ou have a pickaxe
     if (this.characterAt(x3, x4, condition1)) {
       if (key === `e`) {
-        recordedTime.boulderBroken = true;
-        this.boulder.displayed = false;
+        recordedData.boulderBroken = true;
+      }
+    }
+
+    // letter interaction
+    let x5 = this.letter.x1;
+    let x6 = this.letter.x2;
+    let condition2 = recordedData.boulderBroken && !recordedData.letterPicked;
+    // if the letter hasn't been broken yet and ou have a pickaxe
+    if (this.characterAt(x5, x6, condition2)) {
+      if (key === `e`) {
+        recordedData.letterPicked = true;
       }
     }
   }

@@ -47,13 +47,16 @@ let spoonIcon = undefined;
 
 // store the images of the objects to be interacted with
 let bedImg = undefined;
+let letterImg = undefined;
 
 // store the time and date here
-let recordedTime = {
+let recordedData = {
   day: 1,
   hours: 9,
   minutes: 15,
+  pickaxeObtained: false,
   boulderBroken: false,
+  letterPicked: false,
 };
 
 /**
@@ -72,11 +75,12 @@ function preload() {
   guardianImg = loadImage(`assets/images/guard.png`);
   // load the image of the portraits
   daltonsPortrait = loadImage(`assets/images/profilesdalton.png`);
-  // load the images of the icons
+  // load the images of the tools
   pickaxIcon = loadImage(`assets/images/pickicon.png`);
   spoonIcon = loadImage(`assets/images/spoonicon.png`);
   // load the images of the objects to be interacted with
   bedImg = loadImage(`assets/images/bed.png`);
+  letterImg = loadImage(`assets/images/letter.png`);
 }
 
 /**
@@ -96,17 +100,18 @@ function setup() {
   // check if there is data stored
   if (data !== null) {
     // copy data into recorded time object
-    recordedTime.day = data.day;
-    recordedTime.hours = data.hours;
-    recordedTime.minutes = data.minutes;
+    recordedData.day = data.day;
+    recordedData.hours = data.hours;
+    recordedData.minutes = data.minutes;
   } else {
     // no data yet, start at day 1, 09:05 am
-    recordedTime.day = 1;
-    recordedTime.hours = 9;
-    recordedTime.minutes = 15;
-    recordedTime.pickaxeObtained = false;
-    recordedTime.boulderBroken = false;
-    localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedTime));
+    recordedData.day = 1;
+    recordedData.hours = 9;
+    recordedData.minutes = 15;
+    recordedData.pickaxeObtained = false;
+    recordedData.boulderBroken = false;
+    recordedData.letterPicked = false;
+    localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedData));
   }
 
   // create the intro state
@@ -139,6 +144,6 @@ function keyPressed() {
     localStorage.removeItem(`time-date-dalton-data`);
   } else if (key === `v`) {
     // save time and date with 'z'
-    localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedTime));
+    localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedData));
   }
 }

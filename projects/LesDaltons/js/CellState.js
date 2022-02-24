@@ -301,7 +301,7 @@ class CellState extends State {
 
   // save date and time into local web storage
   saveTime() {
-    localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedTime));
+    localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedData));
   }
   /*
   - takes care of the navigation between states (scenes)
@@ -328,9 +328,9 @@ class CellState extends State {
         // reset the cell state
         state = new CellState();
         // skip a day
-        recordedTime.day++;
-        recordedTime.hours = 7;
-        recordedTime.minutes = 0;
+        recordedData.day++;
+        recordedData.hours = 7;
+        recordedData.minutes = 0;
         // save the time and date
         this.saveTime();
       }
