@@ -45,7 +45,6 @@ class YardState extends State {
       p3: { x: 690, y: 340 },
       p4: { x: 710, y: 470 },
       p5: { x: 380, y: 470 },
-      broken: false,
       displayed: true,
     };
 
@@ -73,7 +72,7 @@ class YardState extends State {
       delay: 4000,
     };
     // create the main prompt typewriter
-    this.typeMainPrompt = new Typewriter(
+    this.typeMain = new Typewriter(
       this.mainPrompt.string,
       this.mainPrompt.x,
       this.mainPrompt.y,
@@ -115,7 +114,7 @@ class YardState extends State {
         size: 16,
       };
       // create the main prompt typewriter
-      this.typeBoulderInteraction = new Typewriter(
+      this.boulderInteraction = new Typewriter(
         this.boulderInteractionPrompt.string,
         this.boulderInteractionPrompt.x,
         this.boulderInteractionPrompt.y,
@@ -125,6 +124,25 @@ class YardState extends State {
         this.boulderInteractionPrompt.size
       );
     }
+
+    // refer to the boulder interaction prompt
+    this.guardianInteractionPrompt = {
+      string: `prenez donc une pioche, ça va vous occuper
+tape sur 'E' pour accepter`,
+      x: 295,
+      y: 700,
+      size: 16,
+    };
+    // create the main prompt typewriter
+    this.guardianInteraction = new Typewriter(
+      this.guardianInteractionPrompt.string,
+      this.guardianInteractionPrompt.x,
+      this.guardianInteractionPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.guardianInteractionPrompt.size
+    );
 
     // refer to the object taking care of making the things appear
     this.appear = {
@@ -189,12 +207,8 @@ class YardState extends State {
     this.averell.screenConstrain(characterRange);
   }
   // checks if the leader character is at the boulder
-  characterAtBoulder() {
-    if (
-      this.joe.pos.center.x > this.boulder.p5.x &&
-      this.joe.pos.center.x < this.boulder.p4.x &&
-      this.boulder.displayed
-    ) {
+  characterAt(x1, x2, condition) {
+    if (this.joe.pos.center.x > x1 && this.joe.pos.center.x < x2 && condition) {
       return true;
     }
   }
@@ -243,13 +257,15 @@ class YardState extends State {
     this.drawNavigationPrompt();
     // draw the boulder interaction prompt
     this.drawBoulderPrompt();
+    // draw the boulder interaction prompt
+    this.drawGuardianPrompt();
   }
 
   // draw the main location prompt
   drawMainPrompt() {
     // display the main prompt
     if (this.mainPrompt.displayed) {
-      this.typeMainPrompt.update();
+      this.typeMain.update();
     }
   }
   // draw the navigation prompt
@@ -258,7 +274,7 @@ class YardState extends State {
     if (this.joe.pos.center.x < 0) {
       this.typeNavigation.update();
       // reset the main prompt (erase it)
-      this.typeMainPrompt.currentCharacter = 0;
+      this.typeMain.currentCharacter = 0;
     } else {
       // reset the navigation instruction (erase it)
       this.typeNavigation.currentCharacter = 0;
@@ -266,15 +282,31 @@ class YardState extends State {
   }
   // draw the boulder interaction prompt
   drawBoulderPrompt() {
-    // if the boulder hasn't been broken yet
-    if (!recordedTime.boulderBroken) {
-      if (this.characterAtBoulder()) {
-        // display the boulder interaction instruction
-        this.typeBoulderInteraction.update();
-      } else {
-        // reset the boulder interaction instruction (erase it)
-        this.typeBoulderInteraction.currentCharacter = 0;
-      }
+    let x1 = this.boulder.p5.x;
+    let x2 = this.boulder.p4.x;
+    let condition = !recordedTime.boulderBroken && recordedTime.pickaxeObtained;
+    if (this.characterAt(x1, x2, condition)) {
+      // display the boulder interaction instruction
+      this.boulderInteraction.update();
+    } else {
+      // reset the boulder interaction instruction (erase it)
+      this.boulderInteraction.currentCharacter = 0;
+    }
+  }
+  // draw the boulder interaction prompt
+  drawGuardianPrompt() {
+    // display the boulder interaction instruction
+    let x1 = this.guardian.pos.center.x - this.guardian.pos.width / 2;
+    let x2 = this.guardian.pos.center.x + this.guardian.pos.width / 2;
+    let condition = !recordedTime.pickaxeObtained;
+    if (this.characterAt(x1, x2, condition)) {
+      this.guardianInteraction.update();
+    } else if (this.characterAt(x1, x2, !condition)) {
+      this.guardianInteraction.string = `c'est bon, allez travaillez`;
+      this.guardianInteraction.update();
+    } else {
+      // reset the boulder interaction instruction (erase it)
+      this.guardianInteraction.currentCharacter = 0;
     }
   }
 
@@ -318,14 +350,28 @@ class YardState extends State {
       }
     }
 
-    // if the boulder hasn't been broken yet
-    if (!recordedTime.boulderBroken) {
-      // boulder interaction
-      if (this.characterAtBoulder()) {
-        if (key === `e`) {
-          recordedTime.boulderBroken = true;
-          this.boulder.displayed = false;
-        }
+    // if you dont have a pickaxe
+    // guardian interaction
+    let x1 = this.guardian.pos.center.x - this.guardian.pos.width / 2;
+    let x2 = this.guardian.pos.center.x + this.guardian.pos.width / 2;
+    let condition = !recordedTime.pickaxeObtained;
+    if (this.characterAt(x1, x2, condition)) {
+      if (key === `e`) {
+        recordedTime.pickaxeObtained = true;
+        this.ui.tools.pickaxe.displayed = true;
+      }
+    }
+
+    // if the boulder hasn't been broken yet and ou have a pickaxe
+    // boulder interaction
+    let x3 = this.boulder.p5.x;
+    let x4 = this.boulder.p4.x;
+    let condition1 =
+      !recordedTime.boulderBroken && recordedTime.pickaxeObtained;
+    if (this.characterAt(x3, x4, condition1)) {
+      if (key === `e`) {
+        recordedTime.boulderBroken = true;
+        this.boulder.displayed = false;
       }
     }
   }

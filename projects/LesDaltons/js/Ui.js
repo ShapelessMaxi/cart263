@@ -18,7 +18,7 @@ class Ui {
     };
 
     // refer to the profile picture object
-    this.profileShape = {
+    this.portrait = {
       img: daltonsPortrait,
       x1: 15,
       y1: 645,
@@ -28,7 +28,7 @@ class Ui {
     };
 
     // refer to the tools object
-    this.toolShape = {
+    this.tools = {
       bevel: 5,
       pickaxe: {
         img: pickaxIcon,
@@ -51,7 +51,7 @@ class Ui {
     };
 
     // refer to the profile picture object
-    this.timeShape = {
+    this.time = {
       x1: 790,
       y1: 645,
       x2: 985,
@@ -72,13 +72,17 @@ class Ui {
     // draw the main ui shape
     this.drawShape(this.mainShape, this.color1, generalAlpha);
     // draw the portrits and the portrait box
-    this.drawShape(this.profileShape, this.color2, generalAlpha);
-    this.drawImage(this.profileShape, generalAlpha);
+    this.drawShape(this.portrait, this.color2, generalAlpha);
+    this.drawImage(this.portrait, generalAlpha);
     // draw the tools and ui tool boxes
-    this.drawShape(this.toolShape.pickaxe, this.color2, generalAlpha);
-    this.drawShape(this.toolShape.spoon, this.color2, generalAlpha);
-    this.drawImage(this.toolShape.pickaxe, generalAlpha);
-    this.drawImage(this.toolShape.spoon, generalAlpha);
+    this.drawShape(this.tools.pickaxe, this.color2, generalAlpha);
+    this.drawShape(this.tools.spoon, this.color2, generalAlpha);
+    if (this.tools.pickaxe.displayed) {
+      this.drawImage(this.tools.pickaxe, generalAlpha);
+    }
+    if (this.tools.spoon.displayed) {
+      this.drawImage(this.tools.spoon, generalAlpha);
+    }
     // draw the time and date
     this.drawTimer(generalAlpha);
   }
@@ -111,7 +115,7 @@ class Ui {
   // draw the profile frame and picture
   drawTimer(generalAlpha) {
     // draw the shape of the timer
-    this.drawShape(this.timeShape, this.color2, generalAlpha);
+    this.drawShape(this.time, this.color2, generalAlpha);
 
     // activate the timer
     this.countTime();

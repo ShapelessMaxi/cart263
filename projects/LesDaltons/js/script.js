@@ -104,6 +104,7 @@ function setup() {
     recordedTime.day = 1;
     recordedTime.hours = 9;
     recordedTime.minutes = 15;
+    recordedTime.pickaxeObtained = false;
     recordedTime.boulderBroken = false;
     localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedTime));
   }
