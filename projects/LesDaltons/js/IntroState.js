@@ -88,8 +88,10 @@ class IntroState extends State {
     textSize(50);
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
+    textFont(titleFont);
     text(this.tittle.str, this.tittle.x, this.tittle.y);
     pop();
+    // draw with lucky luke font ****************************************
   }
 
   // draw the instrucions
@@ -112,6 +114,7 @@ class IntroState extends State {
     textSize(this.instructions.textSize);
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
+    textFont(typewriterFont);
     let x = this.instructions.x;
     let y1 = this.instructions.y - this.instructions.textSpacing;
     text(this.instructions.str1, x, y1);

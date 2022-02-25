@@ -21,7 +21,7 @@ class State {
 
     // refer to the overlay object
     this.overlay = {
-      textSize: 24,
+      textSize: 32,
       w: width,
       h: height,
       alpha: 255,
@@ -83,6 +83,7 @@ class State {
     textSize(this.overlay.textSize);
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
+    textFont(titleFont);
     text(overlayText, width / 2, height / 2);
     pop();
   }

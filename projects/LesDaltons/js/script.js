@@ -29,6 +29,10 @@ that were hidden inside of it. thx Ma.
 // refer to the current state of the program
 let state; // possible states : `intro`, `cell`, `yard`, `visitRoom`, `tunnel`, `end`
 
+// store the fonts used in the program
+let typewriterFont = undefined;
+let titleFont = undefined;
+
 // store the images of the characters
 let joeImg = undefined;
 let jackImg = undefined;
@@ -67,10 +71,11 @@ let recordedData = {
 };
 
 /**
-load images :
-- characters
-- portraits
-- tools
+-load images
+  - characters
+  - portraits
+  - tools
+- load fonts
 */
 function preload() {
   // load the images of the characters
@@ -90,6 +95,10 @@ function preload() {
   // load the images of the objects to be interacted with
   bedImg = loadImage(`assets/images/bed.png`);
   letterImg = loadImage(`assets/images/letter.png`);
+
+  // load the fonts used in the program
+  typewriterFont = loadFont(`assets/fonts/IBMPlexMono-Regular.ttf`);
+  titleFont = loadFont(`assets/fonts/PermanentMarker-Regular.ttf`);
 }
 
 /**

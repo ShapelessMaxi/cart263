@@ -33,7 +33,7 @@ class Typewriter {
 
     // Display it
     push();
-    textFont(`Courier`);
+    textFont(typewriterFont);
     textSize(this.size);
     text(currentString, this.x, this.y, this.w, this.h);
     pop();

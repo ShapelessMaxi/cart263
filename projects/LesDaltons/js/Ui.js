@@ -140,6 +140,7 @@ class Ui {
     let date = `${recordedData.day} ${recordedData.month} - ${this.displayTimer(
       recordedData.hours
     )}:${this.displayTimer(recordedData.minutes)} ${suffix}`;
+    textFont(typewriterFont);
     text(date, 888, 665);
     pop();
   }
