@@ -347,6 +347,8 @@ votre cellule. À bientôt!»`;
       if (key === `e`) {
         // go to the cell scene
         recordedData.breadReceived = true;
+        // reset the interaction typwritter animation
+        this.maInteraction.currentCharacter = 0;
       }
     }
   }

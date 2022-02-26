@@ -43,6 +43,13 @@ class CellState extends State {
       x2: 710,
       y2: 480,
     };
+    // refer to the tunnel hole
+    this.tunnel = {
+      x: undefined,
+      y: 550,
+      width: 120,
+      height: 40,
+    };
     // create the ui
     this.ui = new Ui(this.color1, this.color2);
 
@@ -155,6 +162,24 @@ class CellState extends State {
       this.breadPrompt.size
     );
 
+    // refer to the tunnel interaction prompt
+    this.tunnelPrompt = {
+      string: `tape sur E pour creuser un tunnel`,
+      x: 295,
+      y: 692,
+      size: 16,
+    };
+    // create the tunnel prompt typewriter
+    this.tunnelInteraction = new Typewriter(
+      this.tunnelPrompt.string,
+      this.tunnelPrompt.x,
+      this.tunnelPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.tunnelPrompt.size
+    );
+
     // refer to the object taking care of making the things appear
     this.appear = {
       generalAlpha: 0,
@@ -181,6 +206,9 @@ class CellState extends State {
     this.drawFloor();
     // draw the bed
     this.drawBed();
+    if (recordedData.holeDugged) {
+      this.drawTunnelHole();
+    }
 
     // update the character objects
     this.charactersUpdate();
@@ -215,11 +243,8 @@ class CellState extends State {
     this.averell.screenConstrain(characterRange);
   }
   // checks if the leader character is at the boulder
-  characterAtBed() {
-    if (
-      this.joe.pos.center.x > this.bed.x1 &&
-      this.joe.pos.center.x < this.bed.x2
-    ) {
+  characterAt(x1, x2) {
+    if (this.joe.pos.center.x > x1 && this.joe.pos.center.x < x2) {
       return true;
     }
   }
@@ -244,6 +269,19 @@ class CellState extends State {
     image(this.bed.img, this.bed.x1, this.bed.y1, this.bed.x2, this.bed.y2);
     pop();
   }
+  // draw the tunnel hole
+  drawTunnelHole() {
+    push();
+    noStroke();
+    fill(this.color1.r, this.color1.g, this.color1.b, this.appear.generalAlpha);
+    ellipse(
+      this.tunnel.x,
+      this.tunnel.y,
+      this.tunnel.width,
+      this.tunnel.height
+    );
+    pop();
+  }
 
   // draw the text prompts in the ui
   drawPrompts() {
@@ -266,6 +304,9 @@ class CellState extends State {
     if (recordedData.breadEaten) {
       this.drawBreadPrompt();
     }
+
+    // draw the tunnel interaction prompt
+    this.drawTunnelPrompt();
   }
 
   // draw the main location prompt
@@ -308,14 +349,25 @@ class CellState extends State {
   // draw the bed interaction prompt
   drawBedPrompt() {
     if (
-      this.characterAtBed() &&
+      this.characterAt(this.bed.x1, this.bed.x2) &&
       recordedData.day === recordedData.visit.day &&
-      recordedData.month === recordedData.month
+      recordedData.month === recordedData.month &&
+      recordedData.breadEaten
+    ) {
+      // display alternative text
+      this.bedInteraction.string = `tape sur E pour aller dormir`;
+      // display the bed interaction instruction
+      this.bedInteraction.update();
+    } else if (
+      this.characterAt(this.bed.x1, this.bed.x2) &&
+      recordedData.day === recordedData.visit.day &&
+      recordedData.month === recordedData.month &&
+      !recordedData.breadEaten
     ) {
       // display alternative text
       this.bedInteraction.string = `vous allez manquer Ma si vous allez dormir`;
       this.bedInteraction.update();
-    } else if (this.characterAtBed()) {
+    } else if (this.characterAt(this.bed.x1, this.bed.x2)) {
       // display the bed interaction instruction
       this.bedInteraction.update();
     } else {
@@ -325,12 +377,41 @@ class CellState extends State {
   }
   // draw the bread interaction prompt
   drawBreadPrompt() {
-    if (recordedData.breadReceived) {
+    if (
+      !recordedData.breadEaten &&
+      recordedData.breadReceived &&
+      this.appear.generalAlpha > 250
+    ) {
       // display normal bread prompt
       this.breadInteraction.update();
     } else {
       // reset the boulder interaction instruction (erase it)
       this.breadInteraction.currentCharacter = 0;
+    }
+  }
+  // draw the tunnel interaction prompt
+  drawTunnelPrompt() {
+    if (
+      !recordedData.holeDugged &&
+      recordedData.spoonObtained &&
+      recordedData.day !== recordedData.visit.day &&
+      this.appear.generalAlpha > 250
+    ) {
+      console.log(`after if`);
+
+      // display normal tunnel prompt
+      this.tunnelInteraction.update();
+      // } else if (
+      //   this.characterAt(
+      //     this.tunnel.x - this.tunnel.width / 2,
+      //     this.tunnel.x + this.tunnel.width / 2
+      //   ) &&
+      //   recordedData.holeDugged
+      // ) {
+      //   console.log(`ding dong you can you to next tunnel state`);
+    } else {
+      // reset the tunnel interaction instruction (erase it)
+      this.tunnelInteraction.currentCharacter = 0;
     }
   }
 
@@ -374,6 +455,9 @@ class CellState extends State {
 
     // bread interaction
     this.breadInteractions();
+
+    // tunnel interaction
+    this.tunnelInteractions();
   }
 
   // navigation between states
@@ -389,6 +473,7 @@ class CellState extends State {
     }
     // navigation to the visit room
     if (
+      this.joe.pos.center.x < 0 &&
       recordedData.day === recordedData.visit.day &&
       recordedData.month === recordedData.month
     ) {
@@ -404,12 +489,25 @@ class CellState extends State {
   // bed interactions
   bedInteractions() {
     if (
-      this.characterAtBed() &&
+      this.characterAt(this.bed.x1, this.bed.x2) &&
       recordedData.day === recordedData.visit.day &&
       recordedData.month === recordedData.visit.month
     ) {
-      // do nothing
-    } else if (this.characterAtBed()) {
+      if (recordedData.breadReceived && recordedData.breadEaten) {
+        if (key === `e`) {
+          // reset the cell state
+          state = new CellState();
+          // skip a day
+          recordedData.day++;
+          recordedData.hours = 7;
+          recordedData.minutes = 0;
+          // save the time and date
+          this.saveTime();
+        } else {
+          // do nothing
+        }
+      }
+    } else if (this.characterAt(this.bed.x1, this.bed.x2)) {
       if (key === `e`) {
         // reset the cell state
         state = new CellState();
@@ -425,7 +523,7 @@ class CellState extends State {
 
   // bread interactions
   breadInteractions() {
-    if (recordedData.breadReceived) {
+    if (recordedData.breadReceived && !recordedData.spoonObtained) {
       if (key === `e`) {
         recordedData.spoonObtained = true;
         // change what the bread prompt says
@@ -440,9 +538,26 @@ pour creuser un tunnel!»`;
         }, 3500);
         setTimeout(() => {
           this.breadInteraction.currentCharacter = 0;
-          this.breadInteraction.string = `«On fera ca demain matin, Joe, 
-j'ai trop mangé moi...»`;
+          this.breadInteraction.string = `«On fera ca demain matin, Joe.»`;
         }, 7800);
+        setTimeout(() => {
+          recordedData.breadEaten = true;
+        }, 10000);
+      }
+    }
+  }
+
+  // tunnel interactions
+  tunnelInteractions() {
+    if (
+      !recordedData.holeDugged &&
+      recordedData.spoonObtained &&
+      recordedData.day !== recordedData.visit.day &&
+      this.appear.generalAlpha > 200
+    ) {
+      if (key === `e`) {
+        recordedData.holeDugged = true;
+        this.tunnel.x = this.joe.pos.center.x;
       }
     }
   }
