@@ -21,7 +21,7 @@ class VisitRoomState extends State {
     // decide if we should skip having to click to fade out the overlay
     this.skipClick = true;
     // refer to the text on the overlay
-    this.overlayText = `la cellule des Daltons`;
+    this.overlayText = `la salle de visite`;
 
     // refer to the colors used
     this.color1 = { r: 230, g: 65, b: 95, a: 255 }; // bright yellow
@@ -42,6 +42,13 @@ class VisitRoomState extends State {
     this.jack = new Follower(`jack`, this.color1, this.color2);
     this.william = new Follower(`william`, this.color1, this.color2);
     this.averell = new Follower(`averell`, this.color1, this.color2);
+    // create the npc guardian
+    this.guardian = new Npc(guardianImg, this.color1, this.color2);
+    this.guardian.pos.center.x = 248;
+    this.ma = new Npc(maImg, this.color1, this.color2);
+    this.ma.pos.height = 130;
+    this.ma.pos.center.y = 470;
+    this.ma.eyes.height = 22;
 
     // refer to the typewriter animation object
     this.typewriter = {
@@ -118,6 +125,7 @@ class VisitRoomState extends State {
 
     // update the character objects
     this.charactersUpdate();
+    this.npcUpdate();
 
     // draw the ui
     this.ui.update(this.appear.generalAlpha);
@@ -147,6 +155,11 @@ class VisitRoomState extends State {
     this.jack.screenConstrain(characterRange);
     this.william.screenConstrain(characterRange);
     this.averell.screenConstrain(characterRange);
+  }
+  // update the npcs
+  npcUpdate() {
+    this.guardian.update(this.appear.generalAlpha);
+    this.ma.update(this.appear.generalAlpha);
   }
   // checks if the leader character is at the boulder
   characterAt(x1, x2, condition) {
@@ -183,7 +196,7 @@ class VisitRoomState extends State {
   }
   // draw the visit room navigation instruction
   drawCellNavigationPrompt() {
-    if (this.joe.pos.center.x > width) {
+    if (this.joe.pos.center.x < 0) {
       this.typeCellNavigation.update();
       // reset the main prompt (erase it)
       this.typeMainPrompt.currentCharacter = 0;

@@ -86,6 +86,7 @@ function preload() {
   averellImg = loadImage(`assets/images/averell.png`);
   // load the images of the npcs
   guardianImg = loadImage(`assets/images/guard.png`);
+  maImg = loadImage(`assets/images/ma.png`);
   // load the image of the portraits
   daltonsPortrait = loadImage(`assets/images/profilesdalton.png`);
   maPortrait = loadImage(`assets/images/maportrait.png`);
