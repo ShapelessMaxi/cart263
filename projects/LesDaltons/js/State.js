@@ -41,7 +41,8 @@ class State {
     // if it is visit day, change the overlay text
     if (
       recordedData.day === recordedData.visit.day &&
-      recordedData.month === recordedData.visit.month
+      recordedData.month === recordedData.visit.month &&
+      !recordedData.visited
     ) {
       overlayText = `ma est dans la salle de visite!`;
     }

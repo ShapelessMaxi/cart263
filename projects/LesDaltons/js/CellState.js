@@ -478,6 +478,7 @@ class CellState extends State {
       recordedData.month === recordedData.month
     ) {
       if (key === `x`) {
+        recordedData.visited = true;
         // go to the cell scene
         state = new VisitRoomState();
         // save the time and date
