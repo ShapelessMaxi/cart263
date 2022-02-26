@@ -119,14 +119,14 @@ class CellState extends State {
       this.visitNavigationPrompt.size
     );
 
-    // refer to the boulder interaction prompt
+    // refer to the bed interaction prompt
     this.bedPrompt = {
       string: `tape sur E pour aller dormir`,
       x: 295,
       y: 715,
       size: 16,
     };
-    // create the main prompt typewriter
+    // create the bed prompt typewriter
     this.bedInteraction = new Typewriter(
       this.bedPrompt.string,
       this.bedPrompt.x,
@@ -135,6 +135,24 @@ class CellState extends State {
       this.typewriter.height,
       this.typewriter.speed,
       this.bedPrompt.size
+    );
+
+    // refer to the bread interaction prompt
+    this.breadPrompt = {
+      string: `tape sur E pour manger le pain`,
+      x: 295,
+      y: 692,
+      size: 16,
+    };
+    // create the bread prompt typewriter
+    this.breadInteraction = new Typewriter(
+      this.breadPrompt.string,
+      this.breadPrompt.x,
+      this.breadPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.breadPrompt.size
     );
 
     // refer to the object taking care of making the things appear
@@ -240,6 +258,14 @@ class CellState extends State {
 
     // display the bed interaction prompt
     this.drawBedPrompt();
+
+    // display the bread interaction prompt
+    this.drawBreadPrompt();
+
+    // draw the tunnel statement prompt
+    if (recordedData.breadEaten) {
+      this.drawBreadPrompt();
+    }
   }
 
   // draw the main location prompt
@@ -279,7 +305,7 @@ class CellState extends State {
       this.typeVisitNavigation.currentCharacter = 0;
     }
   }
-  // draw the boulder interaction prompt
+  // draw the bed interaction prompt
   drawBedPrompt() {
     if (
       this.characterAtBed() &&
@@ -295,6 +321,16 @@ class CellState extends State {
     } else {
       // reset the boulder interaction instruction (erase it)
       this.bedInteraction.currentCharacter = 0;
+    }
+  }
+  // draw the bread interaction prompt
+  drawBreadPrompt() {
+    if (recordedData.breadReceived) {
+      // display normal bread prompt
+      this.breadInteraction.update();
+    } else {
+      // reset the boulder interaction instruction (erase it)
+      this.breadInteraction.currentCharacter = 0;
     }
   }
 
@@ -333,25 +369,11 @@ class CellState extends State {
     // navigation between states
     this.navigation();
 
-    // bed interaction
-    if (
-      this.characterAtBed() &&
-      recordedData.day === recordedData.visit.day &&
-      recordedData.month === recordedData.visit.month
-    ) {
-      // do nothing
-    } else if (this.characterAtBed()) {
-      if (key === `e`) {
-        // reset the cell state
-        state = new CellState();
-        // skip a day
-        recordedData.day++;
-        recordedData.hours = 7;
-        recordedData.minutes = 0;
-        // save the time and date
-        this.saveTime();
-      }
-    }
+    // bed interactions
+    this.bedInteractions();
+
+    // bread interaction
+    this.breadInteractions();
   }
 
   // navigation between states
@@ -375,6 +397,52 @@ class CellState extends State {
         state = new VisitRoomState();
         // save the time and date
         this.saveTime();
+      }
+    }
+  }
+
+  // bed interactions
+  bedInteractions() {
+    if (
+      this.characterAtBed() &&
+      recordedData.day === recordedData.visit.day &&
+      recordedData.month === recordedData.visit.month
+    ) {
+      // do nothing
+    } else if (this.characterAtBed()) {
+      if (key === `e`) {
+        // reset the cell state
+        state = new CellState();
+        // skip a day
+        recordedData.day++;
+        recordedData.hours = 7;
+        recordedData.minutes = 0;
+        // save the time and date
+        this.saveTime();
+      }
+    }
+  }
+
+  // bread interactions
+  breadInteractions() {
+    if (recordedData.breadReceived) {
+      if (key === `e`) {
+        recordedData.spoonObtained = true;
+        // change what the bread prompt says
+        setTimeout(() => {
+          this.breadInteraction.currentCharacter = 0;
+          this.breadInteraction.string = `«OUCH! y'avait une cuillère dans le pain»`;
+        }, 300);
+        setTimeout(() => {
+          this.breadInteraction.currentCharacter = 0;
+          this.breadInteraction.string = `«Hey! on pourrais utiliser cette cuillère
+pour creuser un tunnel!»`;
+        }, 3500);
+        setTimeout(() => {
+          this.breadInteraction.currentCharacter = 0;
+          this.breadInteraction.string = `«On fera ca demain matin, Joe, 
+j'ai trop mangé moi...»`;
+        }, 7800);
       }
     }
   }

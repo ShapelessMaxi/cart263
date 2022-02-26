@@ -86,7 +86,7 @@ class Ui {
     if (recordedData.pickaxeObtained) {
       this.drawImage(this.tools.pickaxe, generalAlpha);
     }
-    if (recordedData.breadReceived) {
+    if (recordedData.breadReceived && !recordedData.spoonObtained) {
       this.drawImage(this.tools.bread, generalAlpha);
     }
     if (recordedData.spoonObtained) {
