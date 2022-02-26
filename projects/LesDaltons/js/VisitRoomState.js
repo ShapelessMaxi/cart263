@@ -46,7 +46,7 @@ class VisitRoomState extends State {
     this.guardian = new Npc(guardianImg, this.color1, this.color2);
     this.guardian.pos.center.x = 248;
     this.ma = new Npc(maImg, this.color1, this.color2);
-    this.ma.pos.height = 130;
+    this.ma.pos.height = 135;
     this.ma.pos.center.y = 470;
     this.ma.eyes.height = 22;
 
@@ -96,6 +96,24 @@ class VisitRoomState extends State {
       this.typewriter.height,
       this.typewriter.speed,
       this.cellNavigationPrompt.size
+    );
+
+    // refer to the boulder interaction prompt
+    this.guardianInteractionPrompt = {
+      string: `«bonne visite les gars»`,
+      x: 295,
+      y: 700,
+      size: 16,
+    };
+    // create the main prompt typewriter
+    this.guardianInteraction = new Typewriter(
+      this.guardianInteractionPrompt.string,
+      this.guardianInteractionPrompt.x,
+      this.guardianInteractionPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.guardianInteractionPrompt.size
     );
 
     // refer to the object taking care of making the things appear
@@ -186,6 +204,9 @@ class VisitRoomState extends State {
 
     // display the cell navigation instruction
     this.drawCellNavigationPrompt();
+
+    // draw the guardian prompt
+    this.drawGuardianPrompt();
   }
 
   // draw the main location prompt
@@ -203,6 +224,18 @@ class VisitRoomState extends State {
     } else {
       // reset the navigation instruction (erase it)
       this.typeCellNavigation.currentCharacter = 0;
+    }
+  }
+  // draw the guardian prompt
+  drawGuardianPrompt() {
+    let x1 = this.guardian.pos.center.x - this.guardian.pos.width / 2;
+    let x2 = this.guardian.pos.center.x + this.guardian.pos.width / 2;
+    let condition = this.joe !== undefined;
+    if (this.characterAt(x1, x2, condition)) {
+      this.guardianInteraction.update();
+    } else {
+      // reset the interaction instruction (erase it)
+      this.guardianInteraction.currentCharacter = 0;
     }
   }
 
