@@ -32,6 +32,7 @@ let state; // possible states : `intro`, `cell`, `yard`, `visitRoom`, `tunnel`, 
 // store the fonts used in the program
 let typewriterFont = undefined;
 let titleFont = undefined;
+let titleImage = undefined;
 
 // store the images of the characters
 let joeImg = undefined;
@@ -99,6 +100,7 @@ function preload() {
   // load the fonts used in the program
   typewriterFont = loadFont(`assets/fonts/IBMPlexMono-Regular.ttf`);
   titleFont = loadFont(`assets/fonts/PermanentMarker-Regular.ttf`);
+  titleImage = loadImage(`assets/images/Titre.png`);
 }
 
 /**

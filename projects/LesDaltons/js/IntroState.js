@@ -28,11 +28,11 @@ class IntroState extends State {
 
     // refer to the title object
     this.tittle = {
-      str: `Les Daltons : Prison Break`,
+      str: `s'échappent`,
       w: 750,
-      h: 100,
+      h: 250,
       x: width / 2,
-      y: 200,
+      y: 250,
     };
     // refer to the instruction object
     this.instructions = {
@@ -85,13 +85,18 @@ class IntroState extends State {
     // draw the text
     push();
     fill(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
-    textSize(50);
+    textSize(40);
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
     textFont(titleFont);
-    text(this.tittle.str, this.tittle.x, this.tittle.y);
+    text(this.tittle.str, this.tittle.x, this.tittle.y + 70);
     pop();
-    // draw with lucky luke font ****************************************
+    // draw image title
+    push();
+    tint(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
+    imageMode(CENTER);
+    image(titleImage, this.tittle.x, this.tittle.y - 40, 600, 110);
+    pop();
   }
 
   // draw the instrucions
