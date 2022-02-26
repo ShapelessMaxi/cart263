@@ -24,7 +24,7 @@ class VisitRoomState extends State {
     this.overlayText = `la salle de visite`;
 
     // refer to the colors used
-    this.color1 = { r: 230, g: 65, b: 95, a: 255 }; // bright yellow
+    this.color1 = { r: 250, g: 40, b: 80, a: 255 }; // bright pink
     this.color2 = { r: 15, g: 15, b: 15, a: 255 }; // almost black
 
     // refer to the floor
@@ -98,14 +98,14 @@ class VisitRoomState extends State {
       this.cellNavigationPrompt.size
     );
 
-    // refer to the boulder interaction prompt
+    // refer to the guardian interaction prompt
     this.guardianInteractionPrompt = {
       string: `«bonne visite les gars»`,
       x: 295,
       y: 700,
       size: 16,
     };
-    // create the main prompt typewriter
+    // create the guardian prompt typewriter
     this.guardianInteraction = new Typewriter(
       this.guardianInteractionPrompt.string,
       this.guardianInteractionPrompt.x,
@@ -114,6 +114,25 @@ class VisitRoomState extends State {
       this.typewriter.height,
       this.typewriter.speed,
       this.guardianInteractionPrompt.size
+    );
+
+    // refer to the ma interaction prompt
+    this.maInteractionPrompt = {
+      string: `«mes chéris, j'vous ai  amené un bon pain!»
+tape sur E pour accepter`,
+      x: 295,
+      y: 700,
+      size: 16,
+    };
+    // create the ma prompt typewriter
+    this.maInteraction = new Typewriter(
+      this.maInteractionPrompt.string,
+      this.maInteractionPrompt.x,
+      this.maInteractionPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.maInteractionPrompt.size
     );
 
     // refer to the object taking care of making the things appear
@@ -147,6 +166,8 @@ class VisitRoomState extends State {
 
     // draw the ui
     this.ui.update(this.appear.generalAlpha);
+    // reset the portrait to the daltons
+    this.ui.portrait.img = daltonsPortrait;
 
     // draw the text prompts in the ui
     this.drawPrompts();
@@ -207,6 +228,8 @@ class VisitRoomState extends State {
 
     // draw the guardian prompt
     this.drawGuardianPrompt();
+    // draw the ma prompt
+    this.drawMaPrompt();
   }
 
   // draw the main location prompt
@@ -233,9 +256,32 @@ class VisitRoomState extends State {
     let condition = this.joe !== undefined;
     if (this.characterAt(x1, x2, condition)) {
       this.guardianInteraction.update();
+      this.ui.portrait.img = guardianPortrait;
     } else {
       // reset the interaction instruction (erase it)
       this.guardianInteraction.currentCharacter = 0;
+    }
+  }
+  // draw the ma prompt
+  drawMaPrompt() {
+    let x1 = this.ma.pos.center.x - this.ma.pos.width / 2;
+    let x2 = this.ma.pos.center.x + this.ma.pos.width / 2;
+    let condition = !recordedData.breadReceived;
+    if (this.characterAt(x1, x2, condition)) {
+      // bread not recceived, draw the normal prompt
+      this.maInteraction.update();
+      // change the ui portrait for ma's portrait
+      this.ui.portrait.img = maPortrait;
+    } else if (this.characterAt(x1, x2, !condition)) {
+      // bread recceived, draw the secondary prompt
+      this.maInteraction.string = `«bon! ben jvous laisse aller manger dans
+votre cellule. À bientôt!»`;
+      this.maInteraction.update();
+      // change the ui portrait for ma's portrait
+      this.ui.portrait.img = maPortrait;
+    } else {
+      // reset the interaction instruction (erase it)
+      this.maInteraction.currentCharacter = 0;
     }
   }
 
@@ -272,17 +318,33 @@ class VisitRoomState extends State {
 
     // navigation between states
     this.navigation();
+
+    // ma interactions
+    this.maInteractions();
   }
 
   // navigation between states
   navigation() {
     // navigation to the cell
-    if (this.joe.pos.center.x > width) {
+    if (this.joe.pos.center.x < 0) {
       if (key === `x`) {
         // go to the cell scene
         state = new CellState();
         // save the time and date
         this.saveTime();
+      }
+    }
+  }
+
+  // ma interactions
+  maInteractions() {
+    let x1 = this.ma.pos.center.x - this.ma.pos.width / 2;
+    let x2 = this.ma.pos.center.x + this.ma.pos.width / 2;
+    let condition = !recordedData.breadReceived;
+    if (this.characterAt(x1, x2, condition)) {
+      if (key === `e`) {
+        // go to the cell scene
+        recordedData.breadReceived = true;
       }
     }
   }

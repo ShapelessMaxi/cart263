@@ -69,6 +69,7 @@ let recordedData = {
   boulderBroken: false,
   letterPicked: false,
   letterRead: false,
+  breadReceived: false,
 };
 
 /**
@@ -122,8 +123,17 @@ function setup() {
   if (data !== null) {
     // copy data into recorded time object
     recordedData.day = data.day;
+    recordedData.month = data.month;
     recordedData.hours = data.hours;
     recordedData.minutes = data.minutes;
+    recordedData.visit.day = data.visit.day;
+    recordedData.visit.month = data.visit.month;
+    recordedData.pickaxeObtained = data.pickaxeObtained;
+    recordedData.spoonObtained = data.spoonObtained;
+    recordedData.boulderBroken = data.boulderBroken;
+    recordedData.letterPicked = data.letterPicked;
+    recordedData.letterRead = data.letterRead;
+    recordedData.breadReceived = data.breadReceived;
   } else {
     // no data yet, start at day 1, 09:05 am
     recordedData.day = 2;
@@ -137,6 +147,7 @@ function setup() {
     recordedData.boulderBroken = false;
     recordedData.letterPicked = false;
     recordedData.letterRead = false;
+    recordedData.breadReceived = false;
     localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedData));
   }
 
