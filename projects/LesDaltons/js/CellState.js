@@ -352,10 +352,10 @@ class CellState extends State {
       this.characterAt(this.bed.x1, this.bed.x2) &&
       recordedData.day === recordedData.visit.day &&
       recordedData.month === recordedData.month &&
-      recordedData.breadEaten
+      recordedData.breadReceived
     ) {
       // display alternative text
-      this.bedInteraction.string = `tape sur E pour aller dormir`;
+      this.bedInteraction.string = `c'est pas le temps de dormir`;
       // display the bed interaction instruction
       this.bedInteraction.update();
     } else if (
@@ -380,6 +380,7 @@ class CellState extends State {
     if (
       !recordedData.breadEaten &&
       recordedData.breadReceived &&
+      !recordedData.ableToDig &&
       this.appear.generalAlpha > 250
     ) {
       // display normal bread prompt
@@ -391,24 +392,18 @@ class CellState extends State {
   }
   // draw the tunnel interaction prompt
   drawTunnelPrompt() {
-    if (
-      !recordedData.holeDugged &&
-      recordedData.spoonObtained &&
-      recordedData.day !== recordedData.visit.day &&
-      this.appear.generalAlpha > 250
-    ) {
-      console.log(`after if`);
-
+    if (recordedData.ableToDig && !recordedData.holeDugged) {
       // display normal tunnel prompt
       this.tunnelInteraction.update();
-      // } else if (
-      //   this.characterAt(
-      //     this.tunnel.x - this.tunnel.width / 2,
-      //     this.tunnel.x + this.tunnel.width / 2
-      //   ) &&
-      //   recordedData.holeDugged
-      // ) {
-      //   console.log(`ding dong you can you to next tunnel state`);
+    } else if (
+      this.characterAt(
+        this.tunnel.x - this.tunnel.width / 2,
+        this.tunnel.x + this.tunnel.width / 2
+      ) &&
+      recordedData.holeDugged
+    ) {
+      this.tunnelInteraction.currentCharacter = 0;
+      this.tunnelInteraction.string = `Tape sur E pour quitter la prison`;
     } else {
       // reset the tunnel interaction instruction (erase it)
       this.tunnelInteraction.currentCharacter = 0;
@@ -495,18 +490,7 @@ class CellState extends State {
       recordedData.month === recordedData.visit.month
     ) {
       if (recordedData.breadReceived && recordedData.breadEaten) {
-        if (key === `e`) {
-          // reset the cell state
-          state = new CellState();
-          // skip a day
-          recordedData.day++;
-          recordedData.hours = 7;
-          recordedData.minutes = 0;
-          // save the time and date
-          this.saveTime();
-        } else {
-          // do nothing
-        }
+        // do nothing
       }
     } else if (this.characterAt(this.bed.x1, this.bed.x2)) {
       if (key === `e`) {
@@ -538,27 +522,26 @@ class CellState extends State {
 pour creuser un tunnel!»`;
         }, 3500);
         setTimeout(() => {
-          this.breadInteraction.currentCharacter = 0;
-          this.breadInteraction.string = `«On fera ca demain matin, Joe.»`;
-        }, 7800);
-        setTimeout(() => {
           recordedData.breadEaten = true;
-        }, 10000);
+        }, 7800);
+        // start the tunnel interactions
+        setTimeout(() => {
+          recordedData.ableToDig = true;
+        }, 15000);
       }
     }
   }
 
   // tunnel interactions
   tunnelInteractions() {
-    if (
-      !recordedData.holeDugged &&
-      recordedData.spoonObtained &&
-      recordedData.day !== recordedData.visit.day &&
-      this.appear.generalAlpha > 200
-    ) {
+    if (recordedData.ableToDig && !recordedData.holeDugged) {
       if (key === `e`) {
         recordedData.holeDugged = true;
         this.tunnel.x = this.joe.pos.center.x;
+      }
+    } else if (recordedData.holeDugged) {
+      if (key === `e`) {
+        state = new TunnelState();
       }
     }
   }

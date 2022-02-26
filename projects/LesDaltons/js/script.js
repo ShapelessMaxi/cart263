@@ -73,6 +73,7 @@ let recordedData = {
   breadReceived: false,
   breadEaten: false,
   holeDugged: false,
+  ableToDig: false,
   visited: false,
 };
 
@@ -141,6 +142,7 @@ function setup() {
     recordedData.breadReceived = data.breadReceived;
     recordedData.breadEaten = data.breadEaten;
     recordedData.holeDugged = data.holeDugged;
+    recordedData.ableToDig = data.ableToDig;
     recordedData.visited = data.visited;
   } else {
     // no data yet, start at day 1, 09:05 am
@@ -158,6 +160,7 @@ function setup() {
     recordedData.breadReceived = false;
     recordedData.breadEaten = false;
     recordedData.holeDugged = false;
+    recordedData.ableToDig = false;
     recordedData.visited = false;
     localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedData));
   }
