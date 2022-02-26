@@ -271,7 +271,6 @@ class CellState extends State {
       // reset the main prompt (erase it)
       this.typeMainPrompt.currentCharacter = 0;
     } else if (this.joe.pos.center.x < 0) {
-      console.log(`basic day`);
       this.typeVisitNavigation.update();
       // reset the main prompt (erase it)
       this.typeMainPrompt.currentCharacter = 0;
@@ -373,7 +372,7 @@ class CellState extends State {
     ) {
       if (key === `x`) {
         // go to the cell scene
-        state = new VisitState();
+        state = new VisitRoomState();
         // save the time and date
         this.saveTime();
       }

@@ -140,7 +140,7 @@ function setup() {
   }
 
   // create the intro state
-  state = new IntroState();
+  state = new VisitRoomState();
 }
 
 /**

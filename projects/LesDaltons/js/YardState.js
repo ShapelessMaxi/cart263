@@ -131,8 +131,8 @@ class YardState extends State {
 
     // refer to the boulder interaction prompt
     this.guardianInteractionPrompt = {
-      string: `prenez donc une pioche, ça va vous occuper.
-tape sur 'E' pour accepter`,
+      string: `«prenez donc une pioche, ça va vous occuper.»
+tape sur E pour accepter`,
       x: 295,
       y: 700,
       size: 16,
@@ -360,7 +360,7 @@ tape sur 'E' pour la lire`,
       )
     ) {
       // if the player has the pickaxe and the boulder is not broken
-      this.guardianInteraction.string = `c'est bon, allez travaillez`;
+      this.guardianInteraction.string = `«c'est bon, allez travaillez»`;
       this.guardianInteraction.update();
     } else if (
       this.characterAt(
@@ -370,7 +370,7 @@ tape sur 'E' pour la lire`,
       )
     ) {
       // if the player has the pickaxe and the boulder is broken
-      this.guardianInteraction.string = `vous avez fait du bon travail les gars`;
+      this.guardianInteraction.string = `«vous avez fait du bon travail les gars»`;
       this.guardianInteraction.update();
     } else {
       // reset the boulder interaction instruction (erase it)
@@ -522,8 +522,8 @@ tape sur 'E' pour la lire`,
       if (key === `e`) {
         recordedData.letterPicked = true;
         // display the letter message
-        this.letterInteraction.string = `"c'est un message de Ma!
-  elle va venir nous visiter le ${this.visitDate()} ${this.visitMonth()}"`;
+        this.letterInteraction.string = `«c'est un message de Ma!
+elle va venir nous visiter le ${this.visitDate()} ${this.visitMonth()}»`;
       }
     }
   }

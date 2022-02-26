@@ -141,7 +141,7 @@ class Ui {
       recordedData.hours
     )}:${this.displayTimer(recordedData.minutes)} ${suffix}`;
     textFont(typewriterFont);
-    text(date, 888, 665);
+    text(date, 888, 660);
     pop();
   }
 
