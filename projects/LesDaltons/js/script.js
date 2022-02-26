@@ -52,6 +52,7 @@ let guardianPortrait = undefined;
 // store the images of the tools icons (ui)
 let pickaxIcon = undefined;
 let spoonIcon = undefined;
+let breadIcon = undefined;
 
 // store the images of the objects to be interacted with
 let bedImg = undefined;
@@ -70,6 +71,7 @@ let recordedData = {
   letterPicked: false,
   letterRead: false,
   breadReceived: false,
+  breadEaten: false,
 };
 
 /**
@@ -95,6 +97,7 @@ function preload() {
   // load the images of the tools
   pickaxIcon = loadImage(`assets/images/pickicon.png`);
   spoonIcon = loadImage(`assets/images/spoonicon.png`);
+  breadIcon = loadImage(`assets/images/bread.png`);
   // load the images of the objects to be interacted with
   bedImg = loadImage(`assets/images/bed.png`);
   letterImg = loadImage(`assets/images/letter.png`);
@@ -134,6 +137,7 @@ function setup() {
     recordedData.letterPicked = data.letterPicked;
     recordedData.letterRead = data.letterRead;
     recordedData.breadReceived = data.breadReceived;
+    recordedData.breadEaten = data.breadEaten;
   } else {
     // no data yet, start at day 1, 09:05 am
     recordedData.day = 2;
@@ -148,6 +152,7 @@ function setup() {
     recordedData.letterPicked = false;
     recordedData.letterRead = false;
     recordedData.breadReceived = false;
+    recordedData.breadEaten = false;
     localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedData));
   }
 

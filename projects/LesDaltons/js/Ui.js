@@ -46,6 +46,14 @@ class Ui {
         y2: 735,
         bevel: 5,
       },
+      bread: {
+        img: breadIcon,
+        x1: 895,
+        y1: 685,
+        x2: 985,
+        y2: 735,
+        bevel: 5,
+      },
     };
 
     // refer to the profile picture object
@@ -77,6 +85,9 @@ class Ui {
     this.drawShape(this.tools.spoon, this.color2, generalAlpha);
     if (recordedData.pickaxeObtained) {
       this.drawImage(this.tools.pickaxe, generalAlpha);
+    }
+    if (recordedData.breadReceived) {
+      this.drawImage(this.tools.bread, generalAlpha);
     }
     if (recordedData.spoonObtained) {
       this.drawImage(this.tools.spoon, generalAlpha);

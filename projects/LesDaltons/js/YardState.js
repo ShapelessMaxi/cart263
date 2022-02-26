@@ -204,6 +204,8 @@ tape sur 'E' pour la lire`,
 
     // draw the ui
     this.ui.update(this.appear.generalAlpha);
+    // reset the portrait to the daltons
+    this.ui.portrait.img = daltonsPortrait;
 
     // draw the text prompts in the ui
     this.drawPrompts();
@@ -350,8 +352,10 @@ tape sur 'E' pour la lire`,
     let x1 = this.guardian.pos.center.x - this.guardian.pos.width / 2;
     let x2 = this.guardian.pos.center.x + this.guardian.pos.width / 2;
     if (this.characterAt(x1, x2, !recordedData.pickaxeObtained)) {
-      // if the player doesnt have the pickaxe
+      // if the player doesnt have the pickaxe, display the normal guardian prompt
       this.guardianInteraction.update();
+      // change the portrait to the guradian's
+      this.ui.portrait.img = guardianPortrait;
     } else if (
       this.characterAt(
         x1,
@@ -359,9 +363,11 @@ tape sur 'E' pour la lire`,
         recordedData.pickaxeObtained && !recordedData.boulderBroken
       )
     ) {
-      // if the player has the pickaxe and the boulder is not broken
+      // if the player has the pickaxe and the boulder is not broken, display secondary prompt
       this.guardianInteraction.string = `«c'est bon, allez travaillez»`;
       this.guardianInteraction.update();
+      // change the portrait to the guradian's
+      this.ui.portrait.img = guardianPortrait;
     } else if (
       this.characterAt(
         x1,
@@ -369,9 +375,11 @@ tape sur 'E' pour la lire`,
         recordedData.pickaxeObtained && recordedData.boulderBroken
       )
     ) {
-      // if the player has the pickaxe and the boulder is broken
+      // if the player has the pickaxe and the boulder is broken, display third prompt
       this.guardianInteraction.string = `«vous avez fait du bon travail les gars»`;
       this.guardianInteraction.update();
+      // change the portrait to the guradian's
+      this.ui.portrait.img = guardianPortrait;
     } else {
       // reset the boulder interaction instruction (erase it)
       this.guardianInteraction.currentCharacter = 0;

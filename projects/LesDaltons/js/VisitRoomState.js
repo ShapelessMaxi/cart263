@@ -255,7 +255,9 @@ tape sur E pour accepter`,
     let x2 = this.guardian.pos.center.x + this.guardian.pos.width / 2;
     let condition = this.joe !== undefined;
     if (this.characterAt(x1, x2, condition)) {
+      // display the normal guardian prompt
       this.guardianInteraction.update();
+      // change the portrait to the guradian's
       this.ui.portrait.img = guardianPortrait;
     } else {
       // reset the interaction instruction (erase it)
