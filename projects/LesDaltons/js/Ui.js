@@ -5,6 +5,7 @@ General behaviors of ui objects
 > draw and animate the text/narrative
 > user able to choose dialogue options
 > speaking character profile picture
+> day/month and hours/minutes timer
 */
 class Ui {
   constructor(color1, color2) {
@@ -177,12 +178,14 @@ class Ui {
         // hours going up
         recordedData.hours += 1;
       }
+
       // day reset
       if (recordedData.hours > 12) {
         // days going up
         recordedData.day += 1;
         recordedData.hours = 1;
       }
+
       // month reset
       if (recordedData.day > 31) {
         recordedData.day = 1;

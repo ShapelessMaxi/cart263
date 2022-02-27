@@ -4,9 +4,7 @@ Extension of the State class.
 
 > create the main characters
 > display and move the characters
->
->
->
+> display the end title
 */
 class EndState extends State {
   /*
@@ -24,7 +22,7 @@ class EndState extends State {
     this.overlayText = `enfin libre!`;
 
     // refer to the title object
-    this.tittle = {
+    this.title = {
       img: endTitle,
       w: 500,
       h: 300,
@@ -49,15 +47,13 @@ class EndState extends State {
 
   /*
   call the super class update method
-  draw the floor
-  update and constrain the characters
   fade in the elements when arriving
   */
   update() {
     // call the super class update method
     super.update(this.color1, this.color2, this.skipClick, this.overlayText);
 
-    // draw the tittle
+    // draw the title
     this.drawTitle();
 
     // make the things appear
@@ -71,13 +67,13 @@ class EndState extends State {
     noStroke();
     rectMode(CENTER);
     fill(this.color1.r, this.color1.g, this.color1.b, this.appear.generalAlpha);
-    rect(this.tittle.x, this.tittle.y, this.tittle.w, this.tittle.h);
+    rect(this.title.x, this.title.y, this.title.w, this.title.h);
     pop();
     // draw image title
     push();
     tint(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
     imageMode(CENTER);
-    image(this.tittle.img, this.tittle.x, this.tittle.y, 400, 200);
+    image(this.title.img, this.title.x, this.title.y, 400, 200);
     pop();
   }
 

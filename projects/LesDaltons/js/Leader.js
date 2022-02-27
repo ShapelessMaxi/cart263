@@ -2,14 +2,12 @@
 Interactions linked to the Leader character
 Extension of the Dalton class.
 
->
->
->
->
+> move (and flip) the characters using wasd keys
+> draw the characters
 */
 class Leader extends Character {
   /*
-  define variables and arrays
+  define variables
   */
   constructor(color1, color2) {
     // call super class constructor

@@ -2,14 +2,12 @@
 Interactions linked to the Follower characters
 Extension of the Dalton class.
 
->
->
->
->
+> move (and flip) the characters
+> draw the characters
 */
 class Follower extends Character {
   /*
-  define variables and arrays
+  define variables
   */
   constructor(name, color1, color2) {
     // call super class constructor

@@ -3,8 +3,6 @@ General behaviors of other -State subclasses.
 
 > draw a striped background using color defined in the subclasses with the -State suffix
 > draw an overlay that fades out when the mouse is pressed (option to have it fade without the click defined in the subclasses)
->
->
 */
 class State {
   /*
@@ -46,8 +44,10 @@ class State {
     ) {
       overlayText = `ma est dans la salle de visite!`;
     }
+
     // draw the overlay
     this.drawOverlay(color1, color2, overlayText);
+
     // make the overlay fade
     this.startFadeOverlay(skipClick);
   }

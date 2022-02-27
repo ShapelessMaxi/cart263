@@ -5,14 +5,13 @@ Extension of the State class.
 > create the main characters
 > display and move the characters
 >
->
->
 */
 class TunnelState extends State {
   /*
-  call the super class constructor
-  define variables and arrays
-  create the characters
+  -call the super class constructor
+  -define variables and arrays
+  -create the characters
+  -create the prompt (dialogue and navigation)
   */
   constructor() {
     // call the super class constructor
@@ -20,6 +19,7 @@ class TunnelState extends State {
 
     // decide if we should skip having to click to fade out the overlay
     this.skipClick = true;
+
     // refer to the text on the overlay
     this.overlayText = `le tunnel`;
 
@@ -34,6 +34,7 @@ class TunnelState extends State {
       x2: 1000,
       y2: 750,
     };
+
     // refer to the ceilling
     this.ceilling = {
       x1: 0,
@@ -81,6 +82,7 @@ class TunnelState extends State {
       animationStarted: false,
       delay: 2000,
     };
+
     // start making the things appear
     this.startFadeIn();
   }
@@ -97,6 +99,7 @@ class TunnelState extends State {
 
     // draw the floor
     this.drawShape(this.floor);
+
     // draw the ceilling
     this.drawShape(this.ceilling);
 

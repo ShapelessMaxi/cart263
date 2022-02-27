@@ -2,10 +2,7 @@
 Interactions linked to the Leader character
 Extension of the Dalton class.
 
->
->
->
->
+> draw the characters
 */
 class Npc extends Character {
   /*

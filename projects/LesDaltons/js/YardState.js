@@ -11,9 +11,10 @@ Extension of the State class.
 */
 class YardState extends State {
   /*
-  call the super class constructor
-  define variables and arrays
-  create the characters
+  -call the super class constructor
+  -define variables and arrays
+  -create the characters
+  -create the prompts (navigation, dialogue)
   */
   constructor() {
     // call the super class constructor
@@ -198,18 +199,22 @@ tape sur 'E' pour la lire`,
 
     // draw the floor
     this.drawFloor();
+
     // draw the boulder
     this.drawBoulder();
+
     // draw the letter
     this.drawLetter();
 
     // update the character objects
     this.charactersUpdate();
+
     // update the npc objects
     this.npcUpdate();
 
     // draw the ui
     this.ui.update(this.appear.generalAlpha);
+
     // reset the portrait to the daltons
     this.ui.portrait.img = daltonsPortrait;
 
@@ -239,6 +244,7 @@ tape sur 'E' pour la lire`,
     this.william.screenConstrain(characterRange);
     this.averell.screenConstrain(characterRange);
   }
+
   // checks if the leader character is at the boulder
   characterAt(x1, x2, condition) {
     if (this.joe.pos.center.x > x1 && this.joe.pos.center.x < x2 && condition) {
@@ -261,6 +267,7 @@ tape sur 'E' pour la lire`,
     rect(this.floor.x1, this.floor.y1, this.floor.x2, this.floor.y2);
     pop();
   }
+
   // draw the letter
   drawLetter() {
     if (!recordedData.letterPicked && recordedData.boulderBroken) {
@@ -283,6 +290,7 @@ tape sur 'E' pour la lire`,
       pop();
     }
   }
+
   // draw the boulder
   drawBoulder() {
     if (!recordedData.boulderBroken) {
@@ -320,6 +328,7 @@ tape sur 'E' pour la lire`,
       this.drawLetterPrompt();
     }
   }
+
   // draw the main location prompt
   drawMainPrompt() {
     // display the main prompt
@@ -327,6 +336,7 @@ tape sur 'E' pour la lire`,
       this.typeMain.update();
     }
   }
+
   // draw the navigation prompt
   drawNavigationPrompt() {
     // display the navigation instruction
@@ -339,6 +349,7 @@ tape sur 'E' pour la lire`,
       this.typeNavigation.currentCharacter = 0;
     }
   }
+
   // draw the boulder interaction prompt
   drawBoulderPrompt() {
     let x1 = this.boulder.p5.x;
@@ -352,6 +363,7 @@ tape sur 'E' pour la lire`,
       this.boulderInteraction.currentCharacter = 0;
     }
   }
+
   // draw the guradian interaction prompt
   drawGuardianPrompt() {
     // display the boulder interaction instruction
@@ -391,6 +403,7 @@ tape sur 'E' pour la lire`,
       this.guardianInteraction.currentCharacter = 0;
     }
   }
+
   // draw the letter interaction prompt
   drawLetterPrompt() {
     // display the letter interaction instruction
@@ -425,6 +438,7 @@ tape sur 'E' pour la lire`,
       }, this.appear.delay);
     }
   }
+
   // fade in animation for various elements
   fadeIn() {
     if (this.appear.animationStarted && this.appear.generalAlpha <= 255) {
@@ -445,6 +459,7 @@ tape sur 'E' pour la lire`,
     recordedData.visit.day = inTwoDays;
     return inTwoDays;
   }
+
   // choose the month of Ma's visit
   visitMonth() {
     let inTwoDays;
@@ -473,8 +488,10 @@ tape sur 'E' pour la lire`,
 
     // interactions linked to the guardian
     this.guardianInteractions();
+
     // interactions linked to the letter
     this.letterInteractions();
+
     // interactions linked to the boulder
     this.boulderInteractions();
   }
@@ -525,6 +542,7 @@ tape sur 'E' pour la lire`,
       }
     }
   }
+
   // interactions linked to the letter
   letterInteractions() {
     // letter interaction

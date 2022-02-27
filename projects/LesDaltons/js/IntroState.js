@@ -2,15 +2,13 @@
 Interactions linked to the intro state are handled here.
 Extension of the State class.
 
-> draw the game tittle and the game instructions (appears gradually when mouse is pressed)
+> draw the game tittle and the game instructions
 > change the state of the game to the 'cell' scene when mouse is pressed
->
->
 */
 class IntroState extends State {
   /*
-  call the super class constructor
-  define variables and arrays
+  -call the super class constructor
+  -define variables
   */
   constructor() {
     // call the super class constructor
@@ -57,8 +55,9 @@ class IntroState extends State {
   }
 
   /*
-  call the super class update method
-  draw the title
+  -call the super class update method
+  -draw the title and the instructions
+  -apply the fade in animation
   */
   update() {
     // call the super class update method
@@ -66,6 +65,7 @@ class IntroState extends State {
 
     // draw the title
     this.drawTitle();
+
     // draw the instrucions
     this.drawInstructions();
 
@@ -82,6 +82,7 @@ class IntroState extends State {
     fill(this.color1.r, this.color1.g, this.color1.b, this.appear.generalAlpha);
     rect(this.tittle.x, this.tittle.y, this.tittle.w, this.tittle.h);
     pop();
+
     // draw the text
     push();
     fill(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
@@ -91,6 +92,7 @@ class IntroState extends State {
     textFont(titleFont);
     text(this.tittle.str, this.tittle.x, this.tittle.y + 70);
     pop();
+
     // draw image title
     push();
     tint(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
@@ -113,6 +115,7 @@ class IntroState extends State {
       this.instructions.h
     );
     pop();
+
     // draw the text
     push();
     fill(this.color1.r, this.color1.g, this.color1.b, this.appear.generalAlpha);

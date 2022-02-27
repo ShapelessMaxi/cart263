@@ -6,14 +6,17 @@ Extension of the State class.
 > display and move the characters
 > create and display the ui
 > bed object gives you the possibility of skipping a day
-> left of screen to navigate to yard scene/state
+> left and right of screen to navigate to yard scene/state
+> can eat the bread in the cell to find spoon
 > if spoon is found, dig hole in the ground to navigate to tunnel state
 */
 class CellState extends State {
   /*
-  call the super class constructor
-  define variables and arrays
-  create the characters
+  -call the super class constructor
+  -define variables and objects
+  -create the characters
+  -create the prompts (navigation, dialogue)
+  -define and start the fade in animation
   */
   constructor() {
     // call the super class constructor
@@ -59,14 +62,14 @@ class CellState extends State {
     this.william = new Follower(`william`, this.color1, this.color2);
     this.averell = new Follower(`averell`, this.color1, this.color2);
 
-    // refer to the typewriter animation object
+    // refer to the typewriter animation
     this.typewriter = {
       speed: 0.8,
       width: 800,
       height: 100,
       color: this.color2,
     };
-    // refer to the main prompt object
+    // refer to the main navigation prompt
     this.mainPrompt = {
       string: `vous êtes dans votre cellule`,
       x: 295,
@@ -75,7 +78,7 @@ class CellState extends State {
       displayed: false,
       delay: 4000,
     };
-    // create the main prompt typewriter
+    // create the main navigation typewriter object
     this.typeMainPrompt = new Typewriter(
       this.mainPrompt.string,
       this.mainPrompt.x,
@@ -86,19 +89,19 @@ class CellState extends State {
       this.mainPrompt.size,
       this.typewriter.color
     );
-    // start writting the main prompt after a short delay
+    // start writting the main navigation prompt after a short delay
     setTimeout(() => {
       this.mainPrompt.displayed = true;
     }, this.mainPrompt.delay);
 
-    // refer to the navigation prompt
+    // refer to the yard state navigation prompt
     this.yardNavigationPrompt = {
       string: `tape sur X pour sortir dans la cour`,
       x: 295,
       y: 670,
       size: 16,
     };
-    // create the main prompt typewriter
+    // create the yard state navigation prompt typewriter object
     this.typeYardNavigation = new Typewriter(
       this.yardNavigationPrompt.string,
       this.yardNavigationPrompt.x,
@@ -110,7 +113,7 @@ class CellState extends State {
       this.typewriter.color
     );
 
-    // refer to the navigation prompt for going to the visit room
+    // refer to the visit state navigation prompt
     this.visitNavigationPrompt = {
       string1: `vous n'avez pas l'accès à la salle de visite`,
       string2: `tape sur X pour sortir dans la cour`,
@@ -118,7 +121,7 @@ class CellState extends State {
       y: 670,
       size: 16,
     };
-    // create the main prompt typewriter
+    // create the visit state navigation prompt typewriter object
     this.typeVisitNavigation = new Typewriter(
       this.visitNavigationPrompt.string1,
       this.visitNavigationPrompt.x,
@@ -137,7 +140,7 @@ class CellState extends State {
       y: 715,
       size: 16,
     };
-    // create the bed prompt typewriter
+    // create the bed interactio typewriter object
     this.bedInteraction = new Typewriter(
       this.bedPrompt.string,
       this.bedPrompt.x,
@@ -156,7 +159,7 @@ class CellState extends State {
       y: 692,
       size: 16,
     };
-    // create the bread prompt typewriter
+    // create the bread interaction typewriter object
     this.breadInteraction = new Typewriter(
       this.breadPrompt.string,
       this.breadPrompt.x,
@@ -175,7 +178,7 @@ class CellState extends State {
       y: 692,
       size: 16,
     };
-    // create the tunnel prompt typewriter
+    // create the tunnel interaction typewriter object
     this.tunnelInteraction = new Typewriter(
       this.tunnelPrompt.string,
       this.tunnelPrompt.x,
@@ -187,23 +190,24 @@ class CellState extends State {
       this.typewriter.color
     );
 
-    // refer to the object taking care of making the things appear
+    // refer to fade in animation properties
     this.appear = {
       generalAlpha: 0,
       speed: 8,
       animationStarted: false,
       delay: 2000,
     };
-    // start making the things appear
+    // start the fade in animation
     this.startFadeIn();
   }
 
   /*
-  call the super class update method
-  draw the floor
-  update and constrain the characters
-  update the ui
-  fade in the elements when arriving
+  -call the super class update method
+  -draw the floor, the bed and the tunnel hole
+  -update and constrain the characters
+  -update the ui
+  -draw the prompts (navigation, dialogue)
+  -fade in the elements when arriving
   */
   update() {
     // call the super class update method
@@ -211,9 +215,10 @@ class CellState extends State {
 
     // draw the floor
     this.drawFloor();
+
     // draw the bed
     this.drawBed();
-    if (recordedData.holeDugged) {
+    if (recordedData.holeDug) {
       this.drawTunnelHole();
     }
 
@@ -249,7 +254,8 @@ class CellState extends State {
     this.william.screenConstrain(characterRange);
     this.averell.screenConstrain(characterRange);
   }
-  // checks if the leader character is at the boulder
+
+  // checks if the leader character is in between two x values
   characterAt(x1, x2) {
     if (this.joe.pos.center.x > x1 && this.joe.pos.center.x < x2) {
       return true;
@@ -258,7 +264,6 @@ class CellState extends State {
 
   // draw the floor
   drawFloor() {
-    // draw a rectangle for the floor
     push();
     rectMode(CORNERS);
     noStroke();
@@ -266,9 +271,9 @@ class CellState extends State {
     rect(this.floor.x1, this.floor.y1, this.floor.x2, this.floor.y2);
     pop();
   }
+
   // draw the bed
   drawBed() {
-    // draw a rectangle for the floor
     push();
     imageMode(CORNERS);
     noStroke();
@@ -276,6 +281,7 @@ class CellState extends State {
     image(this.bed.img, this.bed.x1, this.bed.y1, this.bed.x2, this.bed.y2);
     pop();
   }
+
   // draw the tunnel hole
   drawTunnelHole() {
     push();
@@ -322,17 +328,19 @@ class CellState extends State {
       this.typeMainPrompt.update();
     }
   }
+
   // draw the yard navigation instruction
   drawYardNavigationPrompt() {
     if (this.joe.pos.center.x > width) {
       this.typeYardNavigation.update();
-      // reset the main prompt (erase it)
+      // reset the main navigation prompt
       this.typeMainPrompt.currentCharacter = 0;
     } else {
-      // reset the navigation instruction (erase it)
+      // reset the yard navigation instruction
       this.typeYardNavigation.currentCharacter = 0;
     }
   }
+
   // draw the visit room navigation instruction
   drawVisitNavigationPrompt() {
     if (
@@ -340,19 +348,21 @@ class CellState extends State {
       recordedData.day === recordedData.visit.day &&
       recordedData.month === recordedData.visit.month
     ) {
+      // on the day of Ma's visit, type secondary prompt
       this.typeVisitNavigation.string = `tape sur 'X' pour aller dans la salle de visite`;
       this.typeVisitNavigation.update();
-      // reset the main prompt (erase it)
+      // reset the main navigation prompt
       this.typeMainPrompt.currentCharacter = 0;
     } else if (this.joe.pos.center.x < 0) {
       this.typeVisitNavigation.update();
-      // reset the main prompt (erase it)
+      // reset the main navigation prompt
       this.typeMainPrompt.currentCharacter = 0;
     } else {
       // reset the navigation instruction (erase it)
       this.typeVisitNavigation.currentCharacter = 0;
     }
   }
+
   // draw the bed interaction prompt
   drawBedPrompt() {
     if (
@@ -361,7 +371,7 @@ class CellState extends State {
       recordedData.month === recordedData.month &&
       recordedData.breadReceived
     ) {
-      // display alternative text
+      // on the day of Ma's visit, after receiving the bread from her, display alternative text
       this.bedInteraction.string = `c'est pas le temps de dormir`;
       // display the bed interaction instruction
       this.bedInteraction.update();
@@ -371,7 +381,7 @@ class CellState extends State {
       recordedData.month === recordedData.month &&
       !recordedData.breadEaten
     ) {
-      // display alternative text
+      //  on the day of Ma's visit, before receiving the bread from her, display alternative text
       this.bedInteraction.string = `vous allez manquer Ma si vous allez dormir`;
       this.bedInteraction.update();
     } else if (this.characterAt(this.bed.x1, this.bed.x2)) {
@@ -382,6 +392,7 @@ class CellState extends State {
       this.bedInteraction.currentCharacter = 0;
     }
   }
+
   // draw the bread interaction prompt
   drawBreadPrompt() {
     if (
@@ -390,29 +401,31 @@ class CellState extends State {
       !recordedData.ableToDig &&
       this.appear.generalAlpha > 250
     ) {
-      // display normal bread prompt
+      // if the player has received the bread, but did not eat it, display normal bread prompt
       this.breadInteraction.update();
     } else {
       // reset the boulder interaction instruction (erase it)
       this.breadInteraction.currentCharacter = 0;
     }
   }
+
   // draw the tunnel interaction prompt
   drawTunnelPrompt() {
-    if (recordedData.ableToDig && !recordedData.holeDugged) {
-      // display normal tunnel prompt
+    if (recordedData.ableToDig && !recordedData.holeDug) {
+      // if you're able to dig (after finding the spoon), display normal tunnel prompt
       this.tunnelInteraction.update();
     } else if (
       this.characterAt(
         this.tunnel.x - this.tunnel.width / 2,
         this.tunnel.x + this.tunnel.width / 2
       ) &&
-      recordedData.holeDugged
+      recordedData.holeDug
     ) {
+      // if the player has dug a hole, display secondary prompt
       this.tunnelInteraction.currentCharacter = 0;
       this.tunnelInteraction.string = `Tape sur E pour quitter la prison`;
     } else {
-      // reset the tunnel interaction instruction (erase it)
+      // reset the tunnel interaction instruction
       this.tunnelInteraction.currentCharacter = 0;
     }
   }
@@ -443,7 +456,7 @@ class CellState extends State {
   /*
   - takes care of the navigation between states (scenes)
     - save the time and date in local web storage when navigating between scenes
-  -takes care of the interaction with the bed
+  - takes care of the interaction with the bed, the bread and the tunnel
   */
   keyPressed() {
     // call the super class method
@@ -473,12 +486,14 @@ class CellState extends State {
         this.saveTime();
       }
     }
+
     // navigation to the visit room
     if (
       this.joe.pos.center.x < 0 &&
       recordedData.day === recordedData.visit.day &&
       recordedData.month === recordedData.month
     ) {
+      // can only go on the day of Ma's visit
       if (key === `x`) {
         recordedData.visited = true;
         // go to the cell scene
@@ -519,6 +534,7 @@ class CellState extends State {
       if (key === `e`) {
         recordedData.spoonObtained = true;
         // change what the bread prompt says
+        // timers to chain dialogue
         setTimeout(() => {
           this.breadInteraction.currentCharacter = 0;
           this.breadInteraction.string = `«OUCH! y'avait une cuillère dans le pain»`;
@@ -541,12 +557,12 @@ pour creuser un tunnel!»`;
 
   // tunnel interactions
   tunnelInteractions() {
-    if (recordedData.ableToDig && !recordedData.holeDugged) {
+    if (recordedData.ableToDig && !recordedData.holeDug) {
       if (key === `e`) {
-        recordedData.holeDugged = true;
+        recordedData.holeDug = true;
         this.tunnel.x = this.joe.pos.center.x;
       }
-    } else if (recordedData.holeDugged) {
+    } else if (recordedData.holeDug) {
       if (key === `e`) {
         state = new TunnelState();
       }

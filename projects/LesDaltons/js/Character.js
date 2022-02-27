@@ -1,14 +1,12 @@
 /*
 General behaviors of other -Character subclasses.
 
-> draw the character
-> move the character using 'wasd'
->
->
+> apply idle animation
+> constrain the character to a bit more than the screen (defined in the state classes)
 */
 class Character {
   /*
-  define variables and arrays
+  -define variables
   */
   constructor() {
     // keeps track of the orientation of the character
@@ -36,7 +34,7 @@ class Character {
   }
 
   /*
-  draw the character
+  apply movement to the character
   */
   update(color1, color2, generalAlpha) {
     // takes care of the character movement

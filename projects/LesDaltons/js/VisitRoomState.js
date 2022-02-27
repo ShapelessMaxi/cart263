@@ -10,9 +10,10 @@ Extension of the State class.
 */
 class VisitRoomState extends State {
   /*
-  call the super class constructor
-  define variables and arrays
-  create the characters
+  -call the super class constructor
+  -define variables and arrays
+  -create the characters
+  -create the prompts (navigation, dialogue)
   */
   constructor() {
     // call the super class constructor
