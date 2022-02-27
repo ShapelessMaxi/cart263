@@ -166,7 +166,7 @@ function setup() {
   }
 
   // create the intro state
-  state = new TunnelState();
+  state = new CellState();
 }
 
 /**

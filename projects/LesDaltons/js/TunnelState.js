@@ -30,9 +30,16 @@ class TunnelState extends State {
     // refer to the floor
     this.floor = {
       x1: 0,
-      y1: 450,
+      y1: 650,
       x2: 1000,
       y2: 750,
+    };
+    // refer to the ceilling
+    this.ceilling = {
+      x1: 0,
+      y1: 0,
+      x2: 1000,
+      y2: 450,
     };
 
     // create the characters
@@ -40,6 +47,32 @@ class TunnelState extends State {
     this.jack = new Follower(`jack`, this.color1, this.color2);
     this.william = new Follower(`william`, this.color1, this.color2);
     this.averell = new Follower(`averell`, this.color1, this.color2);
+
+    // refer to the typewriter animation object
+    this.typewriter = {
+      speed: 0.8,
+      width: 800,
+      height: 100,
+    };
+    // refer to the main prompt object
+    this.navigationPrompt = {
+      string: `tape sur 'X' pour gouter à la liberté`,
+      x: 220,
+      y: 200,
+      size: 24,
+      color: this.color1,
+    };
+    // create the main prompt typewriter
+    this.typeNavigation = new Typewriter(
+      this.navigationPrompt.string,
+      this.navigationPrompt.x,
+      this.navigationPrompt.y,
+      this.typewriter.width,
+      this.typewriter.height,
+      this.typewriter.speed,
+      this.navigationPrompt.size,
+      this.navigationPrompt.color
+    );
 
     // refer to the object taking care of making the things appear
     this.appear = {
@@ -63,10 +96,15 @@ class TunnelState extends State {
     super.update(this.color1, this.color2, this.skipClick, this.overlayText);
 
     // draw the floor
-    this.drawFloor();
+    this.drawShape(this.floor);
+    // draw the ceilling
+    this.drawShape(this.ceilling);
 
     // update the character objects
     this.charactersUpdate();
+
+    //   draw the navigation prompt
+    this.drawNavigationPrompt();
 
     // make the things appear
     this.fadeIn();
@@ -92,27 +130,18 @@ class TunnelState extends State {
     this.averell.screenConstrain(characterRange);
   }
 
-  // checks if the leader character is at the boulder
-  characterAt(x1, x2, condition) {
-    if (this.joe.pos.center.x > x1 && this.joe.pos.center.x < x2 && condition) {
-      return true;
-    }
-  }
-
-  // draw the floor
-  drawFloor() {
-    // draw a rectangle for the floor
+  // draw a rectangle shape
+  drawShape(type) {
     push();
     rectMode(CORNERS);
     noStroke();
     fill(this.color2.r, this.color2.g, this.color2.b, this.appear.generalAlpha);
-    rect(this.floor.x1, this.floor.y1, this.floor.x2, this.floor.y2);
+    rect(type.x1, type.y1, type.x2, type.y2);
     pop();
   }
 
   // start to make things appear
   startFadeIn() {
-    //check if the fade in animation has started
     if (!this.appear.animationStarted) {
       // start the fade in animation of the overlay after 1 seconds
       setTimeout(() => {
@@ -128,14 +157,16 @@ class TunnelState extends State {
     }
   }
 
-  // save date and time into local web storage
-  saveTime() {
-    localStorage.setItem(`time-date-dalton-data`, JSON.stringify(recordedData));
+  // draw the navigation prompt
+  drawNavigationPrompt() {
+    // display the navigation instruction
+    if (this.joe.pos.center.x > width) {
+      this.typeNavigation.update();
+    }
   }
 
   /*
   - takes care of the navigation between states (scenes)
-    - save the time and date in local web storage when navigating between scenes
   */
   keyPressed() {
     // call the super class method
@@ -148,12 +179,10 @@ class TunnelState extends State {
   // navigation between states
   navigation() {
     // navigation to the cell
-    if (this.joe.pos.center.x < 0) {
+    if (this.joe.pos.center.x > width) {
       if (key === `x`) {
         // go to the cell scene
-        state = new CellState();
-        // save the time and date
-        this.saveTime();
+        state = new Endtate();
       }
     }
   }

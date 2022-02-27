@@ -64,6 +64,7 @@ class CellState extends State {
       speed: 0.8,
       width: 800,
       height: 100,
+      color: this.color2,
     };
     // refer to the main prompt object
     this.mainPrompt = {
@@ -82,7 +83,8 @@ class CellState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.mainPrompt.size
+      this.mainPrompt.size,
+      this.typewriter.color
     );
     // start writting the main prompt after a short delay
     setTimeout(() => {
@@ -104,7 +106,8 @@ class CellState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.yardNavigationPrompt.size
+      this.yardNavigationPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the navigation prompt for going to the visit room
@@ -123,7 +126,8 @@ class CellState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.visitNavigationPrompt.size
+      this.visitNavigationPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the bed interaction prompt
@@ -141,7 +145,8 @@ class CellState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.bedPrompt.size
+      this.bedPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the bread interaction prompt
@@ -159,7 +164,8 @@ class CellState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.breadPrompt.size
+      this.breadPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the tunnel interaction prompt
@@ -177,7 +183,8 @@ class CellState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.tunnelPrompt.size
+      this.tunnelPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the object taking care of making the things appear

@@ -68,6 +68,7 @@ class YardState extends State {
       speed: 0.8,
       width: 800,
       height: 100,
+      color: this.color2,
     };
     // refer to the main prompt object
     this.mainPrompt = {
@@ -86,7 +87,8 @@ class YardState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.mainPrompt.size
+      this.mainPrompt.size,
+      this.typewriter.color
     );
     // start writting the main prompt after a short delay
     setTimeout(() => {
@@ -108,7 +110,8 @@ class YardState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.navigationPrompt.size
+      this.navigationPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the boulder interaction prompt
@@ -126,7 +129,8 @@ class YardState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.boulderInteractionPrompt.size
+      this.boulderInteractionPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the boulder interaction prompt
@@ -145,7 +149,8 @@ tape sur E pour accepter`,
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.guardianInteractionPrompt.size
+      this.guardianInteractionPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the boulder interaction prompt
@@ -164,7 +169,8 @@ tape sur 'E' pour la lire`,
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.letterInteractionPrompt.size
+      this.letterInteractionPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the object taking care of making the things appear
