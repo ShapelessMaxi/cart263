@@ -1,3 +1,7 @@
 # Sounds folder
 
-This is the folder where you would keep all the sound files associated with your project, such as `.mp3`, `.wav`, and other formats. An example sound, `bark.wav`, is here in case you need something to play around with.
+sounds files:
+ding sound : https://freesound.org/people/Aiwha/sounds/196106/
+bip sound : https://freesound.org/people/RanneM/sounds/475557/
+main simple synth melody : https://freesound.org/people/Lemoncreme/sounds/231578/
+secondary fast synth melody :https://freesound.org/people/pryght%20one/sounds/22904/

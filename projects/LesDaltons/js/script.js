@@ -59,6 +59,12 @@ let breadIcon = undefined;
 let bedImg = undefined;
 let letterImg = undefined;
 
+// store the sound effects and music
+let mainMelody = undefined;
+let secondaryMelody = undefined;
+let interactionDing = undefined;
+let daySound = undefined;
+
 // store the time and date here
 let recordedData = {
   day: 2,
@@ -111,6 +117,12 @@ function preload() {
   titleFont = loadFont(`assets/fonts/PermanentMarker-Regular.ttf`);
   titleImage = loadImage(`assets/images/Titre.png`);
   endTitle = loadImage(`assets/images/Fin.png`);
+
+  // load the sound effects and music
+  mainMelody = loadSound(`assets/sounds/simplemelody.mp3`);
+  secondaryMelody = loadSound(`assets/sounds/fastmelody.mp3`);
+  interactionDing = loadSound(`assets/sounds/bip.wav`);
+  daySound = loadSound(`assets/sounds/ding.mp3`);
 }
 
 /**
@@ -168,7 +180,7 @@ function setup() {
   }
 
   // create the intro state
-  state = new EndState();
+  state = new IntroState();
 }
 
 /**

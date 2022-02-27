@@ -546,8 +546,8 @@ tape sur 'E' pour la lire`,
   // interactions linked to the letter
   letterInteractions() {
     // letter interaction
-    let x1 = this.letter.x1;
-    let x2 = this.letter.x2;
+    let x1 = this.letter.x1 - 100;
+    let x2 = this.letter.x2 + 100;
     let condition = recordedData.boulderBroken && !recordedData.letterPicked;
     // if the letter hasn't been broken yet and ou have a pickaxe
     if (this.characterAt(x1, x2, condition)) {
