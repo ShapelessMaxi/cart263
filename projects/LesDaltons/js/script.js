@@ -33,6 +33,7 @@ let state; // possible states : `intro`, `cell`, `yard`, `visitRoom`, `tunnel`, 
 let typewriterFont = undefined;
 let titleFont = undefined;
 let titleImage = undefined;
+let endTitle = undefined;
 
 // store the images of the characters
 let joeImg = undefined;
@@ -109,6 +110,7 @@ function preload() {
   typewriterFont = loadFont(`assets/fonts/IBMPlexMono-Regular.ttf`);
   titleFont = loadFont(`assets/fonts/PermanentMarker-Regular.ttf`);
   titleImage = loadImage(`assets/images/Titre.png`);
+  endTitle = loadImage(`assets/images/Fin.png`);
 }
 
 /**
@@ -166,7 +168,7 @@ function setup() {
   }
 
   // create the intro state
-  state = new CellState();
+  state = new EndState();
 }
 
 /**
