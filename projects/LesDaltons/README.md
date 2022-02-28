@@ -7,7 +7,7 @@ This program is inspired by the cartoon 'Lucky Luke', in which a famous and soli
 In this program, you control the four Dalton brothers. More specifically, you control
 Joe, and the three other brothers follow Joe, just like in the cartoon.
 
-Your goal is to get out of the prison. There is a narrative and a plan to follow.
+**Your goal is to get out of the prison.** There is a narrative and a plan to follow.
 
 _Prison break plan :_
 1- You start in your cell, with nothing to do there.  
@@ -22,8 +22,8 @@ _Prison break plan :_
 10- With the spoon, you can dig a tunnel in the floor of the cell.  
 11- You can now escape through the tunnel.
 
-> _here is what I wish I could have accomplished to make this program better:_
-> 1- better dialogues and UI to display it.
-> 2- multiple choices of interactions (or even multiple possible escape plans?)
-> 3- more and better suited sound effects.
+> _here is what I wish I could have accomplished to make this program better:_  
+> 1- better dialogues and UI to display it.  
+> 2- multiple choices of interactions (or even multiple possible escape plans?).  
+> 3- more and better suited sound effects.  
 > 4- add different personalities or unique behaviors for each brother.
