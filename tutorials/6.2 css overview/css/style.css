@@ -4,3 +4,19 @@ Here is a description of any special CSS used.
 By default that's nothing.
 
 **********************************************/
+
+h1 {
+  font-size: 5rem;
+  font-family: Helvetica, sans-serif;
+  color: pink;
+}
+
+p {
+  font-size: 2rem;
+  color: grey;
+}
+
+h1,
+p {
+  font-style: oblique;
+}
