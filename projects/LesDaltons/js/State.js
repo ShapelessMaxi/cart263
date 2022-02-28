@@ -26,6 +26,12 @@ class State {
       fadeSpeed: 3,
       animationStarted: false,
     };
+
+    // refer the the volume of the music
+    this.volume = {
+      main: 0.1,
+      secondary: 0.008,
+    };
   }
 
   /*
@@ -57,9 +63,24 @@ class State {
     if (mainMelody.isPlaying()) {
       // do nothing
     } else {
-      mainMelody.setVolume(0.1);
+      mainMelody.setVolume(this.volume.main);
       mainMelody.loop();
     }
+  }
+
+  // loop secondary music
+  secondaryMusic() {
+    if (secondaryMelody.isPlaying()) {
+      // do nothing
+    } else {
+      secondaryMelody.setVolume(this.volume.secondary);
+      secondaryMelody.loop();
+    }
+  }
+
+  // change the volume of a sound/music
+  changeVolume(music, volume) {
+    music.setVolume(volume);
   }
 
   // play the interaction bip

@@ -422,8 +422,8 @@ class CellState extends State {
       recordedData.holeDug
     ) {
       // if the player has dug a hole, display secondary prompt
-      this.tunnelInteraction.currentCharacter = 0;
       this.tunnelInteraction.string = `Tape sur E pour quitter la prison`;
+      this.tunnelInteraction.update();
     } else {
       // reset the tunnel interaction instruction
       this.tunnelInteraction.currentCharacter = 0;
@@ -541,8 +541,18 @@ class CellState extends State {
       if (key === `e`) {
         // play the interaction bip
         super.interactionBip();
+
+        // turn the volume of the secondary music up
+        let secondaryMusicVolume = 0.1;
+        super.changeVolume(secondaryMelody, secondaryMusicVolume);
+
+        // turn the volume of the main music down
+        let mainMusicVolume = 0.08;
+        super.changeVolume(mainMelody, mainMusicVolume);
+
         // keep track of the user finding the spoon
         recordedData.spoonObtained = true;
+
         // change what the bread prompt says
         // timers to chain dialogue
         setTimeout(() => {
@@ -569,6 +579,14 @@ pour creuser un tunnel!»`;
   tunnelInteractions() {
     if (recordedData.ableToDig && !recordedData.holeDug) {
       if (key === `e`) {
+        // turn the volume of the secondary music up
+        let secondaryMusicVolume = 0.2;
+        super.changeVolume(secondaryMelody, secondaryMusicVolume);
+
+        // turn the volume of the main music down
+        let mainMusicVolume = 0.02;
+        super.changeVolume(mainMelody, mainMusicVolume);
+
         // play the interaction bip
         super.interactionBip();
         // dig a tunnel hole
@@ -579,6 +597,15 @@ pour creuser un tunnel!»`;
       if (key === `e`) {
         // play the interaction bip
         super.interactionBip();
+
+        // turn the volume of the secondary music up
+        let secondaryMusicVolume = 0.3;
+        super.changeVolume(secondaryMelody, secondaryMusicVolume);
+
+        // turn the volume of the main music down
+        let mainMusicVolume = 0.01;
+        super.changeVolume(mainMelody, mainMusicVolume);
+
         // change the state
         state = new TunnelState();
       }

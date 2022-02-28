@@ -187,7 +187,7 @@ class TunnelState extends State {
         // play the interaction bip
         super.interactionBip();
         // go to the cell scene
-        state = new Endtate();
+        state = new EndState();
       }
     }
   }

@@ -356,6 +356,9 @@ votre cellule. À bientôt!»`;
       if (key === `e`) {
         // play the interaction bip
         super.interactionBip();
+        // start the secondary music with low volume
+        super.secondaryMusic();
+
         // keep track of the user receiving th bread
         recordedData.breadReceived = true;
         // reset the interaction typwritter animation
