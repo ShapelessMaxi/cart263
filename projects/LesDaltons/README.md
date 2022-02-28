@@ -9,7 +9,7 @@ Joe, and the three other brothers follow Joe, just like in the cartoon.
 
 **Your goal is to get out of the prison.** There is a narrative and a plan to follow.
 
-_Prison break plan :_
+_Prison break plan :_  
 1- You start in your cell, with nothing to do there.  
 2- You go in the yard, where there is a guard and a boulder.  
 3- After talking to the guardian, you receive a pickaxe.  
