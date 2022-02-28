@@ -78,7 +78,7 @@ class YardState extends State {
       y: 670,
       size: 16,
       displayed: false,
-      delay: 4000,
+      delay: 3000,
     };
     // create the main prompt typewriter
     this.typeMain = new Typewriter(
@@ -501,6 +501,8 @@ tape sur 'E' pour la lire`,
     // state navigation
     if (this.joe.pos.center.x < 0) {
       if (key === `x`) {
+        // play the interaction bip
+        super.interactionBip();
         // go to the cell scene
         state = new CellState();
 
@@ -524,6 +526,9 @@ tape sur 'E' pour la lire`,
     // if you dont have a pickaxe
     if (this.characterAt(x1, x2, condition)) {
       if (key === `e`) {
+        // play the interaction bip
+        super.interactionBip();
+        // keep track of the user getting the pickaxe
         recordedData.pickaxeObtained = true;
       }
     }
@@ -538,6 +543,9 @@ tape sur 'E' pour la lire`,
     // if the boulder hasn't been broken yet and ou have a pickaxe
     if (this.characterAt(x3, x4, condition1)) {
       if (key === `e`) {
+        // play the interaction bip
+        super.interactionBip();
+        // kee track of the bouler being brokem
         recordedData.boulderBroken = true;
       }
     }
@@ -549,9 +557,12 @@ tape sur 'E' pour la lire`,
     let x1 = this.letter.x1 - 100;
     let x2 = this.letter.x2 + 100;
     let condition = recordedData.boulderBroken && !recordedData.letterPicked;
-    // if the letter hasn't been broken yet and ou have a pickaxe
+    // if the boulder hasn't been broken yet and the player did not pick the letter yet
     if (this.characterAt(x1, x2, condition)) {
       if (key === `e`) {
+        // play the interaction bip
+        super.interactionBip();
+        // keep track of the user picking the letter
         recordedData.letterPicked = true;
         // display the letter message
         this.letterInteraction.string = `«c'est un message de Ma!

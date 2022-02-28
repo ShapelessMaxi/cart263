@@ -167,6 +167,8 @@ class IntroState extends State {
 
     // check if the things are fully visisble
     if (this.appear.generalAlpha > 250) {
+      // play the interaction bip
+      super.interactionBip();
       // change the state to the cell state
       state = new CellState();
     }

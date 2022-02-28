@@ -76,7 +76,7 @@ class CellState extends State {
       y: 670,
       size: 16,
       displayed: false,
-      delay: 4000,
+      delay: 3000,
     };
     // create the main navigation typewriter object
     this.typeMainPrompt = new Typewriter(
@@ -480,6 +480,8 @@ class CellState extends State {
     // navigation to the yard
     if (this.joe.pos.center.x > width) {
       if (key === `x`) {
+        // play the interaction bip
+        super.interactionBip();
         // go to the cell scene
         state = new YardState();
         // save the time and date
@@ -495,6 +497,9 @@ class CellState extends State {
     ) {
       // can only go on the day of Ma's visit
       if (key === `x`) {
+        // play the interaction bip
+        super.interactionBip();
+        // keep track of the visit being done
         recordedData.visited = true;
         // go to the cell scene
         state = new VisitRoomState();
@@ -516,6 +521,8 @@ class CellState extends State {
       }
     } else if (this.characterAt(this.bed.x1, this.bed.x2)) {
       if (key === `e`) {
+        // play the interaction bip
+        super.interactionBip();
         // reset the cell state
         state = new CellState();
         // skip a day
@@ -532,6 +539,9 @@ class CellState extends State {
   breadInteractions() {
     if (recordedData.breadReceived && !recordedData.spoonObtained) {
       if (key === `e`) {
+        // play the interaction bip
+        super.interactionBip();
+        // keep track of the user finding the spoon
         recordedData.spoonObtained = true;
         // change what the bread prompt says
         // timers to chain dialogue
@@ -559,11 +569,17 @@ pour creuser un tunnel!»`;
   tunnelInteractions() {
     if (recordedData.ableToDig && !recordedData.holeDug) {
       if (key === `e`) {
+        // play the interaction bip
+        super.interactionBip();
+        // dig a tunnel hole
         recordedData.holeDug = true;
         this.tunnel.x = this.joe.pos.center.x;
       }
     } else if (recordedData.holeDug) {
       if (key === `e`) {
+        // play the interaction bip
+        super.interactionBip();
+        // change the state
         state = new TunnelState();
       }
     }

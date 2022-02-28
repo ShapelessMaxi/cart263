@@ -122,7 +122,7 @@ function preload() {
   mainMelody = loadSound(`assets/sounds/simplemelody.mp3`);
   secondaryMelody = loadSound(`assets/sounds/fastmelody.mp3`);
   interactionDing = loadSound(`assets/sounds/bip.wav`);
-  daySound = loadSound(`assets/sounds/ding.mp3`);
+  daySound = loadSound(`assets/sounds/ding.wav`);
 }
 
 /**

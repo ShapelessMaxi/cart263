@@ -56,6 +56,7 @@ class VisitRoomState extends State {
       speed: 0.8,
       width: 800,
       height: 100,
+      color: this.color2,
     };
     // refer to the main prompt object
     this.mainPrompt = {
@@ -64,7 +65,7 @@ class VisitRoomState extends State {
       y: 670,
       size: 16,
       displayed: false,
-      delay: 4000,
+      delay: 3000,
     };
     // create the main prompt typewriter
     this.typeMainPrompt = new Typewriter(
@@ -74,7 +75,8 @@ class VisitRoomState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.mainPrompt.size
+      this.mainPrompt.size,
+      this.typewriter.color
     );
     // start writting the main prompt after a short delay
     setTimeout(() => {
@@ -96,7 +98,8 @@ class VisitRoomState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.cellNavigationPrompt.size
+      this.cellNavigationPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the guardian interaction prompt
@@ -114,7 +117,8 @@ class VisitRoomState extends State {
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.guardianInteractionPrompt.size
+      this.guardianInteractionPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the ma interaction prompt
@@ -133,7 +137,8 @@ tape sur E pour accepter`,
       this.typewriter.width,
       this.typewriter.height,
       this.typewriter.speed,
-      this.maInteractionPrompt.size
+      this.maInteractionPrompt.size,
+      this.typewriter.color
     );
 
     // refer to the object taking care of making the things appear
@@ -331,6 +336,9 @@ votre cellule. À bientôt!»`;
     // navigation to the cell
     if (this.joe.pos.center.x < 0) {
       if (key === `x`) {
+        // play the interaction bip
+        super.interactionBip();
+
         // go to the cell scene
         state = new CellState();
         // save the time and date
@@ -346,7 +354,9 @@ votre cellule. À bientôt!»`;
     let condition = !recordedData.breadReceived;
     if (this.characterAt(x1, x2, condition)) {
       if (key === `e`) {
-        // go to the cell scene
+        // play the interaction bip
+        super.interactionBip();
+        // keep track of the user receiving th bread
         recordedData.breadReceived = true;
         // reset the interaction typwritter animation
         this.maInteraction.currentCharacter = 0;

@@ -184,6 +184,8 @@ class TunnelState extends State {
     // navigation to the cell
     if (this.joe.pos.center.x > width) {
       if (key === `x`) {
+        // play the interaction bip
+        super.interactionBip();
         // go to the cell scene
         state = new Endtate();
       }

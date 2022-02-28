@@ -52,6 +52,27 @@ class State {
     this.startFadeOverlay(skipClick);
   }
 
+  // loop the main music
+  mainMusic() {
+    if (mainMelody.isPlaying()) {
+      // do nothing
+    } else {
+      mainMelody.setVolume(0.1);
+      mainMelody.loop();
+    }
+  }
+
+  // play the interaction bip
+  interactionBip() {
+    interactionDing.play();
+  }
+
+  // play the new screen sound
+  newScreenSound() {
+    daySound.setVolume(0.08);
+    daySound.play();
+  }
+
   // draw the background
   drawBackground(color1, color2) {
     // fill the the bcakground with the first color
@@ -102,9 +123,17 @@ class State {
     }
   }
 
-  // fade out animation for the overlay
+  // fade out animation for the overlay and start the main music
   fadeOverlay() {
     this.overlay.alpha -= this.overlay.fadeSpeed;
+
+    // play the main music when the overlay starts to fade
+    this.mainMusic();
+
+    // play the new screen sound
+    if (this.overlay.alpha > 20 && this.overlay.alpha < 25) {
+      this.newScreenSound();
+    }
   }
 
   /*
@@ -120,6 +149,8 @@ class State {
     if (!this.overlay.animationStarted) {
       // start the fade in animation of the overlay
       this.overlay.animationStarted = true;
+      // play interaction bip
+      this.interactionBip();
     }
   }
 }
