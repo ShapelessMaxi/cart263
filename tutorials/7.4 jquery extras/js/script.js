@@ -1,11 +1,55 @@
-/**
-Title of Project
-Author Name
+// Highlight the main heading
+$(`.header`).addClass(`highlight`);
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
-*/
+// If the user clicks on the headers, remove the highlight
+$(`.header`).on(`click`, function(event) {
+  $(this).removeClass(`highlight`);
+});
 
-"use strict";
+// setInterval(function() {
+//   $(`.header`).toggleClass(`highlight`);
+// }, 500);
 
-// Code goes here
+// $(`#button`).on(`click`, function(event) {
+//   $(`#main-heading`).hide();
+//   setTimeout(function() {
+//     $(`#main-heading`).show();
+//   }, 2000);
+// });
+
+// $(`#button`).on(`click`, function(event) {
+//   $(`.header`).toggle();
+// });
+
+// $(`#button`).on(`click`, function(event) {
+//   $(`.header`).slideUp(4000, function(){
+//     $(this).fadeIn(2000);
+//   });
+// });
+
+// $(`#button`).on(`click`, function(event) {
+//   $(`.header`).animate({
+//     "opacity": 0.5,
+//     "font-size": "3rem"
+//   }, 2000, function(){
+//     $(this).text("ANIMATED");
+//   });
+// });
+
+$(`#button`).on(`click`, function(event) {
+  $(`.header`).animate({
+  "opactiy": 0.1,
+  "height": `200px`,
+}, {
+  duration: 5000,
+  complete: function(){
+    $(this).text(`ANIMATED!`);
+  },
+  easing:`linear`
+  });
+});
+
+$(`.header`).each(function() {
+  let reverseText = $(this).text().split(``).reverse().join(``);
+  $(this).text(reverseText);
+});
