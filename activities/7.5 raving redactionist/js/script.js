@@ -1,11 +1,34 @@
 /**
-Title of Project
-Author Name
+redacted document
+Maxime Perreault
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+following the 7.5 activity video
 */
 
 "use strict";
 
-// Code goes here
+//
+setInterval(revelation, 500);
+
+//
+function revelation(){
+  $(`.redacted`).each(attemptReveal);
+}
+
+//
+function attemptReveal(){
+  let r = Math.random();
+  if (r < 0.1) {
+    $(this).removeClass(`redacted`);
+    $(this).addClass(`revealed`);
+  };
+}
+
+//
+$(`.top-secret`).on(`click`, redact);
+
+//
+function redact(){
+  $(this).removeClass(`revealed`);
+  $(this).addClass(`redacted`);
+}
