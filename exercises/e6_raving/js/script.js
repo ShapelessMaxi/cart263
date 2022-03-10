@@ -14,12 +14,16 @@ and to add an color change effect on the text
 "use strict";
 
 $(`#paragraph1`).bind("mousewheel", function() {
-    return false;
+  return false;
 });
 
-// keep track of the up and down movement
+// keep track of the up and down movement (w and s keys)
 let down = false;
 let up = false;
+
+// keep track of the left and right controllers (a and d keys)
+let left = false;
+let right = false;
 
 // define the scroll speed
 let scrollSpeed = 50;
@@ -46,6 +50,12 @@ function update() {
       // keycode for 'w' -> 87
     } else if (event.keyCode === 87) {
       down = true;
+      // keycode for 'a' -> 65
+    } else if (event.keyCode === 65) {
+      left = true;
+      // keycode for 'a' -> 68
+    } else if (event.keyCode === 68) {
+      right = true;
     };
   });
 
@@ -55,6 +65,8 @@ function update() {
   // not pressing the keys anymore, set to false
   up = false;
   down = false;
+  left = false;
+  right = false;
 
   // restart the loop
   window.requestAnimationFrame(update);
@@ -64,8 +76,18 @@ function update() {
 function navigation() {
   if (up) {
     $p.scrollTop($p.scrollTop() - scrollSpeed);
+    randomizeSize();
   };
   if (down) {
     $p.scrollTop($p.scrollTop() + scrollSpeed);
+    randomizeSize();
   };
+};
+
+// randomize the text size
+function randomizeSize() {
+  let max = 24;
+  let min = 15;
+  let randomValue = Math.floor(Math.random() * (max - min) + min)
+  $(`body`).css(`font-size`, `${randomValue}px`);
 };

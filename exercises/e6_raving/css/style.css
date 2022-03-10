@@ -9,7 +9,7 @@ body {
 
 #paragraph1 {
   overflow: scroll;
-  transform: rotate(155deg) translate(25%, -35%);
+  transform: rotate(155deg) translate(-800px, 100px);
   margin: auto;
   width: 600px;
   height: 2000px;
