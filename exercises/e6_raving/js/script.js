@@ -62,6 +62,9 @@ function update() {
   // takes care of the navigation (up and down)
   navigation();
 
+  // takes care of applying effects
+  effectController();
+
   // not pressing the keys anymore, set to false
   up = false;
   down = false;
@@ -84,6 +87,38 @@ function navigation() {
   };
 };
 
+// apply effects depending on which keys you press
+function effectController() {
+  if (up) {
+    randomizeSize();
+    let chance = Math.random();
+    if (chance < 0.05) {
+      colorShift();
+    }
+  };
+  if (down) {
+    randomizeSize();
+    let chance = Math.random();
+    if (chance < 0.05) {
+      colorShift();
+    }
+  };
+  if (left) {
+    colorShift();
+    let chance = Math.random();
+    if (chance < 0.1) {
+      randomizeSize();
+    };
+  }
+  if (right) {
+    colorShift();
+    let chance = Math.random();
+    if (chance < 0.1) {
+      randomizeSize();
+    }
+  };
+}
+
 // randomize the text size
 function randomizeSize() {
   let max = 24;
@@ -91,3 +126,18 @@ function randomizeSize() {
   let randomValue = Math.floor(Math.random() * (max - min) + min)
   $(`body`).css(`font-size`, `${randomValue}px`);
 };
+
+// shift the color of the gradient
+function colorShift() {
+  let chance = Math.random();
+  if (chance < 0.33) {
+    $p.css(`background-color`, `#2818ba`);
+    $p.css(`background-image`, 'linear-gradient(90deg, #2818ba, #af4261)');
+  } else if (chance > 0.33 && chance < 0.66) {
+    $p.css(`background-color`, `#2ed144`);
+    $p.css(`background-image`, 'linear-gradient(90deg, #2818ba, #2ed144)');
+  } else if (chance > 0.66) {
+    $p.css(`background-color`, `#b85723`);
+    $p.css(`background-image`, 'linear-gradient(90deg, #b85723, #2ed144)');
+  }
+}
