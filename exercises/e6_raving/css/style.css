@@ -9,7 +9,7 @@ body {
 
 #paragraph1 {
   overflow: scroll;
-  transform: rotate(155deg) translate(-500px, 100px);
+  transform: rotate(155deg) translate(-800px, 100px);
   margin: auto;
   width: 600px;
   height: 2000px;
@@ -27,7 +27,7 @@ body {
 #controls {
   /* background-color: white; */
   position: absolute;
-  left: 100px;
+  left: 400px;
   top: 500px;
   color: #541406;
   font-size: 2em;
