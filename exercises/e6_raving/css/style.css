@@ -9,7 +9,7 @@ body {
 
 #paragraph1 {
   overflow: scroll;
-  transform: rotate(155deg) translate(-800px, 100px);
+  transform: rotate(155deg) translate(-500px, 100px);
   margin: auto;
   width: 600px;
   height: 2000px;
@@ -24,6 +24,14 @@ body {
    -moz-text-fill-color: transparent;
 }
 
+#controls {
+  /* background-color: white; */
+  position: absolute;
+  left: 100px;
+  top: 500px;
+  color: #541406;
+  font-size: 2em;
+}
 ::-webkit-scrollbar {
     display: none;
 }

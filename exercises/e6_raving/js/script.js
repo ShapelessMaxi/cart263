@@ -124,7 +124,7 @@ function randomizeSize() {
   let max = 24;
   let min = 15;
   let randomValue = Math.floor(Math.random() * (max - min) + min)
-  $(`body`).css(`font-size`, `${randomValue}px`);
+  $(`#paragraph1`).css(`font-size`, `${randomValue}px`);
 };
 
 // shift the color of the gradient
