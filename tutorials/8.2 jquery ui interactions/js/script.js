@@ -1,33 +1,48 @@
-/**
-Title of Project
-Author Name
+$(`#tunnel`).hide();
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
-*/
+$(`#introduction-dialog`).dialog({
+  modal: true,
+  resizable: false,
+  buttons: {
+    "escape tunnel": function() {
+      $(this).dialog(`close`);
+      $(`#tunnel`).show({
+        effect: `blind`,
+      });
+    },
+    "imagination": function() {
+      $(`#prisoner`).draggable(`option`, `containment`, `none`);
+      $(this).dialog(`close`);
+    },
+  },
+});
 
-"use strict";
+$(`#prisoner`).effect({
+  effect: `shake`,
+  duration: 2000,
+  times: 20,
+  distance: 6,
+  complete: makePrisonerDraggable,
+});
 
+$(`#tunnel`).droppable({
+  drop: function(event, ui) {
+    ui.draggable.remove();
+    $(this).hide({
+      effect: `blind`,
+      duration: 3000,
+    })
+  }
+})
 
-/**
-Description of preload
-*/
-function preload() {
-
-}
-
-
-/**
-Description of setup
-*/
-function setup() {
-  background(255, 255, 55);
-}
-
-
-/**
-Description of draw()
-*/
-function draw() {
-
+function makePrisonerDraggable() {
+  $(`#prisoner`).draggable({
+    containment: "#prison",
+    start: function() {
+      $(this).addClass(`prisoner-dragging`, 750);
+    },
+    stop: function() {
+      $(this).removeClass(`prisoner-dragging`, 750);
+    }
+  });
 }

@@ -1,20 +1,30 @@
-/*********************************************
-
-Here is a description of any special CSS used.
-In this case it's just padding and margin to 0
-and then centring the canvas (and anything else)
-using the CSS Grid.
-
-Also hides overflow.
-
-**********************************************/
-
-body {
-  padding: 0;
-  margin: 0;
-  display: grid; /* Set up the grid and justify/align to center */
+#prison {
+  /* Dimensions of the prison */
+  width: 30vw;
+  height: 30vw;
+  /* The prison walls */
+  border: 5px dashed black;
+  /* CSS grid for alignment of elements in the prison */
+  display: grid;
   justify-content: center;
   align-content: center;
-  height: 100vh; /* Body is the height of the viewport */
-  overflow: hidden; /* Hide anything that goes off the window size */
+}
+
+#prisoner {
+  font-size: 2rem;
+}
+
+#tunnel {
+  width: 5vw;
+  height: 5vw;
+  border: 2px dashed black;
+  border-radius: 100%;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.prisoner-dragging {
+  color: #4444ff;
+  text-decoration: underline;
 }
