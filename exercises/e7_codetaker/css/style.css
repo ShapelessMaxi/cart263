@@ -1,13 +1,31 @@
+body {
+  background-color: #6b5496;
+}
+
 #poem {
-  font-size: 1.2rem
+  color: #14000d;
+  margin-top: 5rem;
+  font-size: 1.2rem;
+  font-family: Garamond;
+  text-align: center;
 }
 
 #answer {
-  height: 2rem;
-  width: 10rem;
-  border: 1px dashed black;
+  text-align: center;
+  margin: auto;
+  height: 2.3rem;
+  width: 50%;
+  border: 3px dashed #ff00a6;
 }
 
 .found {
-  color: red;
+  color: #ff00a6;
+}
+
+.answer-letter {
+  vertical-align: middle;
+
+  font-size: 2rem;
+  background-color: #bfa8a6;
+  margin: 0.1em;
 }

@@ -9,7 +9,7 @@
 
   <!-- CSS stylesheet(s) -->
   <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/swanky-purse/jquery-ui.css" />
+  <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.13.1/themes/redmond/jquery-ui.css" />
 
   <!-- Library script(s) -->
   <script src="js/libraries/p5.min.js"></script>
@@ -27,20 +27,20 @@
     <h2><span class="secret">T</span>his Is Just To Say</h2>
     <p>
       I <span class="secret">h</span>ave eaten<br />
-      the plums<br />
+      the plu<span class="reset">m</span>s<br />
       that wer<span class="secret">e</span> in<br />
-      the icebox
+      the <span class="reset">i</span>cebox
     </p>
     <p>
       and which<br />
       you we<span class="secret">r</span>e probably<br />
-      saving<br />
+      savi<span class="reset">n</span>g<br />
       for br<span class="secret">e</span>akfast
     </p>
     <p>
       Forgive <span class="secret">m</span>e<br />
       they were del<span class="secret">i</span>cious<br />
-      so sweet<br />
+      so swee<span class="reset">t</span><br />
       a<span class="secret">n</span>d so cold
     </p>
     <h4>William Carlos Williams</h4>
@@ -49,11 +49,21 @@
   <!-- The secret answer area-->
   <section id="answer"></section>
 
-  <div id="solved-dialog" title="Da Vinci?!">
-  <p>
-    You are soooooo smart!
-  </p>
-</div>
+  <div id="solved-dialog" title="good job">
+    <p>
+      You are soooooo smart!
+    </p>
+  </div>
+  <div id="second-dialog" title="go again?">
+    <p>
+      theres another 4 letters word you can find. do you want to try finding it?
+    </p>
+  </div>
+  <div id="third-dialog" title="go again?">
+    <p>
+      ok u still got 1 out of 2
+    </p>
+  </div>
 
   <script src="js/script.js"></script>
 </body>
