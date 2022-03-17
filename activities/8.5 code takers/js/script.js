@@ -29,11 +29,21 @@ $(`.secret`).one(`mouseover`, function(event) {
   });
 });
 
+// make the letters of the answer sortable
+$(`#answer`).sortable();
+
 // create the droppable answer box
 $(`#answer`).droppable({
+  accept: `.secret`,
   drop: function(event, ui) {
+    // create a span for each answer letters
     let letter = ui.draggable.text();
-    $(this).append(letter);
+    let span = $(`<span class="answer-letter">${letter}</span>`)
+
+    // add the span to the answer box
+    $(this).append(span);
+
+    // make the letters in the poem not draggable anymore
     ui.draggable.draggable(`disable`);
     ui.draggable.removeClass(`found`);
 
