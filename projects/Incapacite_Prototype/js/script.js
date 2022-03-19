@@ -13,7 +13,7 @@ Surrealist mixed media adventure where the user input has unexpected effects.
     - jquery forms/buttons/dialog
 
 2- unexpected interaction effect:
-    - 
+    -
 */
 
 "use strict";
@@ -40,15 +40,22 @@ let ascii_arr;
 // A helper letiable to store current "circular" time, useful in controlling of the cyclic image display.
 let cyclicT = 0;
 
+// store the background image here
+let backgroundCloud = undefined;
+
 /*
 load the png sequence
 */
 function preload() {
-  for (let i = 1; i < 200; i++) {
+  // load the 3d animation png sequence
+  for (let i = 1; i < 79; i++) {
     // add a padding as a prefix for the filename
     let filename = `${i}`.padStart(4, `0`);
-    images[i - 1] = loadImage(`assets/images/${filename}.png`);
+    images[i - 1] = loadImage(`assets/images/animationframes/frames from 3d${filename}.png`);
   }
+
+  // load the background image
+  backgroundCloud = loadImage(`assets/images/clouds.png`)
 }
 
 /*
@@ -71,6 +78,13 @@ function setup() {
   //   myAsciiArt.__weightTable[i].code = 120;
   // }
 
+  // set the font family, size and style for the ascii display
+  textAlign(CENTER, CENTER);
+  textFont('monospace', 12);
+  textStyle(NORMAL);
+  noStroke();
+  fill(255);
+
   // set a constant framerate
   frameRate(30);
 }
@@ -81,41 +95,34 @@ draw the ascii converted images
 draw the original images
 */
 function draw() {
-  // set te background to black
+  // set the background to black
   background(0);
-
-  // set the font family, size and style for the ascii display
-  push();
-  textAlign(CENTER, CENTER);
-  textFont('monospace', 12);
-  textStyle(NORMAL);
-  noStroke();
-  fill(255);
+  // draw the background cloud
+  image(backgroundCloud, -0, 150);
 
   // define the cyclic t equation for the images to loop
   cyclicT = (cyclicT + 1) % images.length;
 
   // Let's prepare the image for conversion
-  gfx.image(images[floor(cyclicT)], 0, 0, gfx.width, gfx.height);
+  gfx.image(images[floor(cyclicT)], 0, 10, gfx.width, gfx.height);
   // posterize effect
-  gfx.filter(POSTERIZE, 3);
+  gfx.filter(POSTERIZE, 4);
   // Here the processed image is converted to the ASCII art
   ascii_arr = myAsciiArt.convert(gfx);
 
   // invert the brightness
-  myAsciiArt.invertBrightnessFlag = false;
+  // myAsciiArt.invertBrightnessFlag = false;
   // myAsciiArt.invertBrightnessFlag = true;
 
-  // Now it's time to show ASCII art on the screen
+  // display the ASCII art on the screen
   myAsciiArt.typeArray2d(ascii_arr, this);
-  pop();
 
   // apply an alpha animation making the original images flash
   alphaAnimation();
 
   // display the source image
   tint(255, realImage.alpha);
-  translate(200, 200);
+  translate(75, -100);
   image(images[floor(cyclicT)], 0, 0, width, height);
   noTint();
 }
