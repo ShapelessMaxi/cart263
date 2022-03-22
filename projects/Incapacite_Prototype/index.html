@@ -1,26 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
 
-    <title>vous n'etes pas le hero</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
 
-    <!-- CSS stylesheet(s) -->
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <title>vous n'etes pas le hero</title>
 
-    <!-- Library script(s) -->
-    <script src="js/libraries/p5.min.js"></script>
-    <script src="js/libraries/p5.sound.min.js"></script>
-    <script src="js/libraries/p5.dom.min.js"></script>
-    <script src="js/libraries/p5.asciiart.js"></script> 
+  <!-- CSS stylesheet(s) -->
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/south-street/jquery-ui.css" />
 
-    <!-- My script(s) -->
-    <script src="js/script.js"></script>
-  </head>
+  <!-- Library script(s) -->
+  <script src="js/libraries/p5.min.js"></script>
+  <script src="js/libraries/p5.sound.min.js"></script>
+  <script src="js/libraries/p5.dom.min.js"></script>
+  <script src="js/libraries/p5.asciiart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=" crossorigin="anonymous"></script>
 
-  <body>
-    <!-- HTML would go here if needed. -->
-  </body>
+  <!-- My script(s) -->
+  <script src="js/script.js"></script>
+</head>
+
+<body>
+  <!-- overlay layer containing effects (position absolute) -->
+  <div id="overlay" class="effect"></div>
+  <div id="overlay" class="blend"></div>
+
+  <!-- main grid layout -->
+  <div class="wrapper">
+    <!-- 1nd column -->
+    <div id="side" class="column">here is a first column i guess we can put some stuff in here!</div>
+    <!-- set the p5 canvas in a div -->
+    <div id="p5-canvas" class="column"></div>
+    <!-- 3rd column -->
+    <div id="side" class="column">here is a third column i guess we can put some stuff in here!</div>
+  </div>
+
+  <!-- dialog divs -->
+  <div class="dialog">bingo</div>
+  <div class="dialog">wop</div>
+  <div class="dialog">blooop</div>
+</body>
 
 </html>

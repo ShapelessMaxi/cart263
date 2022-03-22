@@ -2,15 +2,15 @@
 Incapacité - Prototype
 Maxime Perreault
 
-Surrealist mixed media adventure where the user input has unexpected effects.
+Surrealist mixed media visual adventure where the user input has unexpected effects.
 
 1- mixing the media, layering:
-    - background image
-    - 3d animation
-    - ascii overlay
-    - html + css document format (?)
-    - filter / color correction / vfx overlay (?)
-    - jquery forms/buttons/dialog
+    - background image X
+    - 3d animation X
+    - ascii overlay X
+    - html + css document format X
+    - filter / vfx overlay X
+    - jquery forms/buttons/dialog X
 
 2- unexpected interaction effect:
     -
@@ -55,7 +55,7 @@ function preload() {
   }
 
   // load the background image
-  backgroundCloud = loadImage(`assets/images/clouds.png`)
+  backgroundCloud = loadImage(`assets/images/clouds.png`);
 }
 
 /*
@@ -64,7 +64,8 @@ setup the ascii converter graphic handler
 */
 function setup() {
   // create the canvas
-  createCanvas(640, 640);
+  let canvas = createCanvas(640, 640);
+  canvas.parent(`#p5-canvas`);
 
   // setup for the ascii converter graphic handler
   gfx = createGraphics(asciiart_width, asciiart_height);
@@ -85,20 +86,24 @@ function setup() {
   noStroke();
   fill(255);
 
+  // create the dialogs
+  dialogSetup();
+
   // set a constant framerate
   frameRate(30);
 }
 
+function dialogSetup(){
+  $(".dialog").dialog();
+}
 /*
 draw the background
 draw the ascii converted images
 draw the original images
 */
 function draw() {
-  // set the background to black
-  background(0);
-  // draw the background cloud
-  image(backgroundCloud, -0, 150);
+  // draw the background
+  drawBackground();
 
   // define the cyclic t equation for the images to loop
   cyclicT = (cyclicT + 1) % images.length;
@@ -111,25 +116,38 @@ function draw() {
   ascii_arr = myAsciiArt.convert(gfx);
 
   // invert the brightness
-  // myAsciiArt.invertBrightnessFlag = false;
   // myAsciiArt.invertBrightnessFlag = true;
 
   // display the ASCII art on the screen
   myAsciiArt.typeArray2d(ascii_arr, this);
 
-  // apply an alpha animation making the original images flash
-  alphaAnimation();
+  // draw the 3d animation frames
+  draw3d();
+}
 
+// draw the background elements
+function drawBackground(){
+  // set the background to black
+  background(0);
+  // draw the background cloud
+  image(backgroundCloud, -0, 150);
+}
+
+// draw the 3d animation frames
+function draw3d(){
   // display the source image
   tint(255, realImage.alpha);
   translate(75, -100);
   image(images[floor(cyclicT)], 0, 0, width, height);
   noTint();
+
+  // apply an alpha animation making the original images flash
+  alphaAnimation();
 }
 
 // makes the highlighted bodypart blink slowly
 function alphaAnimation() {
-  let animationSpeed = 5;
+  let animationSpeed = 0.3;
   let darkestAlpha = 0;
   let lightestAlpha = 150;
 

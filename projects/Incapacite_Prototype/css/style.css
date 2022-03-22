@@ -1,21 +1,60 @@
-/*********************************************
-
-Here is a description of any special CSS used.
-In this case it's just padding and margin to 0
-and then centring the canvas (and anything else)
-using the CSS Grid.
-
-Also hides overflow.
-
-**********************************************/
-
+/* style for the body */
 body {
   background-color: black;
   padding: 0;
   margin: 0;
-  display: grid; /* Set up the grid and justify/align to center */
-  justify-content: center;
-  align-content: center;
-  height: 100vh; /* Body is the height of the viewport */
-  overflow: hidden; /* Hide anything that goes off the window size */
+  overflow: hidden;
+}
+
+/* style for p5 canvas div */
+#p5-canvas {
+  padding-top: 100px;
+}
+
+/* style for the side columns */
+#side {
+  color: white;
+  font-size: 50px;
+  text-align: justify;
+  font-family: monospace;
+  font-weight: bolder;
+}
+
+/* position for the grid wrapper */
+.wrapper {
+  display: flex;
+}
+
+/* position for the colums */
+.column {
+  flex: 50%;
+}
+
+/* position for the overlay layers */
+#overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* style for the effects layers */
+.effect {
+  /* apply filter effects */
+  backdrop-filter: brightness(1.4);
+  backdrop-filter: contrast(1.2);
+  backdrop-filter: hue-rotate(120deg);
+  /* backdrop-filter: blur(1.4px); */
+}
+
+/* style for the blending mode layer */
+.blend {
+  /* color/image to blend */
+  opacity: 0.8;
+  background-color: purple;
+  /* blend mode */
+  mix-blend-mode: darken;
+}
+
+.dialog{
+  color: white;
 }
