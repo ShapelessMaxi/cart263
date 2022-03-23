@@ -13,7 +13,14 @@ Surrealist mixed media visual adventure where the user input has unexpected effe
     - jquery forms/buttons/dialog X
 
 2- unexpected interaction effect:
-    -
+    - keypress 1 : key has an effect (raondomized every time the correct key is pressed)
+
+    - dialog box 1 : What do you think about travelling closer to them? -> (12 different options) -> same (effect) -> OK good luck with that.
+    - dialog box 2 : Do you want to help them? -> YES/NO -> (effect) -> You cannot reach them from here.
+    - dialog box 3 : Is there anything you want to accomplish? -> I want to/ I need to/ I have to/ I -> (effect)
+    - dialog box 4 : Why are you abstaining from contact? (answer) -> (effect)
+
+    - selectmenu 1 : Background Shapes/Color/Blurryness/Color 1/Background Effect -> minor change in other items
 */
 
 "use strict";
@@ -74,10 +81,6 @@ function setup() {
   myAsciiArt = new AsciiArt(this);
   // This table is the basis for the procedure that converts individual image pixels into glyphs.
   myAsciiArt.printWeightTable();
-  // here we can change the characters of the ascii table (120 = X)
-  // for (let i = 0; i < myAsciiArt.__weightTable.length; i++) {
-  //   myAsciiArt.__weightTable[i].code = 120;
-  // }
 
   // set the font family, size and style for the ascii display
   textAlign(CENTER, CENTER);
@@ -93,9 +96,21 @@ function setup() {
   frameRate(30);
 }
 
-function dialogSetup(){
+// setting up the dialog boxes
+function dialogSetup() {
   $(".dialog").dialog();
 }
+
+// change the characters used to draw the as
+function changeTable(code, targetWeight) {
+  // here we can change the characters of the ascii table
+  for (let i = 0; i < myAsciiArt.__weightTable.length; i++) {
+    if (myAsciiArt.__weightTable[i].weight > targetWeight){
+    myAsciiArt.__weightTable[i].code = code;
+    };
+  };
+}
+
 /*
 draw the background
 draw the ascii converted images
@@ -115,8 +130,10 @@ function draw() {
   // Here the processed image is converted to the ASCII art
   ascii_arr = myAsciiArt.convert(gfx);
 
-  // invert the brightness
-  // myAsciiArt.invertBrightnessFlag = true;
+  // change the ascii table characters
+  let code = 120;
+  let targetWeight = 10000;
+  changeTable(code, targetWeight);
 
   // display the ASCII art on the screen
   myAsciiArt.typeArray2d(ascii_arr, this);
@@ -126,7 +143,7 @@ function draw() {
 }
 
 // draw the background elements
-function drawBackground(){
+function drawBackground() {
   // set the background to black
   background(0);
   // draw the background cloud
@@ -134,7 +151,7 @@ function drawBackground(){
 }
 
 // draw the 3d animation frames
-function draw3d(){
+function draw3d() {
   // display the source image
   tint(255, realImage.alpha);
   translate(75, -100);
