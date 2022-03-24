@@ -25,43 +25,65 @@ Surrealist mixed media visual adventure where the user input has unexpected effe
 
 "use strict";
 
-// The object that will be responsible for generating ASCII art graphics
-let myAsciiArt;
-// The size of generated ASCII graphics expressed in characters and lines.
-let asciiart_width = 120;
-let asciiart_height = 60;
+// define the framerate of the program
+const constantFrameRate = 24;
 
-// store the png sequence
-let images = [];
-// definition of variable used to display the original images
-let realImage = {
+// The object that will be responsible for generating ASCII art graphics
+let asciiArt = {
+  obj: undefined,
+  array: undefined,
+  width: 120,
+  height: 60,
+  pixelDensity: 1,
+  posterizeValue: 2,
+};
+
+// object containing the png sequence of for the 3d animation and its parameters
+let pngSequence = {
+  sequence: [],
   alpha: 100,
-  alphaWave: undefined,
-  t: 0,
+  darkestAlpha: 0,
+  lightestAlpha: 150,
+  alphaAnim: {
+    t: 0,
+    wave: undefined,
+    speed: 0.3,
+  },
+
 }
 
-// Buffer for processed graphics, simplifying some operations. This will be an object derived from the p5.Graphics class
+// buffer for processed graphics in the form of an object derived from the p5.Graphics class
 let gfx;
-// This letiable will store a two-dimensional array - "image" in the form of ASCII codes.
-let ascii_arr;
-// A helper letiable to store current "circular" time, useful in controlling of the cyclic image display.
+// "circular" time helper, used for controlling of the cyclic image display
 let cyclicT = 0;
 
-// store the background image here
+// store the background cloud image here
 let backgroundCloud = undefined;
 
 /*
 load the png sequence
+load the other images
 */
 function preload() {
   // load the 3d animation png sequence
+  load3dAnimation();
+
+  // load the other images
+  loadImages();
+}
+
+// load the 3d animation png sequence
+function load3dAnimation() {
   for (let i = 1; i < 79; i++) {
     // add a padding as a prefix for the filename
     let filename = `${i}`.padStart(4, `0`);
-    images[i - 1] = loadImage(`assets/images/animationframes/frames from 3d${filename}.png`);
+    pngSequence.sequence[i - 1] = loadImage(`assets/images/animationframes/frames from 3d${filename}.png`);
   }
+}
 
-  // load the background image
+// load the other images
+function loadImages() {
+  // load the backgorund cloud image
   backgroundCloud = loadImage(`assets/images/clouds.png`);
 }
 
@@ -70,43 +92,34 @@ create the canvas
 setup the ascii converter graphic handler
 */
 function setup() {
-  // create the canvas
+  // create the canvas and position it in the #p5-canvas div
   let canvas = createCanvas(640, 640);
   canvas.parent(`#p5-canvas`);
 
   // setup for the ascii converter graphic handler
-  gfx = createGraphics(asciiart_width, asciiart_height);
-  gfx.pixelDensity(1);
-  // create an object derived from the AsciiArt pseudo-class from the p5.asciiart library.
-  myAsciiArt = new AsciiArt(this);
-  // This table is the basis for the procedure that converts individual image pixels into glyphs.
-  myAsciiArt.printWeightTable();
-
-  // set the font family, size and style for the ascii display
-  textAlign(CENTER, CENTER);
-  textFont('monospace', 12);
-  textStyle(NORMAL);
-  noStroke();
-  fill(255);
+  gfx = createGraphics(asciiArt.width, asciiArt.height);
+  gfx.pixelDensity(asciiArt.pixelDensity);
+  // create an object derived from the AsciiArt pseudo-class from the p5.asciiart library
+  asciiArt.obj = new AsciiArt(this);
 
   // create the dialogs
-  dialogSetup();
+  createDialogs();
 
   // set a constant framerate
-  frameRate(30);
+  frameRate(constantFrameRate);
 }
 
-// setting up the dialog boxes
-function dialogSetup() {
+// create the dialog boxes
+function createDialogs() {
   $(".dialog").dialog();
 }
 
 // change the characters used to draw the as
 function changeTable(code, targetWeight) {
   // here we can change the characters of the ascii table
-  for (let i = 0; i < myAsciiArt.__weightTable.length; i++) {
-    if (myAsciiArt.__weightTable[i].weight > targetWeight){
-    myAsciiArt.__weightTable[i].code = code;
+  for (let i = 0; i < asciiArt.obj.__weightTable.length; i++) {
+    if (asciiArt.obj.__weightTable[i].weight > targetWeight){
+    asciiArt.obj.__weightTable[i].code = code;
     };
   };
 }
@@ -114,62 +127,61 @@ function changeTable(code, targetWeight) {
 /*
 draw the background
 draw the ascii converted images
-draw the original images
+draw the 3d animation
 */
 function draw() {
   // draw the background
   drawBackground();
 
   // define the cyclic t equation for the images to loop
-  cyclicT = (cyclicT + 1) % images.length;
+  cyclicT = (cyclicT + 1) % pngSequence.sequence.length;
 
-  // Let's prepare the image for conversion
-  gfx.image(images[floor(cyclicT)], 0, 10, gfx.width, gfx.height);
+  // prepare the image for conversion
+  gfx.image(pngSequence.sequence[floor(cyclicT)], 0, 10, gfx.width, gfx.height);
   // posterize effect
-  gfx.filter(POSTERIZE, 4);
+  gfx.filter(POSTERIZE, asciiArt.posterizeValue);
   // Here the processed image is converted to the ASCII art
-  ascii_arr = myAsciiArt.convert(gfx);
+  asciiArt.array = asciiArt.obj.convert(gfx);
 
+  /*
   // change the ascii table characters
   let code = 120;
   let targetWeight = 10000;
   changeTable(code, targetWeight);
+  */
 
   // display the ASCII art on the screen
-  myAsciiArt.typeArray2d(ascii_arr, this);
+  asciiArt.obj.typeArray2d(asciiArt.array, this);
 
   // draw the 3d animation frames
-  draw3d();
+  draw3dAnimation();
 }
 
 // draw the background elements
 function drawBackground() {
   // set the background to black
   background(0);
+
   // draw the background cloud
   image(backgroundCloud, -0, 150);
 }
 
 // draw the 3d animation frames
-function draw3d() {
+function draw3dAnimation() {
   // display the source image
-  tint(255, realImage.alpha);
+  tint(255, pngSequence.alpha);
   translate(75, -100);
-  image(images[floor(cyclicT)], 0, 0, width, height);
+  image(pngSequence.sequence[floor(cyclicT)], 0, 0, width, height);
   noTint();
 
   // apply an alpha animation making the original images flash
   alphaAnimation();
 }
 
-// makes the highlighted bodypart blink slowly
+// makes the 3d animation blink according to a sin wave
 function alphaAnimation() {
-  let animationSpeed = 0.3;
-  let darkestAlpha = 0;
-  let lightestAlpha = 150;
-
-  realImage.alphaWave = sin(realImage.t);
-  realImage.alphaWave = map(realImage.alphaWave, -1, 1, darkestAlpha, lightestAlpha);
-  realImage.t += animationSpeed;
-  realImage.alpha = realImage.alphaWave;
+  pngSequence.alphaAnim.wave = sin(pngSequence.alphaAnim.t);
+  pngSequence.alphaAnim.wave = map(pngSequence.alphaAnim.wave, -1, 1, pngSequence.darkestAlpha, pngSequence.lightestAlpha);
+  pngSequence.alphaAnim.t += pngSequence.alphaAnim.speed;
+  pngSequence.alpha = pngSequence.alphaAnim.wave;
 }
