@@ -14,12 +14,10 @@ Surrealist mixed media visual adventure where the user input has unexpected effe
 
 2- unexpected interaction effect:
     - keypress 1 : key has an effect (randomized every time the correct key is pressed)
-
     - dialog box 1 : What do you think about travelling closer to them? -> (12 different options) -> same (effect) -> OK good luck with that.
     - dialog box 2 : Do you want to help them? -> YES/NO -> (effect) -> You cannot reach them from here.
     - dialog box 3 : Is there anything you want to accomplish? -> I want to/ I need to/ I have to/ I -> (effect)
     - dialog box 4 : Why are you abstaining from contact? (answer) -> (effect)
-
     - selectmenu 1 : Background Shapes/Color/Blurryness/Color 1/Background Effect -> minor change in other items
 */
 
@@ -218,6 +216,8 @@ function createDialog(dialogNumber) {
         click: function() {
           // close the dialog
           $(this).dialog("close");
+          // change the blend overlay properties
+          modifyBlendOverlay();
         }
       },
     ]
@@ -346,6 +346,12 @@ function invertAscii() {
   } else {
     asciiArt.obj.invertBrightnessFlag = true;
   }
+}
+
+// change the blend overlay properties (add randomness in the futur)
+function modifyBlendOverlay(){
+  $(`.blend`).css({"background-color": "blue"});
+  $(`.blend`).css({"mix-blend-mode": "screen"});
 }
 
 
