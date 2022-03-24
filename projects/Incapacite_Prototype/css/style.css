@@ -14,7 +14,7 @@ body {
 /* style for the side columns */
 #side {
   color: white;
-  font-size: 50px;
+  font-size: 24px;
   text-align: justify;
   font-family: monospace;
   font-weight: bolder;
@@ -49,7 +49,7 @@ body {
 /* style for the blending mode layer */
 .blend {
   /* color/image to blend */
-  opacity: 0.8;
+  opacity: 0.5;
   background-color: purple;
   /* blend mode */
   mix-blend-mode: darken;

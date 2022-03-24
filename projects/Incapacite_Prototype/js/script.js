@@ -57,8 +57,31 @@ let gfx;
 // "circular" time helper, used for controlling of the cyclic image display
 let cyclicT = 0;
 
+// define the parameters for the dialog boxes
+let dialogParameters = {
+  number: 5,
+  delay: 5000,
+  cycle: 0,
+  position: {
+    x: undefined,
+    y: undefined,
+  },
+  autoOpen: false,
+  showAnim: {
+    effect: "blind",
+    duration: 3500
+  },
+  hideAnim: {
+    effect: "explode",
+    duration: 200
+  },
+};
+// store the different dialog objects here
+let dialogs = [];
+
 // store the background cloud image here
 let backgroundCloud = undefined;
+
 
 /*
 load the png sequence
@@ -71,6 +94,7 @@ function preload() {
   // load the other images
   loadImages();
 }
+
 
 // load the 3d animation png sequence
 function load3dAnimation() {
@@ -87,6 +111,7 @@ function loadImages() {
   backgroundCloud = loadImage(`assets/images/clouds.png`);
 }
 
+
 /*
 create the canvas
 setup the ascii converter graphic handler
@@ -102,27 +127,46 @@ function setup() {
   // create an object derived from the AsciiArt pseudo-class from the p5.asciiart library
   asciiArt.obj = new AsciiArt(this);
 
-  // create the dialogs
-  createDialogs();
+  // setup for the dialog boxes
+  dialogSetup();
 
   // set a constant framerate
   frameRate(constantFrameRate);
 }
 
-// create the dialog boxes
-function createDialogs() {
-  $(".dialog").dialog();
+
+// setup for the dialog boxes
+function dialogSetup() {
+  // create the dialogs
+  for (let i = 0; i < dialogParameters.number; i++) {
+    createDialog(i);
+  };
+  // initialize the loop opening them
+  setInterval(dialogLoop, dialogParameters.delay);
 }
 
-// change the characters used to draw the as
-function changeTable(code, targetWeight) {
-  // here we can change the characters of the ascii table
-  for (let i = 0; i < asciiArt.obj.__weightTable.length; i++) {
-    if (asciiArt.obj.__weightTable[i].weight > targetWeight){
-    asciiArt.obj.__weightTable[i].code = code;
-    };
-  };
+// create the dialog boxes
+function createDialog(dialogNumber) {
+  let currentDialog = $(`#dialog-${dialogNumber}`).dialog({
+    autoOpen: dialogParameters.autoOpen,
+    show: dialogParameters.showAnim,
+    hide: dialogParameters.hideAnim,
+  });
+
+  // add the current dialog to the dialogs array
+  dialogs.push(currentDialog)
 }
+
+// loop opening the dialog boxes
+function dialogLoop() {
+  // open the first dialog
+  let currentDialog = dialogs[dialogParameters.cycle];
+  currentDialog.dialog("open");
+
+  // cycle to the next dialog
+  dialogParameters.cycle = (dialogParameters.cycle + 1) % dialogs.length;
+}
+
 
 /*
 draw the background
@@ -157,6 +201,7 @@ function draw() {
   draw3dAnimation();
 }
 
+
 // draw the background elements
 function drawBackground() {
   // set the background to black
@@ -176,6 +221,17 @@ function draw3dAnimation() {
 
   // apply an alpha animation making the original images flash
   alphaAnimation();
+}
+
+
+// change the characters used to draw the as
+function changeTable(code, targetWeight) {
+  // here we can change the characters of the ascii table
+  for (let i = 0; i < asciiArt.obj.__weightTable.length; i++) {
+    if (asciiArt.obj.__weightTable[i].weight > targetWeight) {
+      asciiArt.obj.__weightTable[i].code = code;
+    };
+  };
 }
 
 // makes the 3d animation blink according to a sin wave
