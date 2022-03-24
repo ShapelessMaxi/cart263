@@ -25,6 +25,8 @@ Surrealist mixed media visual adventure where the user input has unexpected effe
 
 "use strict";
 
+/* global vairables and objects */
+
 // define the framerate of the program
 const constantFrameRate = 24;
 
@@ -111,6 +113,8 @@ let keyCodes = [
 let backgroundCloud = undefined;
 
 
+/* preload and load methods */
+
 /*
 load the png sequence
 load the other images
@@ -139,6 +143,8 @@ function loadImages() {
   backgroundCloud = loadImage(`assets/images/clouds.png`);
 }
 
+
+/* setup and setup/create methods */
 
 /*
 create the canvas
@@ -192,18 +198,25 @@ function createDialog(dialogNumber) {
     buttons: [{
         text: getTextFromP(dialogNumber, 1),
         click: function() {
+          // close the dialog
           $(this).dialog("close");
+          // change the character set for the ascii art
+          modifyAsciiTable();
         }
       },
       {
         text: getTextFromP(dialogNumber, 2),
         click: function() {
+          // close the dialog
           $(this).dialog("close");
+          // invert the brightness of the ascii code
+          invertAscii();
         }
       },
       {
         text: getTextFromP(dialogNumber, 3),
         click: function() {
+          // close the dialog
           $(this).dialog("close");
         }
       },
@@ -237,6 +250,8 @@ function dialogLoop() {
 }
 
 
+/* draw and draw methods */
+
 /*
 draw the background
 draw the ascii converted images
@@ -251,17 +266,12 @@ function draw() {
 
   // prepare the image for conversion
   gfx.image(pngSequence.sequence[floor(cyclicT)], 0, 10, gfx.width, gfx.height);
+
   // posterize effect
   gfx.filter(POSTERIZE, asciiArt.posterizeValue);
+
   // Here the processed image is converted to the ASCII art
   asciiArt.array = asciiArt.obj.convert(gfx);
-
-  /*
-  // change the ascii table characters
-  let code = 120;
-  let targetWeight = 10000;
-  changeTable(code, targetWeight);
-  */
 
   // display the ASCII art on the screen
   asciiArt.obj.typeArray2d(asciiArt.array, this);
@@ -293,6 +303,8 @@ function draw3dAnimation() {
 }
 
 
+/* effects methods */
+
 // change the characters used to draw the as
 function changeTable(code, targetWeight) {
   // here we can change the characters of the ascii table
@@ -316,11 +328,31 @@ function getRandomkey() {
   randomKey = random(keyCodes);
 
   // tell me what the key is!~
-  console.log(randomKey);
+  console.log(`the random key is: ${randomKey}...`);
+  console.log(`google it.`);
 }
 
+// change the ascii table characters
+function modifyAsciiTable() {
+  let code = random(1, 126);
+  let targetWeight = 10000;
+  changeTable(code, targetWeight);
+}
+
+// invert the brightness of the ascii art
+function invertAscii() {
+  if (asciiArt.obj.invertBrightnessFlag === true) {
+    asciiArt.obj.invertBrightnessFlag = false;
+  } else {
+    asciiArt.obj.invertBrightnessFlag = true;
+  }
+}
+
+
+/* p5 native methods */
+
 // listens to the user pressing keys
-function keyPressed(){
+function keyPressed() {
   if (keyCode === randomKey) {
     // close all dialogs (maybe find another thing to do in the futur, like close some, open others, or change the buttons options?)
     for (let i = 0; i < dialogs.length; i++) {
