@@ -62,14 +62,9 @@ let dialogParameters = {
   number: 5,
   delay: 5000,
   cycle: 0,
-  position: {
-    my: `center`,
-    at: `center`,
-    of: window
-  },
   autoOpen: false,
   showAnim: {
-    effect: "blind",
+    // effect: "blind",
     duration: 3500
   },
   hideAnim: {
@@ -122,6 +117,7 @@ function setup() {
   let canvas = createCanvas(640, 640);
   canvas.parent(`#p5-canvas`);
 
+  /* create the ascii object (not possible to put this in a seperated function) */
   // setup for the ascii converter graphic handler
   gfx = createGraphics(asciiArt.width, asciiArt.height);
   gfx.pixelDensity(asciiArt.pixelDensity);
@@ -142,6 +138,7 @@ function dialogSetup() {
   for (let i = 0; i < dialogParameters.number; i++) {
     createDialog(i);
   };
+
   // initialize the loop opening them
   setInterval(dialogLoop, dialogParameters.delay);
 }
@@ -152,7 +149,6 @@ function createDialog(dialogNumber) {
     autoOpen: dialogParameters.autoOpen,
     show: dialogParameters.showAnim,
     hide: dialogParameters.hideAnim,
-    position: dialogParameters.position,
   });
 
   // add the current dialog to the dialogs array
@@ -164,14 +160,16 @@ function dialogLoop() {
   // select the next dialog (starts at 0)
   let currentDialog = dialogs[dialogParameters.cycle];
 
+
+
+  // open the dialog
+  currentDialog.dialog("open");
+
   // set a semi random position
   currentDialog.parent().offset({
     top: Math.random() * ($(window).height() - currentDialog.parent().height()),
     left: Math.random() * ($(window).width() - currentDialog.parent().width())
   });
-
-  // open the dialog
-  currentDialog.dialog("open");
 
   // cycle to the next dialog
   dialogParameters.cycle = (dialogParameters.cycle + 1) % dialogs.length;
