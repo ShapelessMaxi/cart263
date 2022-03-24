@@ -63,8 +63,9 @@ let dialogParameters = {
   delay: 5000,
   cycle: 0,
   position: {
-    x: undefined,
-    y: undefined,
+    my: `center`,
+    at: `center`,
+    of: window
   },
   autoOpen: false,
   showAnim: {
@@ -151,6 +152,7 @@ function createDialog(dialogNumber) {
     autoOpen: dialogParameters.autoOpen,
     show: dialogParameters.showAnim,
     hide: dialogParameters.hideAnim,
+    position: dialogParameters.position,
   });
 
   // add the current dialog to the dialogs array
@@ -159,8 +161,29 @@ function createDialog(dialogNumber) {
 
 // loop opening the dialog boxes
 function dialogLoop() {
-  // open the first dialog
+  // select the next dialog (starts at 0)
   let currentDialog = dialogs[dialogParameters.cycle];
+
+  // // set a semi random position
+  // let xRange = $( window ).width() /2;
+  // let yRange = $( window ).height() /2;
+  // let x = random(0, xRange);
+  // let y = random(0, yRange);
+  //
+  // currentDialog.dialog({
+  //   position: {
+  //     my: `left+${x} top+${y}`,
+  //     at: `center`,
+  //     of: window,
+  //   }
+  // });
+
+  currentDialog.parent().offset({
+   top: Math.random() * ($(window).height() - currentDialog.parent().height()),
+   left: Math.random() * ($(window).width() - currentDialog.parent().width())
+ });
+
+  // open the dialog
   currentDialog.dialog("open");
 
   // cycle to the next dialog
