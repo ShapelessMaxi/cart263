@@ -13,7 +13,7 @@ Surrealist mixed media visual adventure where the user input has unexpected effe
     - jquery forms/buttons/dialog X
 
 2- unexpected interaction effect:
-    - keypress 1 : key has an effect (raondomized every time the correct key is pressed)
+    - keypress 1 : key has an effect (randomized every time the correct key is pressed)
 
     - dialog box 1 : What do you think about travelling closer to them? -> (12 different options) -> same (effect) -> OK good luck with that.
     - dialog box 2 : Do you want to help them? -> YES/NO -> (effect) -> You cannot reach them from here.
@@ -64,7 +64,7 @@ let dialogParameters = {
   cycle: 0,
   autoOpen: false,
   showAnim: {
-    // effect: "blind",
+    effect: "blind",
     duration: 3500
   },
   hideAnim: {
@@ -74,6 +74,38 @@ let dialogParameters = {
 };
 // store the different dialog objects here
 let dialogs = [];
+
+// store the current random key here
+let randomKey = undefined;
+// store a-z keycodes here
+let keyCodes = [
+  65,
+  66,
+  67,
+  68,
+  69,
+  70,
+  71,
+  72,
+  73,
+  74,
+  75,
+  76,
+  77,
+  78,
+  79,
+  80,
+  81,
+  82,
+  83,
+  84,
+  85,
+  86,
+  87,
+  88,
+  89,
+  90,
+];
 
 // store the background cloud image here
 let backgroundCloud = undefined;
@@ -127,6 +159,9 @@ function setup() {
   // setup for the dialog boxes
   dialogSetup();
 
+  // get the first random key
+  getRandomkey();
+
   // set a constant framerate
   frameRate(constantFrameRate);
 }
@@ -149,10 +184,44 @@ function createDialog(dialogNumber) {
     autoOpen: dialogParameters.autoOpen,
     show: dialogParameters.showAnim,
     hide: dialogParameters.hideAnim,
-  });
+    position: {
+      my: `center`,
+      at: `left+${Math.random() * $(window).width()} top+${Math.random() * $(window).height()}`,
+      of: window
+    },
+    buttons: [{
+        text: getTextFromP(dialogNumber, 1),
+        click: function() {
+          $(this).dialog("close");
+        }
+      },
+      {
+        text: getTextFromP(dialogNumber, 2),
+        click: function() {
+          $(this).dialog("close");
+        }
+      },
+      {
+        text: getTextFromP(dialogNumber, 3),
+        click: function() {
+          $(this).dialog("close");
+        }
+      },
+    ]
+  }, );
 
   // add the current dialog to the dialogs array
-  dialogs.push(currentDialog)
+  dialogs.push(currentDialog);
+}
+
+// get the text for the button from a p tag in index.html
+function getTextFromP(dialogNumber, buttonNumber) {
+  let text = $(`#button-${dialogNumber}-${buttonNumber}`).text();
+  if (text !== null) {
+    return text
+  } else {
+    // find a way to hide the button so we can have a different amount of buttons for each button
+  }
 }
 
 // loop opening the dialog boxes
@@ -160,16 +229,8 @@ function dialogLoop() {
   // select the next dialog (starts at 0)
   let currentDialog = dialogs[dialogParameters.cycle];
 
-
-
   // open the dialog
   currentDialog.dialog("open");
-
-  // set a semi random position
-  currentDialog.parent().offset({
-    top: Math.random() * ($(window).height() - currentDialog.parent().height()),
-    left: Math.random() * ($(window).width() - currentDialog.parent().width())
-  });
 
   // cycle to the next dialog
   dialogParameters.cycle = (dialogParameters.cycle + 1) % dialogs.length;
@@ -248,4 +309,25 @@ function alphaAnimation() {
   pngSequence.alphaAnim.wave = map(pngSequence.alphaAnim.wave, -1, 1, pngSequence.darkestAlpha, pngSequence.lightestAlpha);
   pngSequence.alphaAnim.t += pngSequence.alphaAnim.speed;
   pngSequence.alpha = pngSequence.alphaAnim.wave;
+}
+
+// get a random key to use as an easter egg
+function getRandomkey() {
+  randomKey = random(keyCodes);
+
+  // tell me what the key is!~
+  console.log(randomKey);
+}
+
+// listens to the user pressing keys
+function keyPressed(){
+  if (keyCode === randomKey) {
+    // close all dialogs (maybe find another thing to do in the futur, like close some, open others, or change the buttons options?)
+    for (let i = 0; i < dialogs.length; i++) {
+      let currentDialog = dialogs[i];
+      currentDialog.dialog("close");
+    };
+    // get a new random key
+    getRandomkey();
+  };
 }

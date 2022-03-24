@@ -58,3 +58,7 @@ body {
 .dialog{
   color: white;
 }
+
+.dialog-button{
+  display: none;
+}
