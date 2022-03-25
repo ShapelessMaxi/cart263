@@ -2,7 +2,10 @@
 seeking sadness
 Maxime Perreault
 
-Following the activity video
+adding to the activity
+1- Add title and instructions scenes
+2-
+3-
 */
 
 "use strict";
@@ -14,7 +17,7 @@ let config = {
   physics: {
     default: `arcade`,
   },
-  scene: [Boot, Play],
+  scene: [Boot, Play, Title],
 }
 
 let game = new Phaser.Game(config);
