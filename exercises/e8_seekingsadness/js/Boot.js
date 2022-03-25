@@ -15,13 +15,16 @@ class Boot extends Phaser.Scene {
 
     // load the thumbs down image
     this.load.image(`thumbs-down`, `assets/images/thumbsdown.png`);
-    
+
     // load the thumbs up image
     this.load.image(`thumbs-up`, `assets/images/thumbsup.png`);
 
+    // load the arrow keys image
+    this.load.image(`arrow-keys`, `assets/images/arrowkeys.png`);
+
     // change the scene after everything is loaded
     this.load.on(`complete`, () => {
-      this.scene.start(`play`);
+      this.scene.start(`title`);
     });
   }
 
