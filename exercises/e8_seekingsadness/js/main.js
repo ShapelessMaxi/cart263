@@ -5,7 +5,7 @@ Maxime Perreault
 adding to the activity
 1- Add title and instructions scenes X
 2- Add a counter of sadness and hapiness X
-3- Add an ending to the game (run out of time? too happy?) and a “game over” scene
+3- Add an ending to the game (run out of time? too happy?) and a “game over” scene X
 */
 
 "use strict";
@@ -17,7 +17,7 @@ let config = {
   physics: {
     default: `arcade`,
   },
-  scene: [Boot, Play, Title],
+  scene: [Boot, Play, Title, SadEnd, HappyEnd],
 }
 
 let game = new Phaser.Game(config);

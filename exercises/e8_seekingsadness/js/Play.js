@@ -74,12 +74,12 @@ class Play extends Phaser.Scene {
   update() {
     this.sadText.setText(`u are ${this.sadCount} sad`);
     if (this.sadCount > 5) {
-      // change to sad end screen
+      this.scene.start(`sad-end`);
     }
 
     this.happyText.setText(`u are ${this.happyCount} happy`);
     if (this.happyCount > 500) {
-      //change to happy end screen
+      this.scene.start(`happy-end`);
     }
 
     if (this.cursors.left.isDown) {
