@@ -1,3 +1,8 @@
+/*
+Title scene
+click to change the title (more infos)
+click to change to the next scene
+*/
 class Title extends Phaser.Scene {
   constructor() {
     super({
@@ -70,7 +75,7 @@ class Title extends Phaser.Scene {
         title.text = 'click to start (4real)';
         title.x = 140;
         numClicks++;
-      } else if (numClicks ===4){
+      } else if (numClicks === 4) {
         this.scene.start(`play`);
       };
     });

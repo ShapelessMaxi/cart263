@@ -1,3 +1,6 @@
+/*
+loads everything before changing to the title scene
+*/
 class Boot extends Phaser.Scene {
   constructor() {
     super({
@@ -7,6 +10,7 @@ class Boot extends Phaser.Scene {
 
   /*
   load the sprite
+  load th other images
   change the scene
   */
   preload() {

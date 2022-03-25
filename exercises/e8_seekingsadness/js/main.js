@@ -10,6 +10,7 @@ adding to the activity
 
 "use strict";
 
+// define the config of the game
 let config = {
   type: Phaser.AUTO,
   width: 800,
@@ -20,4 +21,5 @@ let config = {
   scene: [Boot, Play, Title, SadEnd, HappyEnd],
 }
 
+// create the game
 let game = new Phaser.Game(config);
