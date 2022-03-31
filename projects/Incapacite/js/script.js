@@ -59,7 +59,6 @@ let cyclicT = 0;
 
 // define the parameters for the dialog boxes
 let dialogParameters = {
-  number: 5,
   delay: 5000,
   cycle: 0,
   autoOpen: false,
@@ -72,8 +71,6 @@ let dialogParameters = {
     duration: 200
   },
 };
-// store the different dialog objects here
-let dialogs = [];
 
 // store the current random key here
 let randomKey = undefined;
@@ -173,82 +170,43 @@ function setup() {
 
 // setup for the dialog boxes
 function dialogSetup() {
-  // create the dialogs
-  for (let i = 0; i < dialogParameters.number; i++) {
-    createDialog(i);
-  };
+  // create the dialog box
+  createDialog();
 
-  // initialize the loop opening them
-  setInterval(dialogLoop, dialogParameters.delay);
+  // open the dialog
+  openDialog(1);
+}
+
+// open the dialog
+function openDialog(dialogNumber) {
+  let currentDialog = dialogData.dialog + dialogNumber;
+  console.log(currentDialog);
+  // set the question of the dialog
+  $(`#dialog-question`).text(currentDialog.question);
+
+  // open the dialog
+  $(`#dialog`).dialog("open");
+}
+
+// modify the dialog
+function modifyDialog(dialogNumber) {
+  // $(`#dialog`).
 }
 
 // create the dialog boxes
-function createDialog(dialogNumber) {
-  let currentDialog = $(`#dialog-${dialogNumber}`).dialog({
+function createDialog() {
+  $(`#dialog`).dialog({
     autoOpen: dialogParameters.autoOpen,
     show: dialogParameters.showAnim,
     hide: dialogParameters.hideAnim,
     position: {
       my: `center`,
       at: `left+${Math.random() * $(window).width()} top+${Math.random() * $(window).height()}`,
-      of: window
+      of: window,
     },
-    buttons: [{
-        text: getTextFromP(dialogNumber, 1),
-        click: function() {
-          // close the dialog
-          $(this).dialog("close");
-          // change the character set for the ascii art
-          modifyAsciiTable();
-        }
-      },
-      {
-        text: getTextFromP(dialogNumber, 2),
-        click: function() {
-          // close the dialog
-          $(this).dialog("close");
-          // invert the brightness of the ascii code
-          invertAscii();
-        }
-      },
-      {
-        text: getTextFromP(dialogNumber, 3),
-        click: function() {
-          // close the dialog
-          $(this).dialog("close");
-          // change the blend overlay properties
-          modifyBlendOverlay();
-        }
-      },
-    ]
+    buttons: [],
   }, );
-
-  // add the current dialog to the dialogs array
-  dialogs.push(currentDialog);
 }
-
-// get the text for the button from a p tag in index.html
-function getTextFromP(dialogNumber, buttonNumber) {
-  let text = $(`#button-${dialogNumber}-${buttonNumber}`).text();
-  if (text !== null) {
-    return text
-  } else {
-    // find a way to hide the button so we can have a different amount of buttons for each button
-  }
-}
-
-// loop opening the dialog boxes
-function dialogLoop() {
-  // select the next dialog (starts at 0)
-  let currentDialog = dialogs[dialogParameters.cycle];
-
-  // open the dialog
-  currentDialog.dialog("open");
-
-  // cycle to the next dialog
-  dialogParameters.cycle = (dialogParameters.cycle + 1) % dialogs.length;
-}
-
 
 /* draw and draw methods */
 
@@ -349,9 +307,13 @@ function invertAscii() {
 }
 
 // change the blend overlay properties (add randomness in the futur)
-function modifyBlendOverlay(){
-  $(`.blend`).css({"background-color": "blue"});
-  $(`.blend`).css({"mix-blend-mode": "screen"});
+function modifyBlendOverlay() {
+  $(`.blend`).css({
+    "background-color": "blue"
+  });
+  $(`.blend`).css({
+    "mix-blend-mode": "screen"
+  });
 }
 
 
