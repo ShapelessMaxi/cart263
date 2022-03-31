@@ -70,7 +70,7 @@ class Title extends Phaser.Scene {
         title.text = 'click to start (4real)';
         title.x = 140;
         numClicks++;
-      } else if (numClicks ===4){
+      } else if (numClicks === 4) {
         this.scene.start(`play`);
       };
     });
