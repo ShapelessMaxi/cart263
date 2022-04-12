@@ -60,7 +60,7 @@ let cyclicT = 0;
 // define the parameters for the dialog boxes
 let dialogParameters = {
   delay: 5000,
-  cycle: 0,
+  cycle: 1,
   autoOpen: false,
   showAnim: {
     effect: "blind",
@@ -173,24 +173,55 @@ function dialogSetup() {
   // create the dialog box
   createDialog();
 
-  // open the dialog
+  // open the first dialog
   openDialog(1);
 }
 
 // open the dialog
 function openDialog(dialogNumber) {
-  let currentDialog = dialogData.dialog + dialogNumber;
-  console.log(currentDialog);
-  // set the question of the dialog
-  $(`#dialog-question`).text(currentDialog.question);
+  // switch between dialog number, given as a parameter
+  let currentDialog = null;
+  switch (dialogNumber) {
+    case 1:
+      currentDialog = dialogData.dialog1;
+      break;
+    case 2:
+      currentDialog = dialogData.dialog2;
+      break;
+    case 3:
+      currentDialog = dialogData.dialog3;
+      break;
+    case 4:
+      currentDialog = dialogData.dialog4;
+      break;
+    case 5:
+      currentDialog = dialogData.dialog5;
+      break;
+  }
+
+  // modify the dialog
+  modifyDialog(currentDialog);
 
   // open the dialog
   $(`#dialog`).dialog("open");
+
+  // kee track of whoch dialog we have opened
+  dialogParameters.cycle++;
 }
 
 // modify the dialog
-function modifyDialog(dialogNumber) {
-  // $(`#dialog`).
+function modifyDialog(currentDialog) {
+  // set the question of the dialog
+  $(`#dialog-question`).text(currentDialog.question);
+
+  // select the correct buttons
+  let currentButtons = [];
+  currentButtons.push(currentDialog.button1, currentDialog.button2)
+  
+  // add the buttons
+  $(`#dialog-question`).dialog({
+    buttons: currentButtons,
+  })
 }
 
 // create the dialog boxes
