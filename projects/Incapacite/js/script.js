@@ -171,14 +171,40 @@ function setup() {
 // setup for the dialog boxes
 function dialogSetup() {
   // create the dialog box
-  createDialog();
+  createDialog(dialogParameters.cycle);
 
   // open the first dialog
-  openDialog(1);
+  openDialog();
 }
 
 // open the dialog
-function openDialog(dialogNumber) {
+function openDialog() {
+  // open the dialog
+  $(`#dialog`).dialog("open");
+
+  // kee track of whoch dialog we have opened
+  dialogParameters.cycle++;
+}
+
+// create the dialog boxes
+function createDialog(dialogNumber) {
+  $(`#dialog`).dialog({
+    autoOpen: dialogParameters.autoOpen,
+    show: dialogParameters.showAnim,
+    hide: dialogParameters.hideAnim,
+    position: {
+      my: `center`,
+      at: `left+${Math.random() * $(window).width()} top+${Math.random() * $(window).height()}`,
+      of: window,
+    },
+    buttons: [],
+  }, );
+
+  // add the buttons
+  addButtons(dialogNumber);
+}
+
+function addButtons(dialogNumber){
   // switch between dialog number, given as a parameter
   let currentDialog = null;
   switch (dialogNumber) {
@@ -199,44 +225,29 @@ function openDialog(dialogNumber) {
       break;
   }
 
-  // modify the dialog
-  modifyDialog(currentDialog);
-
-  // open the dialog
-  $(`#dialog`).dialog("open");
-
-  // kee track of whoch dialog we have opened
-  dialogParameters.cycle++;
-}
-
-// modify the dialog
-function modifyDialog(currentDialog) {
   // set the question of the dialog
   $(`#dialog-question`).text(currentDialog.question);
 
-  // select the correct buttons
-  let currentButtons = [];
-  currentButtons.push(currentDialog.button1, currentDialog.button2)
+  // get the names of all buttons of the current dialog
+  let buttonNames = [];
+  for (const property in currentDialog) {
+    if (property.startsWith(`button`)) {
+      buttonNames.push(property)
+    };
+  }
+
+  // select the button objects according to the names array
+  let buttonObjects = [];
+  for (let i = 0; i < buttonNames.length; i++){
+    let currentName = buttonNames[i];
+    let currentButton = currentDialog[currentName];
+    buttonObjects.push(currentButton);
+  };
 
   // add the buttons
   $(`#dialog-question`).dialog({
-    buttons: currentButtons,
-  })
-}
-
-// create the dialog boxes
-function createDialog() {
-  $(`#dialog`).dialog({
-    autoOpen: dialogParameters.autoOpen,
-    show: dialogParameters.showAnim,
-    hide: dialogParameters.hideAnim,
-    position: {
-      my: `center`,
-      at: `left+${Math.random() * $(window).width()} top+${Math.random() * $(window).height()}`,
-      of: window,
-    },
-    buttons: [],
-  }, );
+    buttons: buttonObjects,
+  });
 }
 
 /* draw and draw methods */
@@ -276,14 +287,16 @@ function drawBackground() {
   background(0);
 
   // draw the background cloud
-  image(backgroundCloud, -0, 150);
+  push();
+  image(backgroundCloud, 0, 150);
+  pop();
 }
 
 // draw the 3d animation frames
 function draw3dAnimation() {
   // display the source image
   tint(255, pngSequence.alpha);
-  translate(75, -100);
+  translate(75, 0);
   image(pngSequence.sequence[floor(cyclicT)], 0, 0, width, height);
   noTint();
 

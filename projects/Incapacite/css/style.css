@@ -27,8 +27,7 @@ body {
 
 /* position for the colums */
 .column {
-  flex: 50%;
-}
+  flex: auto;
 
 /* position for the overlay layers */
 #overlay {
@@ -49,8 +48,8 @@ body {
 /* style for the blending mode layer */
 .blend {
   /* color/image to blend */
-  opacity: 0.5;
-  background-color: purple;
+  opacity: 0.3;
+  background-color: blue;
   /* blend mode */
   mix-blend-mode: darken;
 }
