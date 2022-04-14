@@ -394,7 +394,7 @@ function draw() {
   cyclicT = (cyclicT + 1) % pngSequence.sequence.length;
 
   // prepare the image for conversion
-  gfx.image(pngSequence.sequence[floor(cyclicT)], -20, 5, gfx.width, gfx.height);
+  gfx.image(pngSequence.sequence[floor(cyclicT)], 28, 5, gfx.width, gfx.height);
 
   // posterize effect
   gfx.filter(POSTERIZE, asciiArt.posterizeValue);
@@ -430,9 +430,11 @@ function drawImages(){
 // draw the 3d animation frames
 function draw3dAnimation() {
   // display the source image
+  push();
   tint(255, pngSequence.alpha);
   image(pngSequence.sequence[floor(cyclicT)], 0, 0, width, height);
   noTint();
+  pop();
 
   // apply an alpha animation making the original images flash
   alphaAnimation();

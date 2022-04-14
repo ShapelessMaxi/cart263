@@ -14,10 +14,18 @@ body {
 /* style for the side columns */
 #side {
   color: white;
-  font-size: 24px;
+  font-size: 12px;
   text-align: justify;
-  font-family: monospace;
-  font-weight: bolder;
+  content: "\a";
+  font-family: serif;
+  font-weight: bold;
+}
+
+#poem {
+  opacity: 50%;
+  z-index: 0;
+  top: 50em;
+  left: 0em;
 }
 
 .img-col {
@@ -26,8 +34,8 @@ body {
 
 #column-img {
   z-index: 1;
-  left: 40em;
-  top: -2em;
+  left: 80em;
+  top: -3em;
   width: 600px;
   height: 900px;
 }
@@ -35,16 +43,16 @@ body {
 #cloud-img {
   opacity: 80%;
   z-index: 3;
-  left: 38em;
-  top: 16em;
+  left: 65em;
+  top: 35em;
   width: 1800px;
   height: 700px;
 }
 
 #cloud2-img {
   z-index: 3;
-  left: 12em;
-  top: 18em;
+  left: 28em;
+  top: 36em;
   width: 450px;
   height: 280px;
 }
@@ -52,8 +60,8 @@ body {
 #cloud3-img {
   opacity: 20%;
   z-index: 3;
-  left: 10em;
-  top: -10em;
+  left: 15em;
+  top: -25em;
   width: 1000px;
   height: 500px;
 }
@@ -62,8 +70,8 @@ body {
   mix-blend-mode: hard-light;
   opacity: 15%;
   z-index: 2;
-  left: 30em;
-  top: 3em;
+  left: 70em;
+  top: 5em;
   width: 200px;
   height: 200px;
 }
@@ -72,8 +80,8 @@ body {
   mix-blend-mode: screen;
   opacity: 60%;
   z-index: 0;
-  left: 45em;
-  top: 15em;
+  left: 90em;
+  top: 35em;
   width: 600px;
   height: 300px;
 }
