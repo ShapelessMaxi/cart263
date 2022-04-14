@@ -99,6 +99,8 @@ let dialogData = {
     button3: {
       text: `okay`,
       click: () => {
+        // apply some effects
+        effectsDialog1();
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
@@ -108,6 +110,8 @@ let dialogData = {
     button4: {
       text: `never`,
       click: () => {
+        // apply some effects
+        effectsDialog1();
         // close the dialog
         $(`#dialog`).dialog("close");
         // invert the ascii color
@@ -119,6 +123,8 @@ let dialogData = {
     button5: {
       text: `for sure`,
       click: () => {
+        // apply some effects
+        effectsDialog1();
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
@@ -128,6 +134,8 @@ let dialogData = {
     button6: {
       text: `maybe`,
       click: () => {
+        // apply some effects
+        effectsDialog1();
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
@@ -137,6 +145,8 @@ let dialogData = {
     button7: {
       text: `non`,
       click: () => {
+        // apply some effects
+        effectsDialog1();
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
@@ -146,6 +156,8 @@ let dialogData = {
     button8: {
       text: `oui`,
       click: () => {
+        // apply some effects
+        effectsDialog1();
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
@@ -155,6 +167,8 @@ let dialogData = {
     button9: {
       text: `I guess`,
       click: () => {
+        // apply some effects
+        effectsDialog1();
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
@@ -369,7 +383,7 @@ function draw() {
   cyclicT = (cyclicT + 1) % pngSequence.sequence.length;
 
   // prepare the image for conversion
-  gfx.image(pngSequence.sequence[floor(cyclicT)], 0, 10, gfx.width, gfx.height);
+  gfx.image(pngSequence.sequence[floor(cyclicT)], -20, 5, gfx.width, gfx.height);
 
   // posterize effect
   gfx.filter(POSTERIZE, asciiArt.posterizeValue);
@@ -382,6 +396,9 @@ function draw() {
 
   // draw the 3d animation frames
   draw3dAnimation();
+
+  // draw other images
+  drawImages();
 }
 
 
@@ -389,8 +406,11 @@ function draw() {
 function drawBackground() {
   // set the background to black
   background(0);
+}
 
-  // draw the background cloud
+// draw other images
+function drawImages(){
+  // draw the cloud
   push();
   image(backgroundCloud, 0, 150);
   pop();
@@ -400,7 +420,6 @@ function drawBackground() {
 function draw3dAnimation() {
   // display the source image
   tint(255, pngSequence.alpha);
-  translate(75, 0);
   image(pngSequence.sequence[floor(cyclicT)], 0, 0, width, height);
   noTint();
 
@@ -467,9 +486,19 @@ function modifyBlendOverlay() {
 
 /* answer methods related to dialogs*/
 
-// dialog1 answer after closing it
+// effects happening after answering dialog1
+function effectsDialog1() {
+  // change the posterize value of the ascii code art
+  asciiArt.posterizeValue += 0.5;
+
+  // change the blend mode and opactiy of the overlay
+  $(`.blend`).css("mix-blend-mode", "difference");
+  $(`.blend`).css("opactity", "40%");
+}
+
+// answer dialog after closing dialog1 (callback)
 function answerDialog1(positiveAnswer) {
-  // change what the dialog says
+    // change what the dialog says
   if (positiveAnswer) {
     $(`#dialog-question`).text(dialogData.dialog1.answer1);
   } else {
