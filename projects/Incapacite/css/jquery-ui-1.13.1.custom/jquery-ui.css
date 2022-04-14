@@ -592,6 +592,8 @@ button.ui-button::-moz-focus-inner {
 	width: 90%;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	text-align: center;
+	width: 100%;
 }
 .ui-dialog .ui-dialog-titlebar-close {
 	position: absolute;
@@ -603,24 +605,25 @@ button.ui-button::-moz-focus-inner {
 	height: 20px;
 }
 .ui-dialog .ui-dialog-content {
-	position: relative;
+	position: absolute;
 	border: 0;
-	padding: .5em 1em;
+	padding: 0.2em 1em;
 	background: none;
 	overflow: auto;
+	text-align: center;
 }
 .ui-dialog .ui-dialog-buttonpane {
-	text-align: left;
-	border-width: 1px 0 0 0;
+	text-align: center;
+	border-width: 1px 1 0 0;
 	background-image: none;
-	margin-top: .5em;
-	padding: .3em 1em .5em .4em;
+	margin-top: 3em;
+	padding: 0em 1em 0em 1em;
 }
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
-	float: right;
+	float: center;
 }
 .ui-dialog .ui-dialog-buttonpane button {
-	margin: .5em .4em .5em 0;
+	margin: 1px 1px 1px 1px;
 	cursor: pointer;
 }
 .ui-dialog .ui-resizable-n {

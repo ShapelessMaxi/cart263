@@ -301,7 +301,7 @@ function draw3dAnimation() {
   noTint();
 
   // apply an alpha animation making the original images flash
-  alphaAnimation();
+  // alphaAnimation();
 }
 
 

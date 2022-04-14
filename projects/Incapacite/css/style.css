@@ -54,10 +54,8 @@ body {
   mix-blend-mode: darken;
 }
 
-.dialog{
-  color: white;
-}
-
-.dialog-button{
-  display: none;
+.ui-dialog .ui-dialog-title {
+  float:none !important;
+  display: block;
+  text-align: center;
 }
