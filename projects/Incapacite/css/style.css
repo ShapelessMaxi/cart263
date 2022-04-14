@@ -33,15 +33,16 @@ body {
 }
 
 #cloud-img {
-  z-index: 2;
-  left: 40em;
+  opacity: 80%;
+  z-index: 3;
+  left: 38em;
   top: 16em;
-  width: 2000px;
+  width: 1800px;
   height: 700px;
 }
 
 #cloud2-img {
-  z-index: 2;
+  z-index: 3;
   left: 12em;
   top: 18em;
   width: 450px;
@@ -49,11 +50,32 @@ body {
 }
 
 #cloud3-img {
-  z-index: 2;
+  opacity: 20%;
+  z-index: 3;
   left: 10em;
   top: -10em;
   width: 1000px;
   height: 500px;
+}
+
+#sun-gif {
+  mix-blend-mode: hard-light;
+  opacity: 15%;
+  z-index: 2;
+  left: 30em;
+  top: 3em;
+  width: 200px;
+  height: 200px;
+}
+
+#hands-gif {
+  mix-blend-mode: screen;
+  opacity: 60%;
+  z-index: 0;
+  left: 45em;
+  top: 15em;
+  width: 600px;
+  height: 300px;
 }
 
 /* position for the grid wrapper */
