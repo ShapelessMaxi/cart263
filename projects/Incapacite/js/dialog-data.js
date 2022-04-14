@@ -40,6 +40,8 @@ let dialogData = {
       click: () => {
         // close the dialog
         $(`#dialog-question`).dialog("close");
+        // invert the ascii color
+        invertAscii();
         // open the anser dialog
         setTimeout(answerDialog1, 2000, false);
       },
