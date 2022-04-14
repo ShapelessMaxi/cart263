@@ -20,6 +20,42 @@ body {
   font-weight: bolder;
 }
 
+.img-col {
+  position:absolute;
+}
+
+#column-img {
+  z-index: 1;
+  left: 40em;
+  top: -2em;
+  width: 600px;
+  height: 900px;
+}
+
+#cloud-img {
+  z-index: 2;
+  left: 40em;
+  top: 16em;
+  width: 2000px;
+  height: 700px;
+}
+
+#cloud2-img {
+  z-index: 2;
+  left: 12em;
+  top: 18em;
+  width: 450px;
+  height: 280px;
+}
+
+#cloud3-img {
+  z-index: 2;
+  left: 10em;
+  top: -10em;
+  width: 1000px;
+  height: 500px;
+}
+
 /* position for the grid wrapper */
 .wrapper {
   display: flex;
@@ -49,6 +85,7 @@ body {
 /* style for the blending mode layer */
 .blend {
   /* color/image to blend */
+  z-index: 5;
   background-color: darkblue;
   opacity: 15%;
   /* blend mode */

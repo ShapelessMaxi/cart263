@@ -5,16 +5,12 @@ Maxime Perreault
 Surrealist mixed media visual adventure where the user input has unexpected effects.
 
 1- mixing the media, layering:
-    - background image X
-    - 3d animation X
-    - ascii overlay X
-    - html + css document format X
-    - filter / vfx overlay X
-    - jquery forms/buttons/dialog X
+    - background texture substance
+    - jquery forms/buttons/dialog
+    - weird images 2nd column
 
 2- unexpected interaction effect:
-    - keypress 1 : key has an effect (randomized every time the correct key is pressed)
-    - dialog box 1 : What do you think about travelling closer to them? -> (12 different options) -> same (effect) -> OK good luck with that.
+    - keypress 1 : key has an effect (revisit the effect it has)
     - dialog box 2 : Do you want to help them? -> YES/NO -> (effect) -> You cannot reach them from here.
     - dialog box 3 : Is there anything you want to accomplish? -> I want to/ I need to/ I have to/ I -> (effect)
     - dialog box 4 : Why are you abstaining from contact? (answer) -> (effect)
@@ -77,10 +73,12 @@ let dialogData = {
   dialog1: {
     question: `What do you think about travelling closer to them?`,
     answer1: "Ok good luck with that.",
-    answer2: "...",
+    answer2: "Alright.",
     button1: {
       text: `yes`,
       click: () => {
+        // apply some effects
+        effectsDialog1();
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the answer dialog
@@ -90,6 +88,8 @@ let dialogData = {
     button2: {
       text: `no`,
       click: () => {
+        // apply some effects
+        effectsDialog1();
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
@@ -114,8 +114,6 @@ let dialogData = {
         effectsDialog1();
         // close the dialog
         $(`#dialog`).dialog("close");
-        // invert the ascii color
-        invertAscii();
         // open the anser dialog
         setTimeout(answerDialog1, 2000, false);
       },
@@ -178,6 +176,19 @@ let dialogData = {
   },
   dialog2: {
     question: `Do you want to help them?`,
+    answer1: "You cnanot reach them from here.",
+    answer2: "Not that you could reach them anyway.",
+    button1: {
+      text: `yes`,
+      click: () => {
+        // apply some effects
+        effectsDialog1();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog1, 2000, dialogData.dialog1, true);
+      },
+    },
   },
   dialog3: {
     question: `I there anything you want to accomplish?`,
@@ -497,12 +508,51 @@ function effectsDialog1() {
 }
 
 // answer dialog after closing dialog1 (callback)
-function answerDialog1(positiveAnswer) {
+function answerDialog1(dialog, positiveAnswer) {
     // change what the dialog says
   if (positiveAnswer) {
-    $(`#dialog-question`).text(dialogData.dialog1.answer1);
+    $(`#dialog-question`).text(dialog.answer1);
   } else {
-    $(`#dialog-question`).text(dialogData.dialog1.answer2);
+    $(`#dialog-question`).text(dialog.answer2);
+  };
+
+  // remove the buttons
+  $(`#dialog`).dialog({
+    buttons: [],
+  });
+
+  // open the dialog
+  $(`#dialog`).dialog("open");
+
+  // add the close event listener
+  $("#dialog").on("dialogclose", function(event, ui) {
+    // invert the color of the ascii image reference
+    invertAscii();
+    // set a timer to open the next dialog
+    setTimeout(() => {
+      modifyDialog(dialogParameters.cycle); // open the next dialog
+      openDialog();
+    }, 5000)
+  });
+}
+
+// effects happening after answering dialog1
+function effectsDialog2() {
+  // change the posterize value of the ascii code art
+  asciiArt.posterizeValue += 0.5;
+
+  // change the blend mode and opactiy of the overlay
+  $(`.blend`).css("mix-blend-mode", "difference");
+  $(`.blend`).css("opactity", "40%");
+}
+
+// answer dialog after closing dialog1 (callback)
+function answerDialog2(positiveAnswer) {
+    // change what the dialog says
+  if (positiveAnswer) {
+    $(`#dialog-question`).text(dialogData.dialog2.answer1);
+  } else {
+    $(`#dialog-question`).text(dialogData.dialog2.answer2);
   };
 
   // remove the buttons
