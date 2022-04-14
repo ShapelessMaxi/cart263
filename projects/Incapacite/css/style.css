@@ -53,9 +53,3 @@ body {
   /* blend mode */
   mix-blend-mode: darken;
 }
-
-.ui-dialog .ui-dialog-title {
-  float:none !important;
-  display: block;
-  text-align: center;
-}

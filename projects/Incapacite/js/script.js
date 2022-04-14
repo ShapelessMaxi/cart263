@@ -70,7 +70,111 @@ let dialogParameters = {
     effect: "explode",
     duration: 200
   },
+  title: `hmmmmmmm`,
 };
+// store all the dialog data here
+let dialogData = {
+  dialog1: {
+    question: `What do you think about travelling closer to them?`,
+    answer1: "Ok good luck with that.",
+    answer2: "...",
+    button1: {
+      text: `yes`,
+      click: () => {
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog1, 2000, true);
+      },
+    },
+    button2: {
+      text: `no`,
+      click: () => {
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the anser dialog
+        setTimeout(answerDialog1, 2000, false);
+      },
+    },
+    button3: {
+      text: `okay`,
+      click: () => {
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the anser dialog
+        setTimeout(answerDialog1, 2000, true);
+      },
+    },
+    button4: {
+      text: `never`,
+      click: () => {
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // invert the ascii color
+        invertAscii();
+        // open the anser dialog
+        setTimeout(answerDialog1, 2000, false);
+      },
+    },
+    button5: {
+      text: `for sure`,
+      click: () => {
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the anser dialog
+        setTimeout(answerDialog1, 2000, true);
+      },
+    },
+    button6: {
+      text: `maybe`,
+      click: () => {
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the anser dialog
+        setTimeout(answerDialog1, 2000, false);
+      },
+    },
+    button7: {
+      text: `non`,
+      click: () => {
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the anser dialog
+        setTimeout(answerDialog1, 2000, false);
+      },
+    },
+    button8: {
+      text: `oui`,
+      click: () => {
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the anser dialog
+        setTimeout(answerDialog1, 2000, true);
+      },
+    },
+    button9: {
+      text: `I guess`,
+      click: () => {
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the anser dialog
+        setTimeout(answerDialog1, 2000, true);
+      },
+    },
+  },
+  dialog2: {
+    question: `Do you want to help them?`,
+  },
+  dialog3: {
+    question: `I there anything you want to accomplish?`,
+  },
+  dialog4: {
+    question: `Why are you abstaining from contact?`,
+  },
+  dialog5: {
+    question: `Oh hey what's up with that?`,
+  },
+}
 
 // store the current random key here
 let randomKey = undefined;
@@ -172,13 +276,13 @@ function setup() {
 function dialogSetup() {
   // create the dialog box
   createDialog(dialogParameters.cycle);
-
-  // open the first dialog
-  openDialog();
 }
 
 // open the dialog
 function openDialog() {
+  // modify the dialog data
+  modifyDialog(dialogParameters.cycle);
+
   // open the dialog
   $(`#dialog`).dialog("open");
 
@@ -198,13 +302,18 @@ function createDialog(dialogNumber) {
       of: window,
     },
     buttons: [],
+    title: dialogParameters.title,
   }, );
 
   // add the buttons
-  addButtons(dialogNumber);
+  modifyDialog(dialogNumber);
+
+  // open the first dialog
+  openDialog();
 }
 
-function addButtons(dialogNumber){
+// modify the dialog with the correct dialog data
+function modifyDialog(dialogNumber) {
   // switch between dialog number, given as a parameter
   let currentDialog = null;
   switch (dialogNumber) {
@@ -223,29 +332,24 @@ function addButtons(dialogNumber){
     case 5:
       currentDialog = dialogData.dialog5;
       break;
-  }
+  };
 
   // set the question of the dialog
   $(`#dialog-question`).text(currentDialog.question);
 
-  // get the names of all buttons of the current dialog
-  let buttonNames = [];
+  // store the button objects here
+  let buttonObjects = [];
+  // iterate through the properties of the dialog
   for (const property in currentDialog) {
     if (property.startsWith(`button`)) {
-      buttonNames.push(property)
+      // get the button object with the property name
+      let currentButton = currentDialog[property];
+      buttonObjects.push(currentButton);
     };
-  }
-
-  // select the button objects according to the names array
-  let buttonObjects = [];
-  for (let i = 0; i < buttonNames.length; i++){
-    let currentName = buttonNames[i];
-    let currentButton = currentDialog[currentName];
-    buttonObjects.push(currentButton);
   };
 
-  // add the buttons
-  $(`#dialog-question`).dialog({
+  // add the buttons to the dialog
+  $(`#dialog`).dialog({
     buttons: buttonObjects,
   });
 }
@@ -301,7 +405,7 @@ function draw3dAnimation() {
   noTint();
 
   // apply an alpha animation making the original images flash
-  // alphaAnimation();
+  alphaAnimation();
 }
 
 
@@ -361,16 +465,46 @@ function modifyBlendOverlay() {
 }
 
 
+/* answer methods related to dialogs*/
+
+// dialog1 answer after closing it
+function answerDialog1(positiveAnswer) {
+  // change what the dialog says
+  if (positiveAnswer) {
+    $(`#dialog-question`).text(dialogData.dialog1.answer1);
+  } else {
+    $(`#dialog-question`).text(dialogData.dialog1.answer2);
+  };
+
+  // remove the buttons
+  $(`#dialog`).dialog({
+    buttons: [],
+  });
+
+  // add the close event listener
+  $("#dialog").on("dialogclose", function(event, ui) {
+    // invert the color of the ascii image reference
+    invertAscii();
+    // set a timer to open the next dialog
+    setTimeout(() => {
+      modifyDialog(dialogParameters.cycle); // open the next dialog
+      openDialog();
+    }, 5000)
+  });
+
+  // open the dialog
+  $(`#dialog`).dialog("open");
+}
+
+
 /* p5 native methods */
 
 // listens to the user pressing keys
 function keyPressed() {
   if (keyCode === randomKey) {
     // close all dialogs (maybe find another thing to do in the futur, like close some, open others, or change the buttons options?)
-    for (let i = 0; i < dialogs.length; i++) {
-      let currentDialog = dialogs[i];
-      currentDialog.dialog("close");
-    };
+    $(`#dialog`).dialog("close");
+
     // get a new random key
     getRandomkey();
   };
