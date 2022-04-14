@@ -47,7 +47,7 @@ let pngSequence = {
   alphaAnim: {
     t: 0,
     wave: undefined,
-    speed: 0.3,
+    speed: 0.7,
   },
 
 }
@@ -125,10 +125,10 @@ function preload() {
 
 // load the 3d animation png sequence
 function load3dAnimation() {
-  for (let i = 1; i < 79; i++) {
+  for (let i = 1; i < 82; i++) {
     // add a padding as a prefix for the filename
-    let filename = `${i}`.padStart(4, `0`);
-    pngSequence.sequence[i - 1] = loadImage(`assets/images/animationframes/frames from 3d${filename}.png`);
+    let filename = `${i}`.padStart(3, `0`);
+    pngSequence.sequence[i - 1] = loadImage(`assets/images/animationframes/${filename}.png`);
   }
 }
 
@@ -147,7 +147,7 @@ setup the ascii converter graphic handler
 */
 function setup() {
   // create the canvas and position it in the #p5-canvas div
-  let canvas = createCanvas(640, 640);
+  let canvas = createCanvas(400, 640);
   canvas.parent(`#p5-canvas`);
 
   /* create the ascii object (not possible to put this in a seperated function) */
@@ -217,7 +217,7 @@ function modifyDialog(currentDialog) {
   // select the correct buttons
   let currentButtons = [];
   currentButtons.push(currentDialog.button1, currentDialog.button2)
-  
+
   // add the buttons
   $(`#dialog-question`).dialog({
     buttons: currentButtons,
