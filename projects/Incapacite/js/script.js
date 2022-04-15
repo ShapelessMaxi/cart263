@@ -82,7 +82,7 @@ let dialogData = {
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the answer dialog
-        setTimeout(answerDialog1, 2000, true);
+        setTimeout(answerDialog, 2000, dialogData.dialog1, true);
       },
     },
     button2: {
@@ -93,7 +93,7 @@ let dialogData = {
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
-        setTimeout(answerDialog1, 2000, false);
+        setTimeout(answerDialog, 2000, dialogData.dialog1, false);
       },
     },
     button3: {
@@ -104,7 +104,7 @@ let dialogData = {
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
-        setTimeout(answerDialog1, 2000, true);
+        setTimeout(answerDialog, 2000, dialogData.dialog1, true);
       },
     },
     button4: {
@@ -115,7 +115,7 @@ let dialogData = {
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
-        setTimeout(answerDialog1, 2000, false);
+        setTimeout(answerDialog, 2000, dialogData.dialog1, false);
       },
     },
     button5: {
@@ -126,7 +126,7 @@ let dialogData = {
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
-        setTimeout(answerDialog1, 2000, true);
+        setTimeout(answerDialog, 2000, dialogData.dialog1, true);
       },
     },
     button6: {
@@ -137,7 +137,7 @@ let dialogData = {
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
-        setTimeout(answerDialog1, 2000, false);
+        setTimeout(answerDialog, 2000, dialogData.dialog1, false);
       },
     },
     button7: {
@@ -148,7 +148,7 @@ let dialogData = {
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
-        setTimeout(answerDialog1, 2000, false);
+        setTimeout(answerDialog, 2000, dialogData.dialog1, false);
       },
     },
     button8: {
@@ -159,7 +159,7 @@ let dialogData = {
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
-        setTimeout(answerDialog1, 2000, true);
+        setTimeout(answerDialog, 2000, dialogData.dialog1, true);
       },
     },
     button9: {
@@ -170,23 +170,34 @@ let dialogData = {
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the anser dialog
-        setTimeout(answerDialog1, 2000, true);
+        setTimeout(answerDialog, 2000, dialogData.dialog1, true);
       },
     },
   },
   dialog2: {
     question: `Do you want to help them?`,
-    answer1: "You cnanot reach them from here.",
+    answer1: "You cannot reach them from here.",
     answer2: "Not that you could reach them anyway.",
     button1: {
       text: `yes`,
       click: () => {
         // apply some effects
-        effectsDialog1();
+        effectsDialog2();
         // close the dialog
         $(`#dialog`).dialog("close");
         // open the answer dialog
-        setTimeout(answerDialog1, 2000, dialogData.dialog1, true);
+        setTimeout(answerDialog, 2000, dialogData.dialog2, true);
+      },
+    },
+    button2: {
+      text: `no`,
+      click: () => {
+        // apply some effects
+        effectsDialog2();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog2, false);
       },
     },
   },
@@ -276,7 +287,7 @@ setup the ascii converter graphic handler
 */
 function setup() {
   // create the canvas and position it in the #p5-canvas div
-  let canvas = createCanvas(400, 640);
+  let canvas = createCanvas(550, 800);
   canvas.parent(`#p5-canvas`);
 
   /* create the ascii object (not possible to put this in a seperated function) */
@@ -420,7 +431,7 @@ function drawBackground() {
 }
 
 // draw other images
-function drawImages(){
+function drawImages() {
   // draw the cloud
   push();
   image(backgroundCloud, 0, 150);
@@ -499,19 +510,9 @@ function modifyBlendOverlay() {
 
 /* answer methods related to dialogs*/
 
-// effects happening after answering dialog1
-function effectsDialog1() {
-  // change the posterize value of the ascii code art
-  asciiArt.posterizeValue += 0.5;
-
-  // change the blend mode and opactiy of the overlay
-  $(`.blend`).css("mix-blend-mode", "difference");
-  $(`.blend`).css("opactity", "40%");
-}
-
 // answer dialog after closing dialog1 (callback)
-function answerDialog1(dialog, positiveAnswer) {
-    // change what the dialog says
+function answerDialog(dialog, positiveAnswer) {
+  // change what the dialog says
   if (positiveAnswer) {
     $(`#dialog-question`).text(dialog.answer1);
   } else {
@@ -535,47 +536,34 @@ function answerDialog1(dialog, positiveAnswer) {
       modifyDialog(dialogParameters.cycle); // open the next dialog
       openDialog();
     }, 5000)
+    // remove the event listener
+    $("#dialog").off("dialogclose");
   });
 }
 
 // effects happening after answering dialog1
-function effectsDialog2() {
+function effectsDialog1() {
   // change the posterize value of the ascii code art
   asciiArt.posterizeValue += 0.5;
 
   // change the blend mode and opactiy of the overlay
   $(`.blend`).css("mix-blend-mode", "difference");
-  $(`.blend`).css("opactity", "40%");
+  $(`.blend`).css("opacity", "0.25");
 }
 
-// answer dialog after closing dialog1 (callback)
-function answerDialog2(positiveAnswer) {
-    // change what the dialog says
-  if (positiveAnswer) {
-    $(`#dialog-question`).text(dialogData.dialog2.answer1);
-  } else {
-    $(`#dialog-question`).text(dialogData.dialog2.answer2);
-  };
+// effects happening after answering dialog1
+function effectsDialog2() {
+  // change the posterize value of the ascii code art
+  asciiArt.posterizeValue = 8;
 
-  // remove the buttons
-  $(`#dialog`).dialog({
-    buttons: [],
-  });
+  // change the blend mode and opactiy of the overlay
+  $(`.blend`).css("mix-blend-mode", "soft-light");
+  $(`.blend`).css("opacity", "1");
 
-  // add the close event listener
-  $("#dialog").on("dialogclose", function(event, ui) {
-    // invert the color of the ascii image reference
-    invertAscii();
-    // set a timer to open the next dialog
-    setTimeout(() => {
-      modifyDialog(dialogParameters.cycle); // open the next dialog
-      openDialog();
-    }, 5000)
-  });
-
-  // open the dialog
-  $(`#dialog`).dialog("open");
+  // move the sun down
+  $(`#sun-gif`).css("top", "15em");
 }
+
 
 
 /* p5 native methods */
@@ -589,4 +577,9 @@ function keyPressed() {
     // get a new random key
     getRandomkey();
   };
+
+  // check stuff
+  if (key === `a`) {
+    alert($(".blend").css("opacity"));
+  }
 }

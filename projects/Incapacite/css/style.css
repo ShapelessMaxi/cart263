@@ -18,11 +18,10 @@ body {
   text-align: justify;
   content: "\a";
   font-family: serif;
-  font-weight: bold;
 }
 
 #poem {
-  opacity: 50%;
+  opacity: 65%;
   z-index: 0;
   top: 50em;
   left: 0em;
@@ -117,7 +116,7 @@ body {
   /* color/image to blend */
   z-index: 5;
   background-color: darkblue;
-  opacity: 15%;
+  opacity: 0.15;
   /* blend mode */
   mix-blend-mode: darken;
 }
