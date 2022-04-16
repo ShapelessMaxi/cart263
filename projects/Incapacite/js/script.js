@@ -247,8 +247,20 @@ let keyCodes = [
 // store the background cloud image here
 let backgroundCloud = undefined;
 
-// kee track of the first click of the user
-let firstClick = false;
+// keep track of the amount of interactions (clicks and keypresses)
+let interactions = {
+  count: 0,
+  levels: {
+    a: 10,
+    b: 20,
+    c: 30,
+    d: 40,
+    e: 50,
+    f: 60,
+    g: 70,
+    h: 80,
+  },
+}
 
 // store the sounds here
 let backgroundSound = {
@@ -263,6 +275,9 @@ let backgroundSound = {
   bpm150: undefined,
   bpm160: undefined,
 }
+let bgSounds = [];
+// store the current background sound here
+let currentBackgroundSound = undefined;
 
 /* preload and load methods */
 
@@ -309,6 +324,17 @@ function loadSounds() {
   backgroundSound.bpm140 = loadSound(`assets/sounds/background-140.wav`);
   backgroundSound.bpm150 = loadSound(`assets/sounds/background-150.wav`);
   backgroundSound.bpm160 = loadSound(`assets/sounds/background-160.wav`);
+  bgSounds.push(
+    backgroundSound.bpm80,
+    backgroundSound.bpm90,
+    backgroundSound.bpm100,
+    backgroundSound.bpm110,
+    backgroundSound.bpm120,
+    backgroundSound.bpm130,
+    backgroundSound.bpm140,
+    backgroundSound.bpm150,
+    backgroundSound.bpm160
+  );
 }
 
 
@@ -340,7 +366,7 @@ function setup() {
   frameRate(constantFrameRate);
 
   // play and loop the background music
-  playBackgroundMusic();
+  playBackgroundMusic(backgroundSound.bpm80);
   // stops the audio (starts on first user click)
   getAudioContext().suspend();
 }
@@ -429,13 +455,27 @@ function modifyDialog(dialogNumber) {
 }
 
 // play and loop the background music
-function playBackgroundMusic(){
+function playBackgroundMusic(sound) {
+  // stop other background music if it"s playing
+  for (let i = 0; i < bgSounds.length; i++) {
+    if (checkPlaying(bgSounds[i])) {
+      bgSounds[i].stop();
+    }
+  };
 
-  if (backgroundSound.bpm80.isLoaded() && backgroundSound.bpm90.isLoaded() && backgroundSound.bpm100.isLoaded() &&
-    backgroundSound.bpm110.isLoaded() && backgroundSound.bpm120.isLoaded() && backgroundSound.bpm130.isLoaded() &&
-    backgroundSound.bpm140.isLoaded() && backgroundSound.bpm150.isLoaded() && backgroundSound.bpm160.isLoaded()) {
-      backgroundSound.bpm140.amp(backgroundSound.amp);
-      backgroundSound.bpm140.loop()
+  // play the sound
+  if (sound.isLoaded()) {
+    sound.amp(backgroundSound.amp);
+    sound.loop()
+  };
+}
+
+// check if a sound is playing, return true or fale
+function checkPlaying(sound) {
+  if (sound.isPlaying() || sound.isLooping()) {
+    return true;
+  } else {
+    return false;
   };
 }
 
@@ -447,6 +487,7 @@ draw the ascii converted images
 draw the 3d animation
 */
 function draw() {
+  console.log(interactions.count)
   // draw the background
   drawBackground();
 
@@ -471,7 +512,7 @@ function draw() {
   // draw other images
   drawImages();
 
-  // play the background music
+  // change the background music according to the levels of the interaction counter
   changeBackgroundMusic();
 }
 
@@ -504,11 +545,33 @@ function draw3dAnimation() {
   alphaAnimation();
 }
 
-// change the background music
 function changeBackgroundMusic() {
-
+  if (interactions.count === interactions.levels.a) {
+    playBackgroundMusic(backgroundSound.bpm90);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.b){
+    playBackgroundMusic(backgroundSound.bpm100);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.c){
+    playBackgroundMusic(backgroundSound.bpm110);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.d){
+    playBackgroundMusic(backgroundSound.bpm120);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.e){
+    playBackgroundMusic(backgroundSound.bpm130);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.f){
+    playBackgroundMusic(backgroundSound.bpm140);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.g){
+    playBackgroundMusic(backgroundSound.bpm150);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.h){
+    playBackgroundMusic(backgroundSound.bpm160);
+    interactions.count++;
+  };
 }
-
 
 /* effects methods */
 
@@ -628,21 +691,28 @@ function effectsDialog2() {
 
 // listens to the user pressing keys
 function keyPressed() {
+  // keep track of the number of interactions
+  interactions.count++;
+
+  // when user presses the hidden random key,
   if (keyCode === randomKey) {
     // close all dialogs (maybe find another thing to do in the futur, like close some, open others, or change the buttons options?)
     $(`#dialog`).dialog("close");
-
     // get a new random key
     getRandomkey();
   };
 
   // check stuff
   if (key === `a`) {
-    alert($(".blend").css("opacity"));
+    // alert($(".blend").css("opacity"));
   }
 }
 
 // listens to the user clicking the mouse
 function mousePressed() {
-    userStartAudio();
+  // let user starts the audio at first click
+  userStartAudio();
+
+  // keep track of the number of interactions
+  interactions.count++;
 }
