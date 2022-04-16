@@ -28,7 +28,9 @@ body {
 }
 
 .img-col {
-  position:absolute;
+  position: absolute;
+  width : 100%;
+  overflow:hidden;
 }
 
 #column-img {
@@ -42,7 +44,7 @@ body {
 #cloud-img {
   opacity: 80%;
   z-index: 3;
-  left: 65em;
+  left: 70em;
   top: 35em;
   width: 1800px;
   height: 700px;
@@ -88,6 +90,7 @@ body {
 /* position for the grid wrapper */
 .wrapper {
   display: flex;
+  width:100%;
 }
 
 /* position for the colums */
@@ -119,4 +122,16 @@ body {
   opacity: 0.15;
   /* blend mode */
   mix-blend-mode: darken;
+}
+
+/* style for the background texture layer */
+.backgrond-texture {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.5;
+  /* blend mode */
+  mix-blend-mode: lighten;
+  overflow:hidden;
+
 }
