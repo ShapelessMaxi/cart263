@@ -247,6 +247,22 @@ let keyCodes = [
 // store the background cloud image here
 let backgroundCloud = undefined;
 
+// kee track of the first click of the user
+let firstClick = false;
+
+// store the sounds here
+let backgroundSound = {
+  amp: 0.1,
+  bpm80: undefined,
+  bpm90: undefined,
+  bpm100: undefined,
+  bpm110: undefined,
+  bpm120: undefined,
+  bpm130: undefined,
+  bpm140: undefined,
+  bpm150: undefined,
+  bpm160: undefined,
+}
 
 /* preload and load methods */
 
@@ -260,6 +276,9 @@ function preload() {
 
   // load the other images
   loadImages();
+
+  // load the sound files
+  loadSounds();
 }
 
 
@@ -276,6 +295,20 @@ function load3dAnimation() {
 function loadImages() {
   // load the backgorund cloud image
   backgroundCloud = loadImage(`assets/images/clouds.png`);
+}
+
+// load the sound files
+function loadSounds() {
+  // load the background sound files
+  backgroundSound.bpm80 = loadSound(`assets/sounds/background-80.wav`);
+  backgroundSound.bpm90 = loadSound(`assets/sounds/background-90.wav`);
+  backgroundSound.bpm100 = loadSound(`assets/sounds/background-100.wav`);
+  backgroundSound.bpm110 = loadSound(`assets/sounds/background-110.wav`);
+  backgroundSound.bpm120 = loadSound(`assets/sounds/background-120.wav`);
+  backgroundSound.bpm130 = loadSound(`assets/sounds/background-130.wav`);
+  backgroundSound.bpm140 = loadSound(`assets/sounds/background-140.wav`);
+  backgroundSound.bpm150 = loadSound(`assets/sounds/background-150.wav`);
+  backgroundSound.bpm160 = loadSound(`assets/sounds/background-160.wav`);
 }
 
 
@@ -305,6 +338,11 @@ function setup() {
 
   // set a constant framerate
   frameRate(constantFrameRate);
+
+  // play and loop the background music
+  playBackgroundMusic();
+  // stops the audio (starts on first user click)
+  getAudioContext().suspend();
 }
 
 
@@ -390,6 +428,17 @@ function modifyDialog(dialogNumber) {
   });
 }
 
+// play and loop the background music
+function playBackgroundMusic(){
+
+  if (backgroundSound.bpm80.isLoaded() && backgroundSound.bpm90.isLoaded() && backgroundSound.bpm100.isLoaded() &&
+    backgroundSound.bpm110.isLoaded() && backgroundSound.bpm120.isLoaded() && backgroundSound.bpm130.isLoaded() &&
+    backgroundSound.bpm140.isLoaded() && backgroundSound.bpm150.isLoaded() && backgroundSound.bpm160.isLoaded()) {
+      backgroundSound.bpm140.amp(backgroundSound.amp);
+      backgroundSound.bpm140.loop()
+  };
+}
+
 /* draw and draw methods */
 
 /*
@@ -421,6 +470,9 @@ function draw() {
 
   // draw other images
   drawImages();
+
+  // play the background music
+  changeBackgroundMusic();
 }
 
 
@@ -434,6 +486,7 @@ function drawBackground() {
 function drawImages() {
   // draw the cloud
   push();
+  tint(255, 150);
   image(backgroundCloud, 0, 150);
   pop();
 }
@@ -449,6 +502,11 @@ function draw3dAnimation() {
 
   // apply an alpha animation making the original images flash
   alphaAnimation();
+}
+
+// change the background music
+function changeBackgroundMusic() {
+
 }
 
 
@@ -582,4 +640,9 @@ function keyPressed() {
   if (key === `a`) {
     alert($(".blend").css("opacity"));
   }
+}
+
+// listens to the user clicking the mouse
+function mousePressed() {
+    userStartAudio();
 }
