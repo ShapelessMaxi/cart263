@@ -252,13 +252,20 @@ let interactions = {
   count: 0,
   levels: {
     a: 10,
-    b: 20,
-    c: 30,
-    d: 40,
-    e: 50,
-    f: 60,
-    g: 70,
-    h: 80,
+    b: 16,
+    c: 22,
+    d: 28,
+    e: 34,
+    f: 40,
+    g: 46,
+    h: 52,
+    i: 58,
+    j: 64,
+    k: 70,
+    l: 76,
+    m: 82,
+    n: 88,
+    o: 94,
   },
 }
 
@@ -512,8 +519,8 @@ function draw() {
   // draw other images
   drawImages();
 
-  // change the background music according to the levels of the interaction counter
-  changeBackgroundMusic();
+  // change the background music and reveal the secret poem according to the levels of the interaction counter
+  interactionCounterEffect();
 }
 
 
@@ -545,33 +552,6 @@ function draw3dAnimation() {
   alphaAnimation();
 }
 
-function changeBackgroundMusic() {
-  if (interactions.count === interactions.levels.a) {
-    playBackgroundMusic(backgroundSound.bpm90);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.b){
-    playBackgroundMusic(backgroundSound.bpm100);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.c){
-    playBackgroundMusic(backgroundSound.bpm110);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.d){
-    playBackgroundMusic(backgroundSound.bpm120);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.e){
-    playBackgroundMusic(backgroundSound.bpm130);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.f){
-    playBackgroundMusic(backgroundSound.bpm140);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.g){
-    playBackgroundMusic(backgroundSound.bpm150);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.h){
-    playBackgroundMusic(backgroundSound.bpm160);
-    interactions.count++;
-  };
-}
 
 /* effects methods */
 
@@ -626,6 +606,64 @@ function modifyBlendOverlay() {
   $(`.blend`).css({
     "mix-blend-mode": "screen"
   });
+}
+
+// change the background music and reveal the secret poem according to the levels of the interaction counter
+function interactionCounterEffect() {
+  if (interactions.count === interactions.levels.a) {
+    $(`#secret-1`).text(` À égale `);
+    playBackgroundMusic(backgroundSound.bpm90);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.b){
+    $(`#secret-1`).text(` À égale mesure, `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.c){
+    $(`#secret-1`).text(` À égale mesure, peu importe `);
+    playBackgroundMusic(backgroundSound.bpm100);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.d){
+    $(`#secret-1`).text(` À égale mesure, peu importe à quel point `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.e){
+    $(`#secret-1`).text(` À égale mesure, peu importe à quel point tu essaie, `);
+    playBackgroundMusic(backgroundSound.bpm110);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.f){
+    $(`#secret-2`).text(` Tu échoue `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.g){
+    $(`#secret-2`).text(` Tu échoue et tu réussi `);
+    playBackgroundMusic(backgroundSound.bpm120);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.h){
+    $(`#secret-3`).text(` C'est ta vie `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.i){
+    $(`#secret-3`).text(` C'est ta vie qui se transforme `);
+    playBackgroundMusic(backgroundSound.bpm130);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.j){
+    $(`#secret-3`).text(` C'est ta vie qui se transforme avec la chance `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.k){
+    $(`#secret-4`).text(` Et c'est la chance `);
+    playBackgroundMusic(backgroundSound.bpm140);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.l){
+    $(`#secret-4`).text(` Et c'est la chance qui te laisse `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.m){
+    $(`#secret-4`).text(` Et c'est la chance qui te laisse avec `);
+    playBackgroundMusic(backgroundSound.bpm150);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.n){
+    $(`#secret-4`).text(` Et c'est la chance qui te laisse avec une pile `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.o){
+    $(`#secret-4`).text(` Et c'est la chance qui te laisse avec une pile de remords `);
+    playBackgroundMusic(backgroundSound.bpm160);
+    interactions.count++;
+  }
 }
 
 

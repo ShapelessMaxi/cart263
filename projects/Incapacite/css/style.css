@@ -8,23 +8,27 @@ body {
 
 /* style for p5 canvas div */
 #p5-canvas {
-  padding-top: 100px;
+  padding-top: 2%;
 }
 
 /* style for the side columns */
 #side {
   color: white;
-  font-size: 12px;
+  font-size: 14px;
   text-align: justify;
-  content: "\a";
   font-family: serif;
 }
 
 #poem {
-  opacity: 65%;
-  z-index: 1;
-  top: 50em;
-  left: 0em;
+  white-space: nowrap;
+  opacity: 60%;
+  z-index: 2;
+  bottom: 8%;
+  left: 2%;
+}
+
+.secret-message {
+  color: #cdd9b8;
 }
 
 .img-col {
@@ -35,10 +39,10 @@ body {
 
 #column-img {
   z-index: 2;
-  left: 80em;
-  top: -3em;
-  width: 600px;
-  height: 900px;
+  left: 60%;
+  top: 0%;
+  width: 30%;
+  height: auto;
 }
 
 #cloud-img {
@@ -51,6 +55,7 @@ body {
 }
 
 #cloud2-img {
+  opacity: 10%;
   z-index: 3;
   left: 28em;
   top: 36em;
@@ -71,8 +76,8 @@ body {
   mix-blend-mode: hard-light;
   opacity: 15%;
   z-index: 2;
-  left: 70em;
-  top: 5em;
+  left: 40%;
+  top: 5%;
   width: 200px;
   height: 200px;
 }
@@ -80,9 +85,9 @@ body {
 #hands-gif {
   mix-blend-mode: screen;
   opacity: 60%;
-  z-index: 0;
-  left: 90em;
-  top: 35em;
+  z-index: 5;
+  right: 10%;
+  top: 50%;
   width: 600px;
   height: 300px;
 }
