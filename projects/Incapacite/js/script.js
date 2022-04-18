@@ -2,19 +2,17 @@
 Incapacité - Prototype
 Maxime Perreault
 
-Surrealist mixed media visual adventure where the user input has unexpected effects.
+Mixed media visual adventure where the user input has unexpected effects.
 
-1- mixing the media, layering:
-    - background texture substance
-    - jquery forms/buttons/dialog
-    - weird images 2nd column
 
 2- unexpected interaction effect:
     - keypress 1 : key has an effect (revisit the effect it has)
-    - dialog box 2 : Do you want to help them? -> YES/NO -> (effect) -> You cannot reach them from here.
-    - dialog box 3 : Is there anything you want to accomplish? -> I want to/ I need to/ I have to/ I -> (effect)
-    - dialog box 4 : Why are you abstaining from contact? (answer) -> (effect)
-    - selectmenu 1 : Background Shapes/Color/Blurryness/Color 1/Background Effect -> minor change in other items
+
+    - dialog 4 : Why are you abstaining from contact? Contact me right now. Do not contact me. Still trying uh. / Fine.
+    - dialog 5: Is there any other way? maybe maybe maybe maybe
+    - dialog 6: Nothing and everything matters here, right? right. wrong
+    - dialog 7: You had to be there to understand. click here to understand.
+    - dialog 8: ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,? # @ %
 */
 
 "use strict";
@@ -72,8 +70,8 @@ let dialogParameters = {
 let dialogData = {
   dialog1: {
     question: `What do you think about travelling closer to them?`,
-    answer1: "Ok good luck with that.",
-    answer2: "Alright.",
+    answer1: `Ok good luck with that.`,
+    answer2: `Alright.`,
     button1: {
       text: `yes`,
       click: () => {
@@ -176,8 +174,8 @@ let dialogData = {
   },
   dialog2: {
     question: `Do you want to help them?`,
-    answer1: "You cannot reach them from here.",
-    answer2: "Not that you could reach them anyway.",
+    answer1: `You cannot reach them from here.`,
+    answer2: `Not that you could reach them anyway.`,
     button1: {
       text: `yes`,
       click: () => {
@@ -202,13 +200,19 @@ let dialogData = {
     },
   },
   dialog3: {
-    question: `I there anything you want to accomplish?`,
-  },
-  dialog4: {
-    question: `Why are you abstaining from contact?`,
-  },
-  dialog5: {
-    question: `Oh hey what's up with that?`,
+    question: `Is there anything you want to accomplish?`,
+    answer1: `ah.`,
+    button1: {
+      text: `I want to/ I need to/ I have to/ I`,
+      click: () => {
+        // apply some effects
+        effectsDialog3();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog3, true);
+      },
+    },
   },
 }
 
@@ -269,7 +273,7 @@ let interactions = {
   },
 }
 
-// store the sounds here
+// store the background sound objects here
 let backgroundSound = {
   amp: 0.2,
   bpm80: undefined,
@@ -283,8 +287,7 @@ let backgroundSound = {
   bpm160: undefined,
 }
 let bgSounds = [];
-// store the current background sound here
-let currentBackgroundSound = undefined;
+
 
 /* preload and load methods */
 
@@ -378,7 +381,6 @@ function setup() {
   getAudioContext().suspend();
 }
 
-
 // setup for the dialog boxes
 function dialogSetup() {
   // create the dialog box
@@ -470,14 +472,14 @@ function playBackgroundMusic(sound) {
     }
   };
 
-  // play the sound
+  // play (loop) the sound
   if (sound.isLoaded()) {
     sound.amp(backgroundSound.amp);
-    sound.loop()
+    // sound.loop()
   };
 }
 
-// check if a sound is playing, return true or fale
+// check if a sound is playing or looping, returns true or fale
 function checkPlaying(sound) {
   if (sound.isPlaying() || sound.isLooping()) {
     return true;
@@ -485,6 +487,7 @@ function checkPlaying(sound) {
     return false;
   };
 }
+
 
 /* draw and draw methods */
 
@@ -494,7 +497,6 @@ draw the ascii converted images
 draw the 3d animation
 */
 function draw() {
-  console.log(interactions.count)
   // draw the background
   drawBackground();
 
@@ -522,7 +524,6 @@ function draw() {
   // change the background music and reveal the secret poem according to the levels of the interaction counter
   interactionCounterEffect();
 }
-
 
 // draw the background elements
 function drawBackground() {
@@ -608,63 +609,6 @@ function modifyBlendOverlay() {
   });
 }
 
-// change the background music and reveal the secret poem according to the levels of the interaction counter
-function interactionCounterEffect() {
-  if (interactions.count === interactions.levels.a) {
-    $(`#secret-1`).text(` À égale `);
-    playBackgroundMusic(backgroundSound.bpm90);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.b){
-    $(`#secret-1`).text(` À égale mesure, `);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.c){
-    $(`#secret-1`).text(` À égale mesure, peu importe `);
-    playBackgroundMusic(backgroundSound.bpm100);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.d){
-    $(`#secret-1`).text(` À égale mesure, peu importe à quel point `);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.e){
-    $(`#secret-1`).text(` À égale mesure, peu importe à quel point tu essaie, `);
-    playBackgroundMusic(backgroundSound.bpm110);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.f){
-    $(`#secret-2`).text(` Tu échoue `);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.g){
-    $(`#secret-2`).text(` Tu échoue et tu réussi `);
-    playBackgroundMusic(backgroundSound.bpm120);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.h){
-    $(`#secret-3`).text(` C'est ta vie `);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.i){
-    $(`#secret-3`).text(` C'est ta vie qui se transforme `);
-    playBackgroundMusic(backgroundSound.bpm130);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.j){
-    $(`#secret-3`).text(` C'est ta vie qui se transforme avec la chance `);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.k){
-    $(`#secret-4`).text(` Et c'est la chance `);
-    playBackgroundMusic(backgroundSound.bpm140);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.l){
-    $(`#secret-4`).text(` Et c'est la chance qui te laisse `);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.m){
-    $(`#secret-4`).text(` Et c'est la chance qui te laisse avec `);
-    playBackgroundMusic(backgroundSound.bpm150);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.n){
-    $(`#secret-4`).text(` Et c'est la chance qui te laisse avec une pile `);
-    interactions.count++;
-  } else if (interactions.count === interactions.levels.o){
-    $(`#secret-4`).text(` Et c'est la chance qui te laisse avec une pile de remords `);
-    playBackgroundMusic(backgroundSound.bpm160);
-    interactions.count++;
-  }
-}
 
 
 /* answer methods related to dialogs*/
@@ -710,7 +654,7 @@ function effectsDialog1() {
   $(`.blend`).css("opacity", "0.25");
 }
 
-// effects happening after answering dialog1
+// effects happening after answering dialog2
 function effectsDialog2() {
   // change the posterize value of the ascii code art
   asciiArt.posterizeValue = 8;
@@ -719,13 +663,42 @@ function effectsDialog2() {
   $(`.blend`).css("mix-blend-mode", "soft-light");
   $(`.blend`).css("opacity", "1");
 
-  // move the sun down
-  $(`#sun-gif`).css("top", "15em");
+  // move the sun down 7 times
+  let drops = 7;
+  for (let i = 0; i < drops; i++) {
+    setTimeout(() => {
+      let currentHeight = parseInt($(`#sun-gif`).css("top"));
+      currentHeight += 30;
+      $(`#sun-gif`).css("top", `${currentHeight}px`);
+    }, i * 800);
+  };
+}
+
+// effects happening after answering dialog3
+function effectsDialog3() {
+  // change the posterize value of the ascii code art
+  asciiArt.posterizeValue = 45;
+
+  // change the blend mode and opactiy of the overlay
+  // let newBlurValue =
+  $(`.effect`).css("backdrop-filter", "blur(50px)");
+
+  // move the sun down 7 times
+  let currentWidth = parseInt($(`#cloud3-img`).css("width"));
+  currentWidth *= 3;
+  let currentHeight = parseInt($(`#cloud3-img`).css("height"));
+  currentHeight *= 3;
+  $(`#cloud3-img`).css("width", `${currentWidth}px`);
+  $(`#cloud3-img`).css("height", `${currentHeight}px`);
+  $(`#cloud3-img`).css("left", `0`);
+  $(`#cloud3-img`).css("top", `-50%`);
+  $(`#cloud3-img`).css("opacity", `100%`);
+
 }
 
 
 
-/* p5 native methods */
+/* interaction listener methods */
 
 // listens to the user pressing keys
 function keyPressed() {
@@ -742,7 +715,7 @@ function keyPressed() {
 
   // check stuff
   if (key === `a`) {
-    // alert($(".blend").css("opacity"));
+    alert($(`.effect`).css("backdrop-filter"));
   }
 }
 
@@ -753,4 +726,62 @@ function mousePressed() {
 
   // keep track of the number of interactions
   interactions.count++;
+}
+
+// change the background music and reveal the secret poem according to the levels of the interaction counter
+function interactionCounterEffect() {
+  if (interactions.count === interactions.levels.a) {
+    $(`#secret-1`).text(` À égale `);
+    playBackgroundMusic(backgroundSound.bpm90);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.b) {
+    $(`#secret-1`).text(` À égale mesure, `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.c) {
+    $(`#secret-1`).text(` À égale mesure, peu importe `);
+    playBackgroundMusic(backgroundSound.bpm100);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.d) {
+    $(`#secret-1`).text(` À égale mesure, peu importe à quel point `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.e) {
+    $(`#secret-1`).text(` À égale mesure, peu importe à quel point tu essaie, `);
+    playBackgroundMusic(backgroundSound.bpm110);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.f) {
+    $(`#secret-2`).text(` Tu échoue `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.g) {
+    $(`#secret-2`).text(` Tu échoue et tu réussi `);
+    playBackgroundMusic(backgroundSound.bpm120);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.h) {
+    $(`#secret-3`).text(` C'est ta vie `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.i) {
+    $(`#secret-3`).text(` C'est ta vie qui se transforme `);
+    playBackgroundMusic(backgroundSound.bpm130);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.j) {
+    $(`#secret-3`).text(` C'est ta vie qui se transforme avec la chance `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.k) {
+    $(`#secret-4`).text(` Et c'est la chance `);
+    playBackgroundMusic(backgroundSound.bpm140);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.l) {
+    $(`#secret-4`).text(` Et c'est la chance qui te laisse `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.m) {
+    $(`#secret-4`).text(` Et c'est la chance qui te laisse avec `);
+    playBackgroundMusic(backgroundSound.bpm150);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.n) {
+    $(`#secret-4`).text(` Et c'est la chance qui te laisse avec une pile `);
+    interactions.count++;
+  } else if (interactions.count === interactions.levels.o) {
+    $(`#secret-4`).text(` Et c'est la chance qui te laisse avec une pile de remords `);
+    playBackgroundMusic(backgroundSound.bpm160);
+    interactions.count++;
+  }
 }

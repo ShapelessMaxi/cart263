@@ -112,11 +112,11 @@ body {
 
 /* style for the effects layers */
 .effect {
+  z-index: 5;
   /* apply filter effects */
   backdrop-filter: brightness(1.4);
   backdrop-filter: contrast(1.2);
   backdrop-filter: hue-rotate(120deg);
-  /* backdrop-filter: blur(1.4px); */
 }
 
 /* style for the blending mode layer */
@@ -134,7 +134,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 0;
-  opacity: 0.3;
+  opacity: 0.15;
   /* blend mode */
   mix-blend-mode: lighten;
   overflow:hidden;
