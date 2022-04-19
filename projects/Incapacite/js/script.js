@@ -8,10 +8,6 @@ Mixed media visual adventure where the user input has unexpected effects.
 2- unexpected interaction effect:
     - keypress 1 : key has an effect (revisit the effect it has)
 
-    - dialog 4 : Why are you abstaining from contact? Contact me right now. Do not contact me. Still trying uh. / Fine.
-    - dialog 5: Is there any other way? maybe maybe maybe maybe
-    - dialog 6: Nothing and everything matters here, right? right. wrong
-    - dialog 7: You had to be there to understand. click here to understand.
     - dialog 8: ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,? # @ %
 */
 
@@ -214,39 +210,194 @@ let dialogData = {
       },
     },
   },
+  dialog4: {
+    question: `Why are you abstaining from contact?`,
+    answer1: `Still trying uh.`,
+    answer2: `Fine.`,
+    button1: {
+      text: `Contact me now.`,
+      click: () => {
+        // apply some effects
+        effectsDialog4();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog4, true);
+      },
+    },
+    button2: {
+      text: `Do not contact me.`,
+      click: () => {
+        // apply some effects
+        effectsDialog4();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog4, false);
+      },
+    },
+  },
+  dialog5: {
+    question: `Is there any other way?`,
+    answer1: `Maybe.`,
+    button1: {
+      text: `maybe`,
+      click: () => {
+        // apply some effects
+        effectsDialog5();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog5, true);
+      },
+    },
+    button2: {
+      text: `maybe`,
+      click: () => {
+        // apply some effects
+        effectsDialog5();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog5, true);
+      },
+    },
+    button3: {
+      text: `maybe`,
+      click: () => {
+        // apply some effects
+        effectsDialog5();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog5, true);
+      },
+    },
+    button4: {
+      text: `maybe`,
+      click: () => {
+        // apply some effects
+        effectsDialog5();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog5, true);
+      },
+    },
+  },
+  dialog6: {
+    question: `Nothing and everything matters here, right?`,
+    answer1: `That's what I thought.`,
+    answer2: `That's not what I thought.`,
+    button1: {
+      text: `right`,
+      click: () => {
+        // apply some effects
+        effectsDialog6();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog6, true);
+      },
+    },
+    button2: {
+      text: `wrong`,
+      click: () => {
+        // apply some effects
+        effectsDialog6();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog6, false);
+      },
+    },
+  },
+  dialog7: {
+    question: `You had to be there to understand.`,
+    answer1: `soooo... what now?`,
+    button1: {
+      text: `click here to understand`,
+      click: () => {
+        // apply some effects
+        effectsDialog7();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog7, true);
+      },
+    },
+  },
+  dialog8: {
+    question: `,,,,,,,,,--,,,,.,,,,,,,,,,,,..,,,,,,,.`,
+    answer1: `000i0t000 is000t 000ine`,
+    button1: {
+      text: `%`,
+      click: () => {
+        // apply some effects
+        effectsDialog8();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog8, true);
+      },
+    },
+    button2: {
+      text: `@`,
+      click: () => {
+        // apply some effects
+        effectsDialog8();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog8, true);
+      },
+    },
+    button3: {
+      text: `&`,
+      click: () => {
+        // apply some effects
+        effectsDialog8();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog8, true);
+      },
+    },
+    button4: {
+      text: `#`,
+      click: () => {
+        // apply some effects
+        effectsDialog8();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog8, true);
+      },
+    },
+    button5: {
+      text: `~`,
+      click: () => {
+        // apply some effects
+        effectsDialog8();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog8, true);
+      },
+    },
+    button6: {
+      text: `/`,
+      click: () => {
+        // apply some effects
+        effectsDialog8();
+        // close the dialog
+        $(`#dialog`).dialog("close");
+        // open the answer dialog
+        setTimeout(answerDialog, 2000, dialogData.dialog8, true);
+      },
+    },
+  },
 }
-
-// store the current random key here
-let randomKey = undefined;
-// store a-z keycodes here
-let keyCodes = [
-  65,
-  66,
-  67,
-  68,
-  69,
-  70,
-  71,
-  72,
-  73,
-  74,
-  75,
-  76,
-  77,
-  78,
-  79,
-  80,
-  81,
-  82,
-  83,
-  84,
-  85,
-  86,
-  87,
-  88,
-  89,
-  90,
-];
 
 // store the background cloud image here
 let backgroundCloud = undefined;
@@ -369,9 +520,6 @@ function setup() {
   // setup for the dialog boxes
   dialogSetup();
 
-  // get the first random key
-  getRandomkey();
-
   // set a constant framerate
   frameRate(constantFrameRate);
 
@@ -441,26 +589,41 @@ function modifyDialog(dialogNumber) {
     case 5:
       currentDialog = dialogData.dialog5;
       break;
+    case 6:
+      currentDialog = dialogData.dialog6;
+      break;
+    case 7:
+      currentDialog = dialogData.dialog7;
+      break;
+    case 8:
+      currentDialog = dialogData.dialog8;
+      break;
+    default:
+      currentDialog = undefined;
   };
 
-  // set the question of the dialog
-  $(`#dialog-question`).text(currentDialog.question);
+  if (currentDialog != undefined) {
+    // set the question of the dialog
+    $(`#dialog-question`).text(currentDialog.question);
 
-  // store the button objects here
-  let buttonObjects = [];
-  // iterate through the properties of the dialog
-  for (const property in currentDialog) {
-    if (property.startsWith(`button`)) {
-      // get the button object with the property name
-      let currentButton = currentDialog[property];
-      buttonObjects.push(currentButton);
+    // store the button objects here
+    let buttonObjects = [];
+    // iterate through the properties of the dialog
+    for (const property in currentDialog) {
+      if (property.startsWith(`button`)) {
+        // get the button object with the property name
+        let currentButton = currentDialog[property];
+        buttonObjects.push(currentButton);
+      };
     };
-  };
 
-  // add the buttons to the dialog
-  $(`#dialog`).dialog({
-    buttons: buttonObjects,
-  });
+    // add the buttons to the dialog
+    $(`#dialog`).dialog({
+      buttons: buttonObjects,
+    });
+  } else {
+    $(`#dialog`).dialog("close");
+  }
 }
 
 // play and loop the background music
@@ -572,15 +735,6 @@ function alphaAnimation() {
   pngSequence.alphaAnim.wave = map(pngSequence.alphaAnim.wave, -1, 1, pngSequence.darkestAlpha, pngSequence.lightestAlpha);
   pngSequence.alphaAnim.t += pngSequence.alphaAnim.speed;
   pngSequence.alpha = pngSequence.alphaAnim.wave;
-}
-
-// get a random key to use as an easter egg
-function getRandomkey() {
-  randomKey = random(keyCodes);
-
-  // tell me what the key is!~
-  console.log(`the random key is: ${randomKey}...`);
-  console.log(`google it.`);
 }
 
 // change the ascii table characters
@@ -696,6 +850,115 @@ function effectsDialog3() {
 
 }
 
+// effects happening after answering dialog4
+function effectsDialog4() {
+  // change the posterize value of the ascii code art
+  asciiArt.posterizeValue = 45;
+
+  // change the blend mode and opactiy of the overlay
+  // let newBlurValue =
+  $(`.effect`).css("backdrop-filter", "blur(50px)");
+
+  // move the sun down 7 times
+  let currentWidth = parseInt($(`#cloud3-img`).css("width"));
+  currentWidth *= 3;
+  let currentHeight = parseInt($(`#cloud3-img`).css("height"));
+  currentHeight *= 3;
+  $(`#cloud3-img`).css("width", `${currentWidth}px`);
+  $(`#cloud3-img`).css("height", `${currentHeight}px`);
+  $(`#cloud3-img`).css("left", `0`);
+  $(`#cloud3-img`).css("top", `-50%`);
+  $(`#cloud3-img`).css("opacity", `100%`);
+
+}
+
+// effects happening after answering dialog5
+function effectsDialog5() {
+  // change the posterize value of the ascii code art
+  asciiArt.posterizeValue = 45;
+
+  // change the blend mode and opactiy of the overlay
+  // let newBlurValue =
+  $(`.effect`).css("backdrop-filter", "blur(50px)");
+
+  // move the sun down 7 times
+  let currentWidth = parseInt($(`#cloud3-img`).css("width"));
+  currentWidth *= 3;
+  let currentHeight = parseInt($(`#cloud3-img`).css("height"));
+  currentHeight *= 3;
+  $(`#cloud3-img`).css("width", `${currentWidth}px`);
+  $(`#cloud3-img`).css("height", `${currentHeight}px`);
+  $(`#cloud3-img`).css("left", `0`);
+  $(`#cloud3-img`).css("top", `-50%`);
+  $(`#cloud3-img`).css("opacity", `100%`);
+
+}
+
+// effects happening after answering dialog6
+function effectsDialog6() {
+  // change the posterize value of the ascii code art
+  asciiArt.posterizeValue = 45;
+
+  // change the blend mode and opactiy of the overlay
+  // let newBlurValue =
+  $(`.effect`).css("backdrop-filter", "blur(50px)");
+
+  // move the sun down 7 times
+  let currentWidth = parseInt($(`#cloud3-img`).css("width"));
+  currentWidth *= 3;
+  let currentHeight = parseInt($(`#cloud3-img`).css("height"));
+  currentHeight *= 3;
+  $(`#cloud3-img`).css("width", `${currentWidth}px`);
+  $(`#cloud3-img`).css("height", `${currentHeight}px`);
+  $(`#cloud3-img`).css("left", `0`);
+  $(`#cloud3-img`).css("top", `-50%`);
+  $(`#cloud3-img`).css("opacity", `100%`);
+
+}
+
+// effects happening after answering dialog7
+function effectsDialog7() {
+  // change the posterize value of the ascii code art
+  asciiArt.posterizeValue = 45;
+
+  // change the blend mode and opactiy of the overlay
+  // let newBlurValue =
+  $(`.effect`).css("backdrop-filter", "blur(50px)");
+
+  // move the sun down 7 times
+  let currentWidth = parseInt($(`#cloud3-img`).css("width"));
+  currentWidth *= 3;
+  let currentHeight = parseInt($(`#cloud3-img`).css("height"));
+  currentHeight *= 3;
+  $(`#cloud3-img`).css("width", `${currentWidth}px`);
+  $(`#cloud3-img`).css("height", `${currentHeight}px`);
+  $(`#cloud3-img`).css("left", `0`);
+  $(`#cloud3-img`).css("top", `-50%`);
+  $(`#cloud3-img`).css("opacity", `100%`);
+
+}
+
+// effects happening after answering dialog8
+function effectsDialog8() {
+  // change the posterize value of the ascii code art
+  asciiArt.posterizeValue = 45;
+
+  // change the blend mode and opactiy of the overlay
+  // let newBlurValue =
+  $(`.effect`).css("backdrop-filter", "blur(50px)");
+
+  // move the sun down 7 times
+  let currentWidth = parseInt($(`#cloud3-img`).css("width"));
+  currentWidth *= 3;
+  let currentHeight = parseInt($(`#cloud3-img`).css("height"));
+  currentHeight *= 3;
+  $(`#cloud3-img`).css("width", `${currentWidth}px`);
+  $(`#cloud3-img`).css("height", `${currentHeight}px`);
+  $(`#cloud3-img`).css("left", `0`);
+  $(`#cloud3-img`).css("top", `-50%`);
+  $(`#cloud3-img`).css("opacity", `100%`);
+
+}
 
 
 /* interaction listener methods */
@@ -704,14 +967,6 @@ function effectsDialog3() {
 function keyPressed() {
   // keep track of the number of interactions
   interactions.count++;
-
-  // when user presses the hidden random key,
-  if (keyCode === randomKey) {
-    // close all dialogs (maybe find another thing to do in the futur, like close some, open others, or change the buttons options?)
-    $(`#dialog`).dialog("close");
-    // get a new random key
-    getRandomkey();
-  };
 
   // check stuff
   if (key === `a`) {
