@@ -3,12 +3,6 @@ Incapacité - Prototype
 Maxime Perreault
 
 Mixed media visual adventure where the user input has unexpected effects.
-
-
-2- unexpected interaction effect:
-    - keypress 1 : key has an effect (revisit the effect it has)
-
-    - dialog 8: ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,? # @ %
 */
 
 "use strict";
@@ -35,6 +29,7 @@ let pngSequence = {
   darkestAlpha: 0,
   lightestAlpha: 150,
   alphaAnim: {
+    started: false,
     t: 0,
     wave: undefined,
     speed: 0.7,
@@ -49,7 +44,7 @@ let cyclicT = 0;
 
 // define the parameters for the dialog boxes
 let dialogParameters = {
-  delay: 5000,
+  delay: 3000,
   cycle: 1,
   autoOpen: false,
   showAnim: {
@@ -426,7 +421,7 @@ let interactions = {
 
 // store the background sound objects here
 let backgroundSound = {
-  amp: 0.2,
+  amp: 0.1,
   bpm80: undefined,
   bpm90: undefined,
   bpm100: undefined,
@@ -638,7 +633,7 @@ function playBackgroundMusic(sound) {
   // play (loop) the sound
   if (sound.isLoaded()) {
     sound.amp(backgroundSound.amp);
-    // sound.loop()
+    sound.loop()
   };
 }
 
@@ -731,10 +726,12 @@ function changeTable(code, targetWeight) {
 
 // makes the 3d animation blink according to a sin wave
 function alphaAnimation() {
-  pngSequence.alphaAnim.wave = sin(pngSequence.alphaAnim.t);
-  pngSequence.alphaAnim.wave = map(pngSequence.alphaAnim.wave, -1, 1, pngSequence.darkestAlpha, pngSequence.lightestAlpha);
-  pngSequence.alphaAnim.t += pngSequence.alphaAnim.speed;
-  pngSequence.alpha = pngSequence.alphaAnim.wave;
+  if (pngSequence.alphaAnim.started) {
+    pngSequence.alphaAnim.wave = sin(pngSequence.alphaAnim.t);
+    pngSequence.alphaAnim.wave = map(pngSequence.alphaAnim.wave, -1, 1, pngSequence.darkestAlpha, pngSequence.lightestAlpha);
+    pngSequence.alphaAnim.t += pngSequence.alphaAnim.speed;
+    pngSequence.alpha = pngSequence.alphaAnim.wave;
+  };
 }
 
 // change the ascii table characters
@@ -792,11 +789,12 @@ function answerDialog(dialog, positiveAnswer) {
     setTimeout(() => {
       modifyDialog(dialogParameters.cycle); // open the next dialog
       openDialog();
-    }, 5000)
-    // remove the event listener
-    $("#dialog").off("dialogclose");
+      dialogParameters.delay // remove the event listener
+      $("#dialog").off("dialogclose");
+    });
   });
 }
+
 
 // effects happening after answering dialog1
 function effectsDialog1() {
@@ -804,6 +802,7 @@ function effectsDialog1() {
   asciiArt.posterizeValue += 0.5;
 
   // change the blend mode and opactiy of the overlay
+  $(`.blend`).css("background-color", "darkblue");
   $(`.blend`).css("mix-blend-mode", "difference");
   $(`.blend`).css("opacity", "0.25");
 }
@@ -822,7 +821,7 @@ function effectsDialog2() {
   for (let i = 0; i < drops; i++) {
     setTimeout(() => {
       let currentHeight = parseInt($(`#sun-gif`).css("top"));
-      currentHeight += 30;
+      currentHeight += 40;
       $(`#sun-gif`).css("top", `${currentHeight}px`);
     }, i * 800);
   };
@@ -834,32 +833,19 @@ function effectsDialog3() {
   asciiArt.posterizeValue = 45;
 
   // change the blend mode and opactiy of the overlay
-  // let newBlurValue =
-  $(`.effect`).css("backdrop-filter", "blur(50px)");
+  $(`.blend`).css("background-color", "orange");
+  $(`.blend`).css("opacity", "0.5");
 
-  // move the sun down 7 times
-  let currentWidth = parseInt($(`#cloud3-img`).css("width"));
-  currentWidth *= 3;
-  let currentHeight = parseInt($(`#cloud3-img`).css("height"));
-  currentHeight *= 3;
-  $(`#cloud3-img`).css("width", `${currentWidth}px`);
-  $(`#cloud3-img`).css("height", `${currentHeight}px`);
-  $(`#cloud3-img`).css("left", `0`);
-  $(`#cloud3-img`).css("top", `-50%`);
-  $(`#cloud3-img`).css("opacity", `100%`);
-
+  // start the alpha animation on the 3d img sequence
+  pngSequence.alphaAnim.started = true;
 }
 
 // effects happening after answering dialog4
 function effectsDialog4() {
   // change the posterize value of the ascii code art
-  asciiArt.posterizeValue = 45;
+  asciiArt.posterizeValue = 5;
 
-  // change the blend mode and opactiy of the overlay
-  // let newBlurValue =
-  $(`.effect`).css("backdrop-filter", "blur(50px)");
-
-  // move the sun down 7 times
+  // change the size of the third cloud
   let currentWidth = parseInt($(`#cloud3-img`).css("width"));
   currentWidth *= 3;
   let currentHeight = parseInt($(`#cloud3-img`).css("height"));
@@ -868,30 +854,28 @@ function effectsDialog4() {
   $(`#cloud3-img`).css("height", `${currentHeight}px`);
   $(`#cloud3-img`).css("left", `0`);
   $(`#cloud3-img`).css("top", `-50%`);
-  $(`#cloud3-img`).css("opacity", `100%`);
+  $(`#cloud3-img`).css("opacity", `60%`);
 
+  // add a contrast filter
+  $(`.effect`).css("backdrop-filter", "contrast(2)");
 }
 
 // effects happening after answering dialog5
 function effectsDialog5() {
   // change the posterize value of the ascii code art
-  asciiArt.posterizeValue = 45;
+  asciiArt.posterizeValue = 2;
 
   // change the blend mode and opactiy of the overlay
-  // let newBlurValue =
-  $(`.effect`).css("backdrop-filter", "blur(50px)");
+  $(`.blend`).css("background-color", "red");
+  $(`.blend`).css("mix-blend-mode", "difference");
+  $(`.background-texture`).css("opacity", "70%");
 
-  // move the sun down 7 times
-  let currentWidth = parseInt($(`#cloud3-img`).css("width"));
-  currentWidth *= 3;
-  let currentHeight = parseInt($(`#cloud3-img`).css("height"));
-  currentHeight *= 3;
-  $(`#cloud3-img`).css("width", `${currentWidth}px`);
-  $(`#cloud3-img`).css("height", `${currentHeight}px`);
-  $(`#cloud3-img`).css("left", `0`);
-  $(`#cloud3-img`).css("top", `-50%`);
-  $(`#cloud3-img`).css("opacity", `100%`);
+  // move the text div in front
+  $(`#poem`).css("z-index", "5");
+  $(`#poem`).css("opacity", "100%");
 
+  // flip and move the holding hand gif
+  $(`#hands-gif`).css("transform","scaleX(-1)");
 }
 
 // effects happening after answering dialog6
@@ -899,21 +883,8 @@ function effectsDialog6() {
   // change the posterize value of the ascii code art
   asciiArt.posterizeValue = 45;
 
-  // change the blend mode and opactiy of the overlay
-  // let newBlurValue =
-  $(`.effect`).css("backdrop-filter", "blur(50px)");
-
-  // move the sun down 7 times
-  let currentWidth = parseInt($(`#cloud3-img`).css("width"));
-  currentWidth *= 3;
-  let currentHeight = parseInt($(`#cloud3-img`).css("height"));
-  currentHeight *= 3;
-  $(`#cloud3-img`).css("width", `${currentWidth}px`);
-  $(`#cloud3-img`).css("height", `${currentHeight}px`);
-  $(`#cloud3-img`).css("left", `0`);
-  $(`#cloud3-img`).css("top", `-50%`);
-  $(`#cloud3-img`).css("opacity", `100%`);
-
+  // change the ascii table
+  modifyAsciiTable();
 }
 
 // effects happening after answering dialog7
@@ -922,42 +893,18 @@ function effectsDialog7() {
   asciiArt.posterizeValue = 45;
 
   // change the blend mode and opactiy of the overlay
-  // let newBlurValue =
-  $(`.effect`).css("backdrop-filter", "blur(50px)");
-
-  // move the sun down 7 times
-  let currentWidth = parseInt($(`#cloud3-img`).css("width"));
-  currentWidth *= 3;
-  let currentHeight = parseInt($(`#cloud3-img`).css("height"));
-  currentHeight *= 3;
-  $(`#cloud3-img`).css("width", `${currentWidth}px`);
-  $(`#cloud3-img`).css("height", `${currentHeight}px`);
-  $(`#cloud3-img`).css("left", `0`);
-  $(`#cloud3-img`).css("top", `-50%`);
-  $(`#cloud3-img`).css("opacity", `100%`);
-
+  $(`.effect`).css("backdrop-filter", "blur(30px)");
 }
 
 // effects happening after answering dialog8
 function effectsDialog8() {
-  // change the posterize value of the ascii code art
+  // change the posterize value of the ascii code art and ivnert it
   asciiArt.posterizeValue = 45;
+  invertAscii();
 
-  // change the blend mode and opactiy of the overlay
-  // let newBlurValue =
-  $(`.effect`).css("backdrop-filter", "blur(50px)");
-
-  // move the sun down 7 times
-  let currentWidth = parseInt($(`#cloud3-img`).css("width"));
-  currentWidth *= 3;
-  let currentHeight = parseInt($(`#cloud3-img`).css("height"));
-  currentHeight *= 3;
-  $(`#cloud3-img`).css("width", `${currentWidth}px`);
-  $(`#cloud3-img`).css("height", `${currentHeight}px`);
-  $(`#cloud3-img`).css("left", `0`);
-  $(`#cloud3-img`).css("top", `-50%`);
-  $(`#cloud3-img`).css("opacity", `100%`);
-
+  // move the text and make it bigger
+  $(`#poem`).css("bottom","30%");
+  $(`#side`).css("font-size", "24px");
 }
 
 

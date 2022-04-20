@@ -115,15 +115,15 @@ body {
   z-index: 5;
   /* apply filter effects */
   backdrop-filter: brightness(1.4);
-  backdrop-filter: contrast(1.2);
   backdrop-filter: hue-rotate(120deg);
+  backdrop-filter: contrast(1);
 }
 
 /* style for the blending mode layer */
 .blend {
   /* color/image to blend */
   z-index: 5;
-  background-color: darkblue;
+  background-color: grey;
   opacity: 0.15;
   /* blend mode */
   mix-blend-mode: darken;
