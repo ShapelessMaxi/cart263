@@ -550,7 +550,7 @@ function createDialog(dialogNumber) {
     hide: dialogParameters.hideAnim,
     position: {
       my: `center`,
-      at: `left+${Math.random() * $(window).width()} top+${Math.random() * $(window).height()}`,
+      at: `center`,
       of: window,
     },
     buttons: [],
@@ -604,13 +604,8 @@ function modifyDialog(dialogNumber) {
     // set the question of the dialog
     $(`#dialog-question`).text(currentDialog.question);
 
-    // set a new random position and delete the x button
+    // delete the x button
     $(`#dialog`).dialog({
-      position: {
-        my: `center`,
-        at: `left+${Math.random() * $(window).width()} top+${Math.random() * $(window).height()}`,
-        of: window,
-      },
       open: function() {
         $(".ui-dialog-titlebar-close").hide();
       },
