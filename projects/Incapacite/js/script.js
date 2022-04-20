@@ -401,21 +401,21 @@ let backgroundCloud = undefined;
 let interactions = {
   count: 0,
   levels: {
-    a: 10,
-    b: 16,
-    c: 22,
-    d: 28,
-    e: 34,
-    f: 40,
-    g: 46,
-    h: 52,
-    i: 58,
-    j: 64,
-    k: 70,
-    l: 76,
-    m: 82,
-    n: 88,
-    o: 94,
+    a: 5,
+    b: 10,
+    c: 13,
+    d: 15,
+    e: 20,
+    f: 22,
+    g: 23,
+    h: 29,
+    i: 30,
+    j: 33,
+    k: 34,
+    l: 38,
+    m: 40,
+    n: 42,
+    o: 48,
   },
 }
 
@@ -601,6 +601,15 @@ function modifyDialog(dialogNumber) {
     // set the question of the dialog
     $(`#dialog-question`).text(currentDialog.question);
 
+    // set a new random position
+    $(`#dialog`).dialog({
+      position: {
+        my: `center`,
+        at: `left+${Math.random() * $(window).width()} top+${Math.random() * $(window).height()}`,
+        of: window,
+      },
+    });
+
     // store the button objects here
     let buttonObjects = [];
     // iterate through the properties of the dialog
@@ -655,6 +664,7 @@ draw the ascii converted images
 draw the 3d animation
 */
 function draw() {
+  console.log(interactions.count)
   // draw the background
   drawBackground();
 
@@ -875,7 +885,7 @@ function effectsDialog5() {
   $(`#poem`).css("opacity", "100%");
 
   // flip and move the holding hand gif
-  $(`#hands-gif`).css("transform","scaleX(-1)");
+  $(`#hands-gif`).css("transform", "scaleX(-1)");
 }
 
 // effects happening after answering dialog6
@@ -903,7 +913,7 @@ function effectsDialog8() {
   invertAscii();
 
   // move the text and make it bigger
-  $(`#poem`).css("bottom","30%");
+  $(`#poem`).css("bottom", "30%");
   $(`#side`).css("font-size", "24px");
 }
 
