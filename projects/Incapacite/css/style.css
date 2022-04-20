@@ -138,5 +138,17 @@ body {
   /* blend mode */
   mix-blend-mode: lighten;
   overflow:hidden;
+}
 
+/* style for the cover layer */
+.cover {
+  background-color: white;
+  z-index: 10;
+  text-align: center;
+  line-height: 500px;
+}
+
+.intro {
+  display: inline-block;
+  vertical-align: middle;
 }

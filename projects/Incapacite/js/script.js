@@ -434,6 +434,9 @@ let backgroundSound = {
 }
 let bgSounds = [];
 
+let firstClicked = false;
+let programStarted = false;
+
 
 /* preload and load methods */
 
@@ -562,9 +565,6 @@ function createDialog(dialogNumber) {
 
   // add the buttons
   modifyDialog(dialogNumber);
-
-  // open the first dialog
-  openDialog();
 }
 
 // modify the dialog with the correct dialog data
@@ -916,8 +916,9 @@ function effectsDialog8() {
   invertAscii();
 
   // move the text and make it bigger
-  $(`#poem`).css("bottom", "30%");
-  $(`#side`).css("font-size", "24px");
+  $(`#poem`).css("bottom", "10%");
+  $(`#side`).css("font-size", "20px");
+  $(`#side`).css("color", "lightblue");
 }
 
 
@@ -927,11 +928,6 @@ function effectsDialog8() {
 function keyPressed() {
   // keep track of the number of interactions
   interactions.count++;
-
-  // check stuff
-  if (key === `a`) {
-    alert($(`.effect`).css("backdrop-filter"));
-  }
 }
 
 // listens to the user clicking the mouse
@@ -939,8 +935,37 @@ function mousePressed() {
   // let user starts the audio at first click
   userStartAudio();
 
+  // check if the user clicked for the first time
+  if (!firstClicked) {
+    // keep track of the program being started
+    firstClicked = true
+  } else if (!programStarted) {
+    // start the fade out animation of the cover
+    fadeOutCover();
+    // keep track of the program being started
+    programStarted = true;
+  }
+
   // keep track of the number of interactions
   interactions.count++;
+}
+
+// fade out animation for the intro cover div
+function fadeOutCover() {
+  let steps = 11;
+  for (let i = 0; i < steps; i++) {
+    // reduce the opacity
+    setTimeout(() => {
+      let currentOpacity = $(`.cover`).css("opacity");
+      let newOpacity = currentOpacity - 0.1;
+        $(`.cover`).css("opacity", `${newOpacity}`);
+    }, i * 800);
+
+    // at step 10, open the first dialog
+    if (i === 10) {
+      openDialog();
+    }
+  };
 }
 
 // change the background music and reveal the secret poem according to the levels of the interaction counter
