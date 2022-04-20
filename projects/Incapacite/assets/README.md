@@ -1,5 +1,5 @@
 # assets folder
-Containing image and sound assets
+Contains image and sound assets
 
 3d:
 - *Weird Dude* - 81 animated frames - Maxime Perreault

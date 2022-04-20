@@ -7,7 +7,7 @@ Mixed media visual adventure where the user input has unexpected effects.
 
 "use strict";
 
-/* global vairables and objects */
+/* global variables and objects */
 
 // define the framerate of the program
 const constantFrameRate = 24;
@@ -502,6 +502,8 @@ function loadSounds() {
 /*
 create the canvas
 setup the ascii converter graphic handler
+create, modify and open the dialogs
+play the background music
 */
 function setup() {
   // create the canvas and position it in the #p5-canvas div
@@ -627,6 +629,7 @@ function modifyDialog(dialogNumber) {
       buttons: buttonObjects,
     });
   } else {
+    // dialog is undefined (happens when the dialog cycle value is over 9)
     $(`#dialog`).dialog("close");
   }
 }
@@ -663,6 +666,7 @@ function checkPlaying(sound) {
 draw the background
 draw the ascii converted images
 draw the 3d animation
+draw other images
 */
 function draw() {
   // draw the background
@@ -760,16 +764,23 @@ function invertAscii() {
   }
 }
 
-// change the blend overlay properties (add randomness in the futur)
-function modifyBlendOverlay() {
-  $(`.blend`).css({
-    "background-color": "blue"
-  });
-  $(`.blend`).css({
-    "mix-blend-mode": "screen"
-  });
-}
+// fade out animation for the intro cover div
+function fadeOutCover() {
+  let steps = 11;
+  for (let i = 0; i < steps; i++) {
+    // reduce the opacity
+    setTimeout(() => {
+      let currentOpacity = $(`.cover`).css("opacity");
+      let newOpacity = currentOpacity - 0.1;
+        $(`.cover`).css("opacity", `${newOpacity}`);
+    }, i * 800);
 
+    // at step 10, open the first dialog
+    if (i === 10) {
+      openDialog();
+    }
+  };
+}
 
 
 /* answer methods related to dialogs*/
@@ -807,7 +818,6 @@ function answerDialog(dialog, positiveAnswer) {
     });
   });
 }
-
 
 // effects happening after answering dialog1
 function effectsDialog1() {
@@ -948,24 +958,6 @@ function mousePressed() {
 
   // keep track of the number of interactions
   interactions.count++;
-}
-
-// fade out animation for the intro cover div
-function fadeOutCover() {
-  let steps = 11;
-  for (let i = 0; i < steps; i++) {
-    // reduce the opacity
-    setTimeout(() => {
-      let currentOpacity = $(`.cover`).css("opacity");
-      let newOpacity = currentOpacity - 0.1;
-        $(`.cover`).css("opacity", `${newOpacity}`);
-    }, i * 800);
-
-    // at step 10, open the first dialog
-    if (i === 10) {
-      openDialog();
-    }
-  };
 }
 
 // change the background music and reveal the secret poem according to the levels of the interaction counter
