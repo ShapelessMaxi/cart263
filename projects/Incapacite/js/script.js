@@ -1,5 +1,5 @@
 /**
-Incapacité - Prototype
+Incapacité
 Maxime Perreault
 
 Mixed media visual adventure where the user input has unexpected effects.
