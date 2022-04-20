@@ -555,6 +555,9 @@ function createDialog(dialogNumber) {
     },
     buttons: [],
     title: dialogParameters.title,
+    open: function() {
+      $(".ui-dialog-titlebar-close").hide();
+    },
   }, );
 
   // add the buttons
@@ -601,12 +604,15 @@ function modifyDialog(dialogNumber) {
     // set the question of the dialog
     $(`#dialog-question`).text(currentDialog.question);
 
-    // set a new random position
+    // set a new random position and delete the x button
     $(`#dialog`).dialog({
       position: {
         my: `center`,
         at: `left+${Math.random() * $(window).width()} top+${Math.random() * $(window).height()}`,
         of: window,
+      },
+      open: function() {
+        $(".ui-dialog-titlebar-close").hide();
       },
     });
 
@@ -664,7 +670,6 @@ draw the ascii converted images
 draw the 3d animation
 */
 function draw() {
-  console.log(interactions.count)
   // draw the background
   drawBackground();
 
@@ -783,9 +788,12 @@ function answerDialog(dialog, positiveAnswer) {
     $(`#dialog-question`).text(dialog.answer2);
   };
 
-  // remove the buttons
+  // remove the buttons and add the x button
   $(`#dialog`).dialog({
     buttons: [],
+    open: function() {
+      $(".ui-dialog-titlebar-close").show();
+    },
   });
 
   // open the dialog
