@@ -434,8 +434,12 @@ let backgroundSound = {
 }
 let bgSounds = [];
 
+// keep track of the program being started
 let firstClicked = false;
 let programStarted = false;
+
+// store the speed of the flickering animation here
+let flickerTimer = 10000;
 
 
 /* preload and load methods */
@@ -772,7 +776,7 @@ function fadeOutCover() {
     setTimeout(() => {
       let currentOpacity = $(`.cover`).css("opacity");
       let newOpacity = currentOpacity - 0.1;
-        $(`.cover`).css("opacity", `${newOpacity}`);
+      $(`.cover`).css("opacity", `${newOpacity}`);
     }, i * 800);
 
     // at step 10, open the first dialog
@@ -780,6 +784,30 @@ function fadeOutCover() {
       openDialog();
     }
   };
+}
+
+// flickering animation for color overlay
+function flicker() {
+  // start an interval that goes on forever
+  setInterval(function() {
+    // get the current display value of the overlay
+    let currentOpacity = $(`.flickering`).css("display");
+    if (currentOpacity === `none`) {
+      // change the display value
+      $(`.flickering`).css("display", "block");
+      // re change the display value after a second
+      setTimeout(() => {
+        $(`.flickering`).css("display", "none");
+      }, 200);
+    } else {
+      // change the display value
+      $(`.flickering`).css("display", "none");
+      // re change the display value after a second
+      setTimeout(() => {
+        $(`.flickering`).css("display", "block");
+      }, 200);
+    }
+  }, flickerTimer);
 }
 
 
@@ -861,6 +889,9 @@ function effectsDialog3() {
 
   // start the alpha animation on the 3d img sequence
   pngSequence.alphaAnim.started = true;
+
+  // start the flickering overlay animation
+  flicker();
 }
 
 // effects happening after answering dialog4
@@ -881,6 +912,9 @@ function effectsDialog4() {
 
   // add a contrast filter
   $(`.effect`).css("backdrop-filter", "contrast(2)");
+
+  // change the speed of the flicker animation
+  flickerTimer = 8000;
 }
 
 // effects happening after answering dialog5
@@ -899,6 +933,7 @@ function effectsDialog5() {
 
   // flip and move the holding hand gif
   $(`#hands-gif`).css("transform", "scaleX(-1)");
+
 }
 
 // effects happening after answering dialog6
@@ -908,6 +943,9 @@ function effectsDialog6() {
 
   // change the ascii table
   modifyAsciiTable();
+
+  // change the speed of the flicker animation
+  flickerTimer = 5000;
 }
 
 // effects happening after answering dialog7
@@ -917,6 +955,9 @@ function effectsDialog7() {
 
   // change the blend mode and opactiy of the overlay
   $(`.effect`).css("backdrop-filter", "blur(30px)");
+
+  // change the speed of the flicker animation
+  flickerTimer = 3000;
 }
 
 // effects happening after answering dialog8
@@ -929,6 +970,9 @@ function effectsDialog8() {
   $(`#poem`).css("bottom", "10%");
   $(`#side`).css("font-size", "20px");
   $(`#side`).css("color", "lightblue");
+
+  // change the speed of the flicker animation
+  flickerTimer = 1000;
 }
 
 

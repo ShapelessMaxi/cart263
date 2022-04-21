@@ -11,7 +11,6 @@ body {
   padding-top: 2%;
 }
 
-/* style for the side columns */
 #side {
   color: white;
   font-size: 14px;
@@ -92,13 +91,11 @@ body {
   height: 300px;
 }
 
-/* position for the grid wrapper */
 .wrapper {
   display: flex;
   width: 100%;
 }
 
-/* position for the colums */
 .column {
   flex: auto;
 }
@@ -110,7 +107,7 @@ body {
   height: 100%;
 }
 
-/* style for the effects layers */
+/* style for the effect overlay layers */
 .effect {
   z-index: 5;
   /* apply filter effects */
@@ -119,7 +116,6 @@ body {
   backdrop-filter: contrast(1);
 }
 
-/* style for the blending mode layer */
 .blend {
   /* color/image to blend */
   z-index: 5;
@@ -129,10 +125,7 @@ body {
   mix-blend-mode: darken;
 }
 
-/* style for the background texture layer */
 .background-texture {
-  width: 100%;
-  height: 100%;
   z-index: 0;
   opacity: 0.15;
   /* blend mode */
@@ -140,7 +133,6 @@ body {
   overflow: hidden;
 }
 
-/* style for the cover layer */
 .cover {
   background-color: white;
   z-index: 10;
@@ -155,8 +147,13 @@ body {
 
 .gif-texture {
   opacity: 0;
-  width: 100%;
-  height: 100%;
   z-index: 5;
   mix-blend-mode: lighten;
+}
+
+.flickering {
+  background-color: yellow;
+  z-index: 4;
+  display: none;
+  opacity: 0.3;
 }
