@@ -8,6 +8,7 @@ Contains image and sound assets
 Gifs:
 - *Love Holding Hands GIF* - Kmallard09 - from https://tenor.com/view/love-holding-hands-reaching-animation-gif-17348823
 - *The Sun* - u/stephanlauf - from https://www.reddit.com/r/gifs/comments/3sb07b/the_sun/
+- *Animated Texture* - Maxime Perreault
 
 Images
 - *1-white-clouds-png-image.png* - https://digit-com.re/wp-content/uploads/2021/05/1-white-clouds-png-image.png

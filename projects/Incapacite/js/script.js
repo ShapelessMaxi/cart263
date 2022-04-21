@@ -421,7 +421,7 @@ let interactions = {
 
 // store the background sound objects here
 let backgroundSound = {
-  amp: 0.1,
+  amp: 0.5,
   bpm80: undefined,
   bpm90: undefined,
   bpm100: undefined,
