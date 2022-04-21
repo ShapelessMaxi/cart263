@@ -974,37 +974,47 @@ function interactionCounterEffect() {
     playBackgroundMusic(backgroundSound.bpm100);
     interactions.count++;
   } else if (interactions.count === interactions.levels.d) {
+    $(`.gif-texture`).css("opacity", "0.1");
     $(`#secret-1`).text(` À égale mesure, peu importe à quel point `);
     interactions.count++;
   } else if (interactions.count === interactions.levels.e) {
+    $(`.gif-texture`).css("opacity", "0.2");
     $(`#secret-1`).text(` À égale mesure, peu importe à quel point tu essaie, `);
     playBackgroundMusic(backgroundSound.bpm110);
     interactions.count++;
   } else if (interactions.count === interactions.levels.f) {
+    $(`.gif-texture`).css("opacity", "0.3");
     $(`#secret-2`).text(` Tu échoue `);
     interactions.count++;
   } else if (interactions.count === interactions.levels.g) {
+    $(`.gif-texture`).css("opacity", "0.4");
     $(`#secret-2`).text(` Tu échoue et tu réussi `);
     playBackgroundMusic(backgroundSound.bpm120);
     interactions.count++;
   } else if (interactions.count === interactions.levels.h) {
+    $(`.gif-texture`).css("opacity", "0.5");
     $(`#secret-3`).text(` C'est ta vie `);
     interactions.count++;
   } else if (interactions.count === interactions.levels.i) {
+    $(`.gif-texture`).css("opacity", "0.6");
     $(`#secret-3`).text(` C'est ta vie qui se transforme `);
     playBackgroundMusic(backgroundSound.bpm130);
     interactions.count++;
   } else if (interactions.count === interactions.levels.j) {
+    $(`.gif-texture`).css("opacity", "0.7");
     $(`#secret-3`).text(` C'est ta vie qui se transforme avec la chance `);
     interactions.count++;
   } else if (interactions.count === interactions.levels.k) {
+    $(`.gif-texture`).css("opacity", "0.8");
     $(`#secret-4`).text(` Et c'est la chance `);
     playBackgroundMusic(backgroundSound.bpm140);
     interactions.count++;
   } else if (interactions.count === interactions.levels.l) {
+    $(`.gif-texture`).css("opacity", "0.9");
     $(`#secret-4`).text(` Et c'est la chance qui te laisse `);
     interactions.count++;
   } else if (interactions.count === interactions.levels.m) {
+    $(`.gif-texture`).css("opacity", "1");
     $(`#secret-4`).text(` Et c'est la chance qui te laisse avec `);
     playBackgroundMusic(backgroundSound.bpm150);
     interactions.count++;
