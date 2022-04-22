@@ -49,7 +49,7 @@ let dialogParameters = {
   autoOpen: false,
   showAnim: {
     effect: "blind",
-    duration: 3500
+    duration: 2500
   },
   hideAnim: {
     effect: "explode",
@@ -324,7 +324,7 @@ let dialogData = {
   },
   dialog8: {
     question: `,,,,,,,,,--,,,,.,,,,,,,,,,,,..,,,,,,,.`,
-    answer1: `000i0t000 is000t 000ine`,
+    answer1: `it000 is0n0t 000ine`,
     button1: {
       text: `%`,
       click: () => {
@@ -828,7 +828,6 @@ function playEffectSound(sound) {
 
 
 
-
 /* answer methods related to dialogs*/
 
 // answer dialog after closing dialog1 (callback)
@@ -862,9 +861,9 @@ function answerDialog(dialog, positiveAnswer) {
     setTimeout(() => {
       modifyDialog(dialogParameters.cycle); // open the next dialog
       openDialog();
-      dialogParameters.delay // remove the event listener
+      // remove the event listener
       $("#dialog").off("dialogclose");
-    });
+    }, dialogParameters.delay);
   });
 }
 
