@@ -436,8 +436,14 @@ let bgSounds = [];
 
 // store the effect sound objects here
 let effectSound = {
-  amp: 0.04,
-  obj1: undefined,
+  sound1: {
+    obj: undefined,
+    amp: 0.03,
+  },
+  sound2: {
+    obj: undefined,
+    amp: 0.15,
+  },
 }
 
 // keep track of the program being started
@@ -509,7 +515,8 @@ function loadSounds() {
     backgroundSound.bpm160
   );
   // load the effect sounds
-  effectSound.obj1 = loadSound(`assets/sounds/effect.wav`);
+  effectSound.sound1.obj = loadSound(`assets/sounds/effect.wav`);
+  effectSound.sound2.obj = loadSound(`assets/sounds/effect2.wav`);
 }
 
 
@@ -813,9 +820,9 @@ function flickerLoop() {
 // play an effect sound
 function playEffectSound(sound) {
   // play the sound
-  if (sound.isLoaded()) {
-    sound.amp(effectSound.amp);
-    sound.play()
+  if (sound.obj.isLoaded()) {
+    sound.obj.amp(sound.amp);
+    sound.obj.play()
   };
 }
 
@@ -846,6 +853,9 @@ function answerDialog(dialog, positiveAnswer) {
 
   // add the close event listener
   $("#dialog").on("dialogclose", function(event, ui) {
+    // play the effect sound
+    playEffectSound(effectSound.sound2);
+
     // invert the color of the ascii image reference
     invertAscii();
     // set a timer to open the next dialog
@@ -861,7 +871,7 @@ function answerDialog(dialog, positiveAnswer) {
 // effects happening after answering dialog1
 function effectsDialog1() {
   // play the effect sound
-  playEffectSound(effectSound.obj1);
+  playEffectSound(effectSound.sound1);
 
   // make the overlay flicker
   flicker();
@@ -878,7 +888,7 @@ function effectsDialog1() {
 // effects happening after answering dialog2
 function effectsDialog2() {
   // play the effect sound
-  playEffectSound(effectSound.obj1);
+  playEffectSound(effectSound.sound1);
 
   // make the overlay flicker
   flicker();
@@ -904,7 +914,7 @@ function effectsDialog2() {
 // effects happening after answering dialog3
 function effectsDialog3() {
   // play the effect sound
-  playEffectSound(effectSound.obj1);
+  playEffectSound(effectSound.sound1);
 
   // make the overlay flicker
   flicker();
@@ -926,7 +936,7 @@ function effectsDialog3() {
 // effects happening after answering dialog4
 function effectsDialog4() {
   // play the effect sound
-  playEffectSound(effectSound.obj1);
+  playEffectSound(effectSound.sound1);
 
   // make the overlay flicker
   flicker();
@@ -958,7 +968,7 @@ function effectsDialog4() {
 // effects happening after answering dialog5
 function effectsDialog5() {
   // play the effect sound
-  playEffectSound(effectSound.obj1);
+  playEffectSound(effectSound.sound1);
 
   // make the overlay flicker
   flicker();
@@ -982,7 +992,7 @@ function effectsDialog5() {
 // effects happening after answering dialog6
 function effectsDialog6() {
   // play the effect sound
-  playEffectSound(effectSound.obj1);
+  playEffectSound(effectSound.sound1);
 
   // make the overlay flicker
   flicker();
@@ -1005,7 +1015,7 @@ function effectsDialog6() {
 // effects happening after answering dialog7
 function effectsDialog7() {
   // play the effect sound
-  playEffectSound(effectSound.obj1);
+  playEffectSound(effectSound.sound1);
 
   // make the overlay flicker
   flicker();
@@ -1026,8 +1036,8 @@ function effectsDialog7() {
 // effects happening after answering dialog8
 function effectsDialog8() {
   // play the effect sound
-  playEffectSound(effectSound.obj1);
-  
+  playEffectSound(effectSound.sound1);
+
   // make the overlay flicker
   flicker();
 
@@ -1129,7 +1139,7 @@ function interactionCounterEffect() {
     interactions.count++;
   } else if (interactions.count === interactions.levels.j) {
     $(`.gif-texture`).css("opacity", "0.7");
-    $(`#secret-3`).text(` C'est ta vie qui se transforme avec la chance `);
+    $(`#secret-3`).text(` C'est ta vie qui se transforme avec la chance, `);
     interactions.count++;
   } else if (interactions.count === interactions.levels.k) {
     $(`.gif-texture`).css("opacity", "0.8");
