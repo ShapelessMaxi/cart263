@@ -439,7 +439,11 @@ let firstClicked = false;
 let programStarted = false;
 
 // store the speed of the flickering animation here
-let flickerTimer = 10000;
+let flickerInterval = {
+  obj: undefined,
+  timer: 10000,
+  speed : 500,
+}
 
 
 /* preload and load methods */
@@ -789,13 +793,13 @@ function flicker() {
   // re change the display value to none (not visible) after a moment
   setTimeout(() => {
     $(`.flickering`).css("display", "none");
-  }, 500);
+  }, flickerInterval.speed);
 }
 
 // loop the flicker animation
-function flickerInterval() {
+function flickerLoop() {
   // start an interval that goes on forever
-  setInterval(flicker, flickerTimer);
+  flickerInterval.obj = setInterval(flicker, flickerInterval.timer);
 }
 
 
@@ -890,7 +894,7 @@ function effectsDialog3() {
   pngSequence.alphaAnim.started = true;
 
   // start the flickering overlay animation
-  flickerInterval();
+  flickerLoop();
 }
 
 // effects happening after answering dialog4
@@ -916,7 +920,10 @@ function effectsDialog4() {
   $(`.effect`).css("backdrop-filter", "contrast(2)");
 
   // change the speed of the flicker animation
-  flickerTimer = 8000;
+  flickerInterval.timer = 8000;
+  // reset the flicker loop
+  clearInterval(flickerInterval.obj);
+  flickerLoop();
 }
 
 // effects happening after answering dialog5
@@ -938,7 +945,6 @@ function effectsDialog5() {
 
   // flip and move the holding hand gif
   $(`#hands-gif`).css("transform", "scaleX(-1)");
-
 }
 
 // effects happening after answering dialog6
@@ -953,7 +959,12 @@ function effectsDialog6() {
   modifyAsciiTable();
 
   // change the speed of the flicker animation
-  flickerTimer = 5000;
+  flickerInterval.timer = 5000;
+  // change the z-index of the flickering overlay
+  $(`.flickering`).css("z-index", "5");
+  // reset the flicker loop
+  clearInterval(flickerInterval.obj);
+  flickerLoop();
 }
 
 // effects happening after answering dialog7
@@ -968,7 +979,10 @@ function effectsDialog7() {
   $(`.effect`).css("backdrop-filter", "blur(30px)");
 
   // change the speed of the flicker animation
-  flickerTimer = 3000;
+  flickerInterval.timer = 3000;
+  // reset the flicker loop
+  clearInterval(flickerInterval.obj);
+  flickerLoop();
 }
 
 // effects happening after answering dialog8
@@ -986,7 +1000,10 @@ function effectsDialog8() {
   $(`#side`).css("color", "lightblue");
 
   // change the speed of the flicker animation
-  flickerTimer = 1000;
+  flickerInterval.timer = 1000;
+  // reset the flicker loop
+  clearInterval(flickerInterval.obj);
+  flickerLoop();
 }
 
 
