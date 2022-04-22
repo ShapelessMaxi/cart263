@@ -526,11 +526,6 @@ function setup() {
 
   // set a constant framerate
   frameRate(constantFrameRate);
-
-  // play and loop the background music
-  playBackgroundMusic(backgroundSound.bpm80);
-  // stops the audio (starts on first user click)
-  getAudioContext().suspend();
 }
 
 // setup for the dialog boxes
@@ -778,12 +773,13 @@ function fadeOutCover() {
       let newOpacity = currentOpacity - 0.1;
       $(`.cover`).css("opacity", `${newOpacity}`);
     }, i * 800);
-
-    // at step 10, open the first dialog
     if (i === 10) {
-      openDialog();
+      setTimeout(() => {
+        // open the first dialog
+        openDialog();
+      }, 8000);
     }
-  };
+  }
 }
 
 // flickering animation for color overlay
@@ -798,14 +794,14 @@ function flicker() {
       // re change the display value after a second
       setTimeout(() => {
         $(`.flickering`).css("display", "none");
-      }, 200);
+      }, 700);
     } else {
       // change the display value
       $(`.flickering`).css("display", "none");
       // re change the display value after a second
       setTimeout(() => {
         $(`.flickering`).css("display", "block");
-      }, 200);
+      }, 700);
     }
   }, flickerTimer);
 }
@@ -986,18 +982,29 @@ function keyPressed() {
 
 // listens to the user clicking the mouse
 function mousePressed() {
-  // let user starts the audio at first click
+  // let user starts the audio
   userStartAudio();
 
   // check if the user clicked for the first time
   if (!firstClicked) {
     // keep track of the program being started
     firstClicked = true
+    // reveal the 'click to reveal' intro text
+    $(`.intro`).css("display", "inline-block");
+    //get out of the if statement
+    return
   } else if (!programStarted) {
-    // start the fade out animation of the cover
-    fadeOutCover();
-    // keep track of the program being started
-    programStarted = true;
+    if (!backgroundSound.bpm160.isLoaded()) {
+      // the last sound is not loaded, get out of the if statement
+      return;
+    } else {
+      // play and loop the background music
+      playBackgroundMusic(backgroundSound.bpm80);
+      // start the fade out animation of the cover
+      fadeOutCover();
+      // keep track of the program being started
+      programStarted = true;
+    }
   }
 
   // keep track of the number of interactions
