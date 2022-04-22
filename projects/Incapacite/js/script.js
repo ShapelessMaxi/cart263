@@ -442,7 +442,7 @@ let effectSound = {
   },
   sound2: {
     obj: undefined,
-    amp: 0.15,
+    amp: 0.12,
   },
 }
 
