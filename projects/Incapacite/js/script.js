@@ -434,6 +434,12 @@ let backgroundSound = {
 }
 let bgSounds = [];
 
+// store the effect sound objects here
+let effectSound = {
+  amp: 0.04,
+  obj1: undefined,
+}
+
 // keep track of the program being started
 let firstClicked = false;
 let programStarted = false;
@@ -502,6 +508,8 @@ function loadSounds() {
     backgroundSound.bpm150,
     backgroundSound.bpm160
   );
+  // load the effect sounds
+  effectSound.obj1 = loadSound(`assets/sounds/effect.wav`);
 }
 
 
@@ -802,6 +810,15 @@ function flickerLoop() {
   flickerInterval.obj = setInterval(flicker, flickerInterval.timer);
 }
 
+// play an effect sound
+function playEffectSound(sound) {
+  // play the sound
+  if (sound.isLoaded()) {
+    sound.amp(effectSound.amp);
+    sound.play()
+  };
+}
+
 
 
 
@@ -843,6 +860,9 @@ function answerDialog(dialog, positiveAnswer) {
 
 // effects happening after answering dialog1
 function effectsDialog1() {
+  // play the effect sound
+  playEffectSound(effectSound.obj1);
+
   // make the overlay flicker
   flicker();
 
@@ -857,6 +877,9 @@ function effectsDialog1() {
 
 // effects happening after answering dialog2
 function effectsDialog2() {
+  // play the effect sound
+  playEffectSound(effectSound.obj1);
+
   // make the overlay flicker
   flicker();
 
@@ -880,6 +903,9 @@ function effectsDialog2() {
 
 // effects happening after answering dialog3
 function effectsDialog3() {
+  // play the effect sound
+  playEffectSound(effectSound.obj1);
+
   // make the overlay flicker
   flicker();
 
@@ -899,6 +925,9 @@ function effectsDialog3() {
 
 // effects happening after answering dialog4
 function effectsDialog4() {
+  // play the effect sound
+  playEffectSound(effectSound.obj1);
+
   // make the overlay flicker
   flicker();
 
@@ -928,6 +957,9 @@ function effectsDialog4() {
 
 // effects happening after answering dialog5
 function effectsDialog5() {
+  // play the effect sound
+  playEffectSound(effectSound.obj1);
+
   // make the overlay flicker
   flicker();
 
@@ -949,6 +981,9 @@ function effectsDialog5() {
 
 // effects happening after answering dialog6
 function effectsDialog6() {
+  // play the effect sound
+  playEffectSound(effectSound.obj1);
+
   // make the overlay flicker
   flicker();
 
@@ -969,6 +1004,9 @@ function effectsDialog6() {
 
 // effects happening after answering dialog7
 function effectsDialog7() {
+  // play the effect sound
+  playEffectSound(effectSound.obj1);
+
   // make the overlay flicker
   flicker();
 
@@ -987,6 +1025,9 @@ function effectsDialog7() {
 
 // effects happening after answering dialog8
 function effectsDialog8() {
+  // play the effect sound
+  playEffectSound(effectSound.obj1);
+  
   // make the overlay flicker
   flicker();
 
