@@ -784,27 +784,21 @@ function fadeOutCover() {
 
 // flickering animation for color overlay
 function flicker() {
-  // start an interval that goes on forever
-  setInterval(function() {
-    // get the current display value of the overlay
-    let currentOpacity = $(`.flickering`).css("display");
-    if (currentOpacity === `none`) {
-      // change the display value
-      $(`.flickering`).css("display", "block");
-      // re change the display value after a second
-      setTimeout(() => {
-        $(`.flickering`).css("display", "none");
-      }, 700);
-    } else {
-      // change the display value
-      $(`.flickering`).css("display", "none");
-      // re change the display value after a second
-      setTimeout(() => {
-        $(`.flickering`).css("display", "block");
-      }, 700);
-    }
-  }, flickerTimer);
+  // change the display value to block (visible)
+  $(`.flickering`).css("display", "block");
+  // re change the display value to none (not visible) after a moment
+  setTimeout(() => {
+    $(`.flickering`).css("display", "none");
+  }, 500);
 }
+
+// loop the flicker animation
+function flickerInterval() {
+  // start an interval that goes on forever
+  setInterval(flicker, flickerTimer);
+}
+
+
 
 
 /* answer methods related to dialogs*/
@@ -845,6 +839,9 @@ function answerDialog(dialog, positiveAnswer) {
 
 // effects happening after answering dialog1
 function effectsDialog1() {
+  // make the overlay flicker
+  flicker();
+
   // change the posterize value of the ascii code art
   asciiArt.posterizeValue += 0.5;
 
@@ -856,6 +853,9 @@ function effectsDialog1() {
 
 // effects happening after answering dialog2
 function effectsDialog2() {
+  // make the overlay flicker
+  flicker();
+
   // change the posterize value of the ascii code art
   asciiArt.posterizeValue = 8;
 
@@ -876,6 +876,9 @@ function effectsDialog2() {
 
 // effects happening after answering dialog3
 function effectsDialog3() {
+  // make the overlay flicker
+  flicker();
+
   // change the posterize value of the ascii code art
   asciiArt.posterizeValue = 45;
 
@@ -887,11 +890,14 @@ function effectsDialog3() {
   pngSequence.alphaAnim.started = true;
 
   // start the flickering overlay animation
-  flicker();
+  flickerInterval();
 }
 
 // effects happening after answering dialog4
 function effectsDialog4() {
+  // make the overlay flicker
+  flicker();
+
   // change the posterize value of the ascii code art
   asciiArt.posterizeValue = 5;
 
@@ -915,6 +921,9 @@ function effectsDialog4() {
 
 // effects happening after answering dialog5
 function effectsDialog5() {
+  // make the overlay flicker
+  flicker();
+
   // change the posterize value of the ascii code art
   asciiArt.posterizeValue = 2;
 
@@ -934,6 +943,9 @@ function effectsDialog5() {
 
 // effects happening after answering dialog6
 function effectsDialog6() {
+  // make the overlay flicker
+  flicker();
+
   // change the posterize value of the ascii code art
   asciiArt.posterizeValue = 45;
 
@@ -946,6 +958,9 @@ function effectsDialog6() {
 
 // effects happening after answering dialog7
 function effectsDialog7() {
+  // make the overlay flicker
+  flicker();
+
   // change the posterize value of the ascii code art
   asciiArt.posterizeValue = 45;
 
@@ -958,6 +973,9 @@ function effectsDialog7() {
 
 // effects happening after answering dialog8
 function effectsDialog8() {
+  // make the overlay flicker
+  flicker();
+
   // change the posterize value of the ascii code art and ivnert it
   asciiArt.posterizeValue = 45;
   invertAscii();
